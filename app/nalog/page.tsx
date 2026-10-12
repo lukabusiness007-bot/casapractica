@@ -241,9 +241,9 @@ export default async function Account({
                     {r.satisfaction_score >= 4 && (
                       <Link
                         className="text-link"
-                        href="/konsultacije?tier=signature"
+                        href="/paketi"
                       >
-                        {t("Upoznajte Casa Signature")}
+                        {t("Upoznajte Casa planove")}
                       </Link>
                     )}
                   </div>

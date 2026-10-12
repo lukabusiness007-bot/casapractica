@@ -104,7 +104,7 @@ export default async function Home() {
           </Link>
           <Link
             className="hero-concierge-link"
-            href="/konsultacije?tier=signature"
+            href="/konsultacije?subscription=ritam"
           >
             {t("Prepustite nam brigu o domu")} →
           </Link>

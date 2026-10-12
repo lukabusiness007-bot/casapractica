@@ -100,7 +100,7 @@ export function PackagesExperience({
                   value={planId}
                   onChange={(event) => choosePlan(event.target.value as PlanId)}
                 >
-                  {casaPlans.map((entry) => (
+                  {casaPlans.filter((entry) => ["once", "maintenance", "custom"].includes(entry.id)).map((entry) => (
                     <option value={entry.id} key={entry.id}>
                       {t(entry.name)}
                     </option>

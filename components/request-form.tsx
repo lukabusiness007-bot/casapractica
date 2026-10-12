@@ -116,8 +116,8 @@ export function RequestForm({
         )}
         <div className="success-next">
           <p>{t("Za sledeću posetu, plan možemo pripremiti zajedno.")}</p>
-          <Link className="text-link" href="/konsultacije?tier=signature">
-            {t("Upoznajte Casa Signature")}
+          <Link className="text-link" href="/paketi">
+            {t("Upoznajte Casa planove")}
             <ArrowUpRight size={16} />
           </Link>
           <Link className="text-link" href="/registracija">
