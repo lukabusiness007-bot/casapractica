@@ -1,15 +1,22 @@
 "use client";
 import { useLocale, useTranslation } from "@/components/locale-provider";
 import Link from "./localized-link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpRight, Check, MessageCircle } from "lucide-react";
 import type { Service } from "@/lib/catalog";
+import type { PackageSelection } from "@/lib/packages";
 export function RequestForm({
   service,
   ready,
+  packageSelection,
+  formId = "zahtev",
+  onBusyChange,
 }: {
   service: Service;
   ready: boolean;
+  packageSelection?: PackageSelection;
+  formId?: string;
+  onBusyChange?: (busy: boolean) => void;
 }) {
   const t = useTranslation();
   const locale = useLocale();
@@ -20,9 +27,15 @@ export function RequestForm({
     reference: string;
     whatsapp: string | null;
   } | null>(null);
+  const selectionKey = JSON.stringify(packageSelection);
+  useEffect(() => {
+    setResult(null);
+    setError("");
+  }, [selectionKey]);
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
+    onBusyChange?.(true);
     setError("");
     try {
       const data = Object.fromEntries(new FormData(e.currentTarget));
@@ -32,7 +45,11 @@ export function RequestForm({
           "Content-Type": "application/json",
           "Accept-Language": locale,
         },
-        body: JSON.stringify({ ...data, service_id: service.id }),
+        body: JSON.stringify({
+          ...data,
+          service_id: service.id,
+          ...(packageSelection ? { package: packageSelection } : {}),
+        }),
       });
       const body = await r.json();
       if (!r.ok) throw Error(body.error);
@@ -41,6 +58,7 @@ export function RequestForm({
       setError(e instanceof Error ? t(e.message) : t("Pokušajte ponovo."));
     } finally {
       setBusy(false);
+      onBusyChange?.(false);
     }
   }
   if (result)
@@ -80,7 +98,7 @@ export function RequestForm({
       </div>
     );
   return (
-    <form onSubmit={submit} className="form request-form" id="zahtev">
+    <form onSubmit={submit} className="form request-form" id={formId}>
       {!ready && (
         <p className="notice">
           {t(

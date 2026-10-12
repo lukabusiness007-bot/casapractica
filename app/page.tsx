@@ -21,11 +21,24 @@ import {
 } from "lucide-react";
 import { HeroVideo } from "@/components/hero-video";
 import { ServiceExplorer } from "@/components/service-explorer";
+import { isIndividualService } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
 export default async function Home() {
   const t = await getTranslator();
 
   const services = await getServices();
+  const individualServices = services.filter(isIndividualService);
+  const featuredSlugs = [
+    "ugradnja-tv-a",
+    "nega-garderobe",
+    "montaza-polica",
+    "organizacija-doma",
+    "dom-na-cuvanju",
+    "zamena-sijalica",
+  ];
+  const featured = featuredSlugs.flatMap((slug) =>
+    individualServices.filter((service) => service.slug === slug),
+  );
   const locale = await getLocale();
   return (
     <>
@@ -144,7 +157,7 @@ export default async function Home() {
             <h2>{t("Vaša lista obaveza. Rešena.")}</h2>
             <p>
               {t(
-                "Pranje tepiha, iznošenje smeća, montaža TV-a, zamena sijalica i servis klime. Jednostavno dogovorite posao, a ostatak prepustite nama.",
+                "Od montaže TV-a do sveže posteljine. Pažljiva briga o svakom detalju vašeg doma.",
               )}
             </p>
           </div>
@@ -162,12 +175,23 @@ export default async function Home() {
               <span>{t("Možete li da rešite")}</span>
               <div className="task-wheel-window">
                 <div className="task-wheel-list">
-                  {[...services, ...services].map((service, index) => (
+                  {[
+                    ...individualServices.slice(0, 8),
+                    ...individualServices.slice(0, 8),
+                  ].map((service, index) => (
                     <Link
                       href={`/usluge/${service.slug}`}
                       key={`${service.id}-${index}`}
-                      tabIndex={index >= services.length ? -1 : undefined}
-                      aria-hidden={index >= services.length ? true : undefined}
+                      tabIndex={
+                        index >= Math.min(individualServices.length, 8)
+                          ? -1
+                          : undefined
+                      }
+                      aria-hidden={
+                        index >= Math.min(individualServices.length, 8)
+                          ? true
+                          : undefined
+                      }
                     >
                       {t(service.name).toLocaleLowerCase(locale)}
                       <ArrowUpRight size={26} />
@@ -243,7 +267,11 @@ export default async function Home() {
               <ArrowRight size={16} />
             </Link>
           </div>
-          <ServiceExplorer services={services} />
+          <ServiceExplorer
+            services={
+              featured.length ? featured : individualServices.slice(0, 6)
+            }
+          />
         </section>
         <section className="casa-everyday container">
           <div className="casa-section-heading">
@@ -251,10 +279,37 @@ export default async function Home() {
             <h2>{t("I za male, svakodnevne stvari.")}</h2>
           </div>
           <div className="casa-benefits-grid">
-            {services.map((service, index) => (
-              <ServiceCard service={service} index={index} key={service.id} />
-            ))}
+            {(featured.length ? featured : individualServices.slice(0, 6)).map(
+              (service, index) => (
+                <ServiceCard service={service} index={index} key={service.id} />
+              ),
+            )}
           </div>
+        </section>
+        <section className="casa-feature container casa-plan-feature">
+          <div className="casa-feature-copy">
+            <span className="eyebrow">{t("CASA PLANOVI")}</span>
+            <h2>{t("Vaš dom. Vaš ritam.")}</h2>
+            <p>
+              {t(
+                "Od jedne pažljivo planirane posete do redovne brige o domu. Premium pažnja u svakom dolasku.",
+              )}
+            </p>
+            <Link className="button button-dark" href="/paketi">
+              {t("Sastavite svoj paket")}
+              <ArrowRight size={17} />
+            </Link>
+          </div>
+          <Link className="casa-feature-image" href="/paketi">
+            <Image
+              src="/images/club.jpg"
+              width={1000}
+              height={1200}
+              sizes="(max-width: 760px) 100vw, 50vw"
+              alt={t("Briga o domu, po vašoj meri.")}
+              loading="lazy"
+            />
+          </Link>
         </section>
         <section className="casa-club container">
           <div className="casa-section-heading">

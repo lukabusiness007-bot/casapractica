@@ -1,10 +1,9 @@
 import { getTranslator } from "@/lib/i18n/server";
 import Link from "@/components/localized-link";
 import { ArrowRight } from "lucide-react";
-import { getServices } from "@/lib/data";
+import { serviceCategories } from "@/lib/catalog";
 export async function Footer() {
   const t = await getTranslator();
-  const services = await getServices();
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -24,15 +23,17 @@ export async function Footer() {
         <div className="footer-top">
           <div>
             <span className="eyebrow">{t("Naše usluge")}</span>
-            {services.map((service) => (
-              <Link href={`/usluge/${service.slug}`} key={service.id}>
-                {t(service.name)}
+            {serviceCategories.map((category) => (
+              <Link href={`/usluge#${category.id}`} key={category.id}>
+                {t(category.title)}
               </Link>
             ))}
+            <Link href="/paketi">{t("Casa planovi")}</Link>
           </div>
           <div>
             <span className="eyebrow">{t("KORISNE INFORMACIJE")}</span>
             <Link href="/klub">{t("Naš klub")}</Link>
+            <Link href="/paketi#moj-paket">{t("Sastavite svoj paket")}</Link>
             <Link href="/#kako-funkcionise">{t("Kako funkcioniše")}</Link>
             <Link href="/nalog">{t("Moj nalog")}</Link>
             <Link href="/#pitanja">{t("Česta pitanja")}</Link>

@@ -22,7 +22,7 @@ Repozitorijum: [lukabusiness007-bot/casapractica](https://github.com/lukabusines
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook `/api/stripe/webhook`. |
 | `PAYMENTS_LIVE_ENABLED` | `false` dok se ne aktivira i proveri stvarna naplata. |
 
-5. Izvršite Supabase migraciju i seed prema uputstvu ispod. U Supabase Auth podesite konačni Site URL i callback `https://VAS-DOMEN/auth/callback`, uključujući jezičke i recovery parametre. U Stripe-u povežite isti domen sa webhook-om.
+5. Izvršite Supabase migracije i seed prema uputstvu ispod. U Supabase Auth podesite konačni Site URL i callback `https://VAS-DOMEN/auth/callback`, uključujući jezičke i recovery parametre. U Stripe-u povežite isti domen sa webhook-om.
 
 Vercel sistemske promenljive moraju ostati dostupne aplikaciji da automatsko određivanje domena radi. Preview deployment-i imaju `noindex`. Za prilagođeni domen postavite `NEXT_PUBLIC_SITE_URL` u **Production** okruženju; u **Preview** ga ostavite praznim ili koristite zaseban preview domen. Naknadni push na `main` pokreće novi deployment kada je repo povezan sa Vercel projektom.
 
@@ -45,7 +45,7 @@ Unesite vrednosti u `.env.local`; ne delite ključeve u kodu, screenshotovima ni
 
 ## Supabase
 
-1. Kreirajte Supabase projekat. U SQL editoru izvršite `supabase/migrations/001_initial.sql`, a zatim `supabase/seed.sql`. Migracija je namenjena novoj bazi; nakon primene buduće promene idu u novu migraciju.
+1. Kreirajte Supabase projekat. U SQL editoru izvršite `supabase/migrations/001_initial.sql`, a zatim `supabase/seed.sql`. Za novu bazu izvršite i `supabase/migrations/002_premium_catalog.sql`, pa seed. Na postojećoj bazi izvršite samo novu migraciju `002_premium_catalog.sql`: dodaje katalog i uslugu Moja Casa bez brisanja zahteva, cena, vidljivosti ili sadržaja koji je administrator menjao.
 2. U okruženje unesite URL projekta, anon ključ i **serverski** service-role ključ. Nijedan privilegovani ključ nema `NEXT_PUBLIC_` prefiks.
 3. U Auth uključite email/password i obaveznu potvrdu email adrese. Podesite Site URL i dozvoljeni callback `https://vas-domen/auth/callback` (lokalno `http://localhost:3000/auth/callback`). Dodajte i callback sa `?next=/auth/oporavak` ako vaša allowlist konfiguracija traži tačan URL. Aplikacija koristi PKCE exchange i standardne Supabase confirmation/recovery linkove; ne menjajte template na direktan token link bez corresponding callback podrške.
 4. Za stvarnu isporuku emaila podesite SMTP provajdera u Supabase. Podesite Supabase Auth rate limits i zaštitu od zloupotrebe prema saobraćaju.
@@ -140,3 +140,13 @@ TEST_SITE_URL=http://localhost:3000 node scripts/check-site.mjs
 ```
 
 Proverava 65 stranica, jezike, canonical/hreflang oznake, sitemap, JSON-LD, 404 odgovore, robots i sliku za deljenje. Automatizovani testovi dodatno proveravaju prevode i putanje. Stvarni email, zahtevi i plaćanja zahtevaju podešene servise.
+
+## Premium katalog i Casa planovi
+
+Katalog ima 26 pojedinačnih usluga u četiri celine: montaža i postavljanje, popravke i održavanje, tehnologija u domu i svakodnevna briga. Postojeće adrese i ID-evi usluga ostaju važeći, uključujući `/usluge/ugradnja-tv-a`, sada prikazanu kao Montaža TV-a. Grupisanje podrazumevanih usluga koristi njihove URL oznake; nove usluge iz administracije prikazuju se u svakodnevnoj brizi. Fotografije enterijera ilustruju grupe usluga.
+
+`/paketi` predstavlja Casa jednom, Casa mesečno, Casa svake nedelje, Casa održavanje i Moja Casa. Korisnica bira do 12 različitih aktivnih usluga i učestalost za svaku. Promena pojedinačnog ritma prebacuje izbor u Moja Casa. Kontakt forma šalje paket na postojeći `/api/zahtevi`; server proverava strukturu, aktivne usluge i njihove stvarne nazive i upisuje pregled paketa u napomenu zahteva. Pregled je dostupan administraciji i korisnici u nalogu. Slobodan tekst napomene služi dodatnom obimu, količinama i željama korisnice.
+
+Paket je zahtev za konkretnu ponudu. Ne aktivira pretplatu, ne naplaćuje karticu i ne garantuje termin. Tim dogovara trajanje, mesečni obim, materijal, dodatni stručni rad i uslove prenosa/otkazivanja; postojeća konačna ponuda i Checkout ostaju način naplate. Automatska obnova, čuvanje kartice za buduće naplate, kalendar raspoloživosti i praćenje potrošnje poseta nisu uvedeni. Cene paketa se ne izmišljaju pre obračuna stvarnih troškova tima.
+
+Klub ostaje besplatan. Redovni termini, kontinuitet izvođača i sezonski plan dogovaraju se uz plaćene Casa planove. Rođendanske pažnje, poklon-posete, preporuke i događaji prikazani su kao pogodnosti koje važe samo kada su objavljene sa konkretnim uslovima; nisu automatski aktivirane nagrade ili obećani događaji. Novi sadržaj je preveden na engleski, ruski, nemački i turski.

@@ -2,7 +2,15 @@ import { Brand } from "@/components/brand";
 import { publicPageMetadata } from "@/lib/seo";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 import Link from "@/components/localized-link";
-import { Gift, Sparkles, Heart, ArrowUpRight } from "lucide-react";
+import {
+  Gift,
+  Sparkles,
+  Heart,
+  ArrowUpRight,
+  CalendarDays,
+  ClipboardList,
+  House,
+} from "lucide-react";
 import { currentUser, configured, db, authClient } from "@/lib/supabase";
 import { ActionForm } from "@/components/action-form";
 export const dynamic = "force-dynamic";
@@ -21,9 +29,7 @@ export default async function Club() {
   }
   const benefits = configured()
     ? (
-        await (
-          await authClient()
-        )
+        await (await authClient())
           .from("benefits")
           .select("*")
           .order("member_at", { ascending: false })
@@ -102,6 +108,61 @@ export default async function Club() {
             )}
           </article>
         ))}
+      </section>
+      <section className="container club-extra">
+        <div className="center-heading">
+          <span className="eyebrow">{t("PAŽNJA KOJA TRAJE")}</span>
+          <h2>{t("Više od članskog popusta.")}</h2>
+          <p>
+            {t(
+              "Vaši zahtevi i ponude ostaju u nalogu. Lične želje, sezonsku brigu i redovne dolaske dogovaramo kroz vaš Casa plan.",
+            )}
+          </p>
+        </div>
+        <div className="club-extra-grid">
+          {[
+            {
+              Icon: ClipboardList,
+              title: "Vaš dom, na jednom mestu.",
+              text: "Pregledajte istoriju zahteva i ponuda u svom nalogu i nastavite dogovor sa timom.",
+            },
+            {
+              Icon: CalendarDays,
+              title: "Termini koji prate vaše navike.",
+              text: "Uz redovan Casa plan dogovaramo stalne termine i prednost pri izboru raspoloživih dolazaka.",
+            },
+            {
+              Icon: House,
+              title: "Kontinuitet brige.",
+              text: "Ličnu listu zadataka, sezonski plan i istu osobu iz tima kada je dostupna usaglašavamo pre početka saradnje.",
+            },
+          ].map(({ Icon, title, text }) => (
+            <article key={title}>
+              <Icon size={26} strokeWidth={1.3} />
+              <h3>{t(title)}</h3>
+              <p>{t(text)}</p>
+            </article>
+          ))}
+        </div>
+        <div className="premium-standard">
+          <div>
+            <h3>{t("Male pažnje, za vaš krug.")}</h3>
+            <p>
+              {t(
+                "Poklon-posete, rođendanske pažnje, nagrade za preporuke i klupski događaji važe kada ih objavimo, prema uslovima konkretne pogodnosti.",
+              )}
+            </p>
+          </div>
+          <Link className="button button-dark" href="/paketi">
+            {t("Upoznajte Casa planove")}
+            <ArrowUpRight size={17} />
+          </Link>
+        </div>
+        <p className="fine-print center">
+          {t(
+            "Klub je besplatan. Usluge i Casa planovi plaćaju se odvojeno, prema prihvaćenoj ponudi.",
+          )}
+        </p>
       </section>
       <section className="club-join">
         <h2>

@@ -22,6 +22,11 @@ export default async function Privacy() {
         <h2>{t("Korisnički nalog i klub")}</h2>
         <p>
           {t(
+            "Pri sastavljanju Casa plana čuvamo izabrane usluge i učestalost u vašem zahtevu, radi pripreme ponude.",
+          )}
+        </p>
+        <p>
+          {t(
             "Nalog služi pregledu sopstvenih zahteva i ponuda. Klub je besplatan i pristupanje je dobrovoljno. Lozinkama upravlja servis za autentifikaciju; tim nema pristup vašoj lozinci.",
           )}
         </p>

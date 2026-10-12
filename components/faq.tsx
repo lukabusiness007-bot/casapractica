@@ -4,6 +4,12 @@ export async function Faq() {
 
   const questions = [
     [
+      t("Mogu li da sastavim svoj paket?"),
+      t(
+        "Da. U Casa planovima izaberite usluge i učestalost, pa pošaljite zahtev. Tim potvrđuje dostupnost, obim i konačnu ponudu. Slanje zahteva ne aktivira automatsku pretplatu.",
+      ),
+    ],
+    [
       t("Kako da zakažem uslugu?"),
       t(
         "Izaberite uslugu i popunite kratak zahtev. Zatim otvorite pripremljenu WhatsApp poruku i pošaljite je našem timu. Zajedno dogovaramo detalje, cenu i termin.",

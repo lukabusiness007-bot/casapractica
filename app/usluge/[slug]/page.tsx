@@ -8,7 +8,7 @@ import { ArrowLeft, Check } from "lucide-react";
 import { getServices } from "@/lib/data";
 import { configured } from "@/lib/supabase";
 import { RequestForm } from "@/components/request-form";
-import { money } from "@/lib/catalog";
+import { money, packageServiceId } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
@@ -125,7 +125,19 @@ export default async function ServiceDetail({
               : t("Cena na upit")}
             <span>{t("Bez plaćanja prilikom slanja zahteva")}</span>
           </div>
-          <RequestForm service={service} ready={configured()} />
+          {service.id === packageServiceId ? (
+            <Link className="button button-dark" href="/paketi#moj-paket">
+              {t("Sastavite svoj paket")}
+            </Link>
+          ) : (
+            <RequestForm service={service} ready={configured()} />
+          )}
+          <div className="detail-plan-link">
+            <p>{t("Ovu uslugu možete uključiti u svoj Casa plan.")}</p>
+            <Link className="text-link" href="/paketi#moj-paket">
+              {t("Sastavite svoj paket")}
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/",
     "/usluge",
     "/klub",
+    "/paketi",
     ...services.map((service) => `/usluge/${service.slug}`),
   ];
   return paths.flatMap((path) =>

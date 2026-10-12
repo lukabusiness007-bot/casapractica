@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { assertOrigin, assertReady, failure, HttpError } from "@/lib/http";
 import { db, currentUser } from "@/lib/supabase";
 import { requestSchema, whatsappLink } from "@/lib/validation";
+import { packageRequestNote } from "@/lib/packages";
 export async function POST(req: Request) {
   try {
     assertOrigin(req);
@@ -55,8 +56,28 @@ export async function POST(req: Request) {
       user?.email_confirmed_at && user.email?.toLowerCase() === input.email
         ? user.id
         : null;
-    const { website: _, ...record } = input;
+    const { website: _, package: selection, ...record } = input;
     void _;
+    if (selection) {
+      const { data: selectedServices, error: selectionError } = await client
+        .from("services")
+        .select("id,name")
+        .in(
+          "id",
+          selection.items.map((item) => item.service_id),
+        )
+        .eq("active", true);
+      if (selectionError) throw selectionError;
+      try {
+        record.note = packageRequestNote(
+          selection,
+          selectedServices || [],
+          record.note,
+        );
+      } catch {
+        throw new HttpError(400, "Proverite izbor usluga u paketu.");
+      }
+    }
     const { data, error } = await client
       .from("requests")
       .insert({

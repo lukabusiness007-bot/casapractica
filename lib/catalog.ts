@@ -9,6 +9,73 @@ export type Service = {
   active: boolean;
   sort_order: number;
 };
+export const serviceCategories = [
+  {
+    id: "mounting",
+    title: "Montaža i postavljanje",
+    tagline: "Sve na svom mestu.",
+    description:
+      "TV, ogledala, police i nameštaj, pažljivo postavljeni i spremni za korišćenje.",
+  },
+  {
+    id: "maintenance",
+    title: "Popravke i održavanje",
+    tagline: "Detalji pod kontrolom.",
+    description:
+      "Sitne popravke i sezonsko održavanje uz jasan dogovor i stručni tim.",
+  },
+  {
+    id: "technology",
+    title: "Tehnologija u domu",
+    tagline: "Povezano sa lakoćom.",
+    description: "Vaši uređaji podešeni, povezani i spremni za svakodnevicu.",
+  },
+  {
+    id: "everyday",
+    title: "Svakodnevna briga",
+    tagline: "Više vremena za vas.",
+    description:
+      "Garderoba, posteljina, nabavka i male obaveze uz pažnju prema vašim navikama.",
+  },
+] as const;
+export type ServiceCategory = (typeof serviceCategories)[number]["id"];
+const categoriesBySlug: Record<string, ServiceCategory> = {
+  "pranje-tepiha": "everyday",
+  "iznosenje-smeca": "everyday",
+  "ugradnja-tv-a": "mounting",
+  "zamena-sijalica": "maintenance",
+  "servis-klime": "maintenance",
+  "kacenje-slika-i-ogledala": "mounting",
+  "montaza-polica": "mounting",
+  "postavljanje-garnisni": "mounting",
+  "sklapanje-namestaja": "mounting",
+  "podesavanje-vrata-i-fioka": "maintenance",
+  "obnova-silikona": "maintenance",
+  "sitne-popravke-zidova": "maintenance",
+  "vodoinstalaterske-intervencije": "maintenance",
+  "elektricarske-intervencije": "maintenance",
+  "odrzavanje-filtera": "maintenance",
+  "podesavanje-tv-a": "technology",
+  "podesavanje-wifi-mreze": "technology",
+  "pametni-uredjaji": "technology",
+  "nega-garderobe": "everyday",
+  "sveza-posteljina": "everyday",
+  "organizacija-doma": "everyday",
+  "licna-nabavka": "everyday",
+  "paketi-i-hemijsko-ciscenje": "everyday",
+  "dom-na-cuvanju": "everyday",
+  "pakovanje-i-raspakivanje": "everyday",
+  "dom-spreman-za-goste": "everyday",
+};
+export const packageServiceId = "ca5a0000-0000-4000-8000-000000000100";
+export function serviceCategory(
+  service: Pick<Service, "slug">,
+): ServiceCategory {
+  return categoriesBySlug[service.slug] || "everyday";
+}
+export function isIndividualService(service: Pick<Service, "id" | "slug">) {
+  return service.id !== packageServiceId && service.slug !== "moja-casa";
+}
 export const services: Service[] = [
   {
     id: "11111111-1111-4111-8111-111111111111",
@@ -28,7 +95,7 @@ export const services: Service[] = [
     name: "Iznošenje smeća",
     tagline: "Jedna obaveza manje. Svakog dana.",
     description:
-      "Za trenutke kada vam znači dodatna pomoć. Navedite količinu, sprat i da li zgrada ima lift, pa ćemo dogovoriti iznošenje kućnog smeća.",
+      "Diskretno preuzimanje kućnog smeća i reciklaže u dogovorenom terminu, zamena kese i uredan prostor oko kante. Navedite količinu, sprat i lift; redovne dolaske planiramo prema vašoj adresi.",
     image: "/images/kitchen.jpg",
     price: null,
     active: true,
@@ -37,10 +104,10 @@ export const services: Service[] = [
   {
     id: "33333333-3333-4333-8333-333333333333",
     slug: "ugradnja-tv-a",
-    name: "Ugradnja TV-a",
+    name: "Montaža TV-a",
     tagline: "Vaše malo kućno bioskopsko veče.",
     description:
-      "Televizor na svom mestu, a vi bez brige. Pošaljite model televizora, tip zida i informaciju o nosaču kako bismo pripremili ponudu za montažu.",
+      "Provera zida i nosača, dogovor o visini, zaštita prostora, montaža i povezivanje televizora. Uređujemo kablove i prostor nakon rada; nosač i skrivanje kablova u zidu navodimo posebno u ponudi.",
     image: "/images/living.jpg",
     price: null,
     active: true,
@@ -69,6 +136,270 @@ export const services: Service[] = [
     price: null,
     active: true,
     sort_order: 5,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000006",
+    slug: "kacenje-slika-i-ogledala",
+    name: "Kačenje slika i ogledala",
+    tagline: "Sve na svom mestu.",
+    description:
+      "Dogovaramo raspored i visinu, proveravamo zid i pričvršćenja, postavljamo slike ili ogledala i ostavljamo prostor urednim.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 6,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000007",
+    slug: "montaza-polica",
+    name: "Montaža polica i nosača",
+    tagline: "Sve na svom mestu.",
+    description:
+      "Postavljamo police, zidne nosače i kupatilske dodatke uz proveru podloge, nosivosti i položaja. Materijal i obim dogovaramo pre dolaska.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 7,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000008",
+    slug: "postavljanje-garnisni",
+    name: "Postavljanje garnišni i zavesa",
+    tagline: "Sve na svom mestu.",
+    description:
+      "Montiramo garnišne, postavljamo zavese i podešavamo dostupne mehanizme roletni. Mere, podlogu i potrebne delove dogovaramo unapred.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 8,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000009",
+    slug: "sklapanje-namestaja",
+    name: "Sklapanje nameštaja",
+    tagline: "Sve na svom mestu.",
+    description:
+      "Sklapamo komode, stolove, stolice i drugi nameštaj prema uputstvu, podešavamo elemente i sređujemo ambalažu nakon rada.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 9,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000010",
+    slug: "podesavanje-vrata-i-fioka",
+    name: "Podešavanje vrata i fioka",
+    tagline: "Detalji pod kontrolom.",
+    description:
+      "Podešavamo šarke i klizače, zatežemo spojeve i menjamo dogovorene ručke ili okove, za nameštaj koji ponovo radi sa lakoćom.",
+    image: "/images/kitchen.jpg",
+    price: null,
+    active: true,
+    sort_order: 10,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000011",
+    slug: "obnova-silikona",
+    name: "Obnova silikona",
+    tagline: "Detalji pod kontrolom.",
+    description:
+      "Uklanjamo dotrajali silikon i obnavljamo dogovorene spojeve oko kade, tuša ili sudopere. Obim i vreme sušenja potvrđujemo pre rada.",
+    image: "/images/kitchen.jpg",
+    price: null,
+    active: true,
+    sort_order: 11,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000012",
+    slug: "sitne-popravke-zidova",
+    name: "Sitne popravke zidova",
+    tagline: "Detalji pod kontrolom.",
+    description:
+      "Popunjavamo manje rupe i oštećenja i radimo lokalne popravke boje. Nijansu, materijal i površinu usaglašavamo pre dolaska.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 12,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000013",
+    slug: "vodoinstalaterske-intervencije",
+    name: "Vodoinstalaterske intervencije",
+    tagline: "Detalji pod kontrolom.",
+    description:
+      "Naš stručni tim pregleda slavine, sifone i vodokotliće i izvodi dogovorene manje popravke ili zamene. Delove navodimo posebno u ponudi.",
+    image: "/images/kitchen.jpg",
+    price: null,
+    active: true,
+    sort_order: 13,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000014",
+    slug: "elektricarske-intervencije",
+    name: "Električarske intervencije",
+    tagline: "Detalji pod kontrolom.",
+    description:
+      "Naš stručni tim obavlja dogovorene popravke i zamene rasvete, prekidača i utičnica nakon provere instalacije i obima posla.",
+    image: "/images/lamp.jpg",
+    price: null,
+    active: true,
+    sort_order: 14,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000015",
+    slug: "odrzavanje-filtera",
+    name: "Održavanje dostupnih filtera",
+    tagline: "Detalji pod kontrolom.",
+    description:
+      "Čistimo ili menjamo dostupne filtere aspiratora i kućnih uređaja prema uputstvu proizvođača. Model i potrošni materijal proveravamo unapred.",
+    image: "/images/air.jpg",
+    price: null,
+    active: true,
+    sort_order: 15,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000016",
+    slug: "podesavanje-tv-a",
+    name: "Podešavanje TV-a i zvuka",
+    tagline: "Povezano sa lakoćom.",
+    description:
+      "Povezujemo televizor, soundbar i postojeće uređaje, podešavamo dostupne aplikacije i pokazujemo vam osnovne funkcije.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 16,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000017",
+    slug: "podesavanje-wifi-mreze",
+    name: "Podešavanje Wi-Fi mreže",
+    tagline: "Povezano sa lakoćom.",
+    description:
+      "Podešavamo ruter i pojačivače signala, povezujemo uređaje i proveravamo vezu u dogovorenim prostorijama.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 17,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000018",
+    slug: "pametni-uredjaji",
+    name: "Povezivanje pametnih uređaja",
+    tagline: "Povezano sa lakoćom.",
+    description:
+      "Podešavamo kompatibilne pametne sijalice, utičnice i druge kućne uređaje, kao i štampače, uz vaše prisustvo pri prijavljivanju na naloge.",
+    image: "/images/lamp.jpg",
+    price: null,
+    active: true,
+    sort_order: 18,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000019",
+    slug: "nega-garderobe",
+    name: "Nega garderobe",
+    tagline: "Više vremena za vas.",
+    description:
+      "Peglamo i slažemo odeću prema uputstvima za negu, pripremamo veš za pranje i odlažemo stvari prema vašim navikama.",
+    image: "/images/club.jpg",
+    price: null,
+    active: true,
+    sort_order: 19,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000020",
+    slug: "sveza-posteljina",
+    name: "Sveža posteljina",
+    tagline: "Više vremena za vas.",
+    description:
+      "Menjamo vašu pripremljenu posteljinu, pažljivo nameštamo krevet i pripremamo korišćenu posteljinu za pranje.",
+    image: "/images/hero.jpg",
+    price: null,
+    active: true,
+    sort_order: 20,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000021",
+    slug: "organizacija-doma",
+    name: "Organizacija doma",
+    tagline: "Više vremena za vas.",
+    description:
+      "Sređujemo garderober, ostavu i kuhinjske elemente sa vama, organizujemo sezonske stvari i pripremamo dogovorene predmete za donaciju.",
+    image: "/images/kitchen.jpg",
+    price: null,
+    active: true,
+    sort_order: 21,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000022",
+    slug: "licna-nabavka",
+    name: "Vaša lična nabavka",
+    tagline: "Više vremena za vas.",
+    description:
+      "Kupujemo prema vašoj listi, dogovaramo zamene proizvoda i raspoređujemo namirnice po dolasku. Proizvode i uslugu iskazujemo odvojeno.",
+    image: "/images/kitchen.jpg",
+    price: null,
+    active: true,
+    sort_order: 22,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000023",
+    slug: "paketi-i-hemijsko-ciscenje",
+    name: "Paketi i hemijsko čišćenje",
+    tagline: "Više vremena za vas.",
+    description:
+      "Preuzimamo dogovorene pakete i odnosimo ili vraćamo garderobu sa hemijskog čišćenja. Troškove trećih strana potvrđujete unapred.",
+    image: "/images/club.jpg",
+    price: null,
+    active: true,
+    sort_order: 23,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000024",
+    slug: "dom-na-cuvanju",
+    name: "Dom na čuvanju",
+    tagline: "Više vremena za vas.",
+    description:
+      "Tokom vašeg odsustva zalivamo biljke, obilazimo stan i šaljemo kratak izveštaj. Pristup i listu zadataka dogovaramo pre putovanja.",
+    image: "/images/hero.jpg",
+    price: null,
+    active: true,
+    sort_order: 24,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000025",
+    slug: "pakovanje-i-raspakivanje",
+    name: "Pakovanje i raspakivanje",
+    tagline: "Više vremena za vas.",
+    description:
+      "Pomažemo da pažljivo spakujete stvari ili uredite novi dom nakon selidbe. Ambalažu, obim i eventualno pomeranje težih predmeta dogovaramo posebno.",
+    image: "/images/living.jpg",
+    price: null,
+    active: true,
+    sort_order: 25,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000026",
+    slug: "dom-spreman-za-goste",
+    name: "Dom spreman za goste",
+    tagline: "Više vremena za vas.",
+    description:
+      "Uređujemo dogovoreni prostor, pripremamo posteljinu i postavljamo sto sa vašim posuđem i dekoracijom, uz pažnju prema završnim detaljima.",
+    image: "/images/kitchen.jpg",
+    price: null,
+    active: true,
+    sort_order: 26,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000100",
+    slug: "moja-casa",
+    name: "Moja Casa",
+    tagline: "Briga o domu, po vašoj meri.",
+    description:
+      "Sastavite svoj izbor usluga i učestalost dolazaka. Naš tim potvrđuje obim, dostupnost i konačnu ponudu pre početka saradnje.",
+    image: "/images/hero.jpg",
+    price: null,
+    active: true,
+    sort_order: 100,
   },
 ];
 export const statusLabels: Record<string, string> = {

@@ -1,16 +1,17 @@
 // HTTP smoke test of rendered HTML, independent of client-side JavaScript.
 import assert from "node:assert/strict";
+import { services } from "../lib/catalog.ts";
 const base = process.env.TEST_SITE_URL || "http://localhost:3100";
 const locales = ["sr", "en", "ru", "de", "tr"];
-const paths = [
+const publicPaths = [
   "/",
   "/usluge",
   "/klub",
-  "/usluge/pranje-tepiha",
-  "/usluge/iznosenje-smeca",
-  "/usluge/ugradnja-tv-a",
-  "/usluge/zamena-sijalica",
-  "/usluge/servis-klime",
+  "/paketi",
+  ...services.map((service) => `/usluge/${service.slug}`),
+];
+const paths = [
+  ...publicPaths,
   "/prijava",
   "/registracija",
   "/nalog",
@@ -43,7 +44,7 @@ for (const locale of locales)
         1,
         route + " single H1",
       );
-      if (paths.indexOf(path) < 8)
+      if (publicPaths.includes(path))
         assert.equal(
           (html.match(/rel="alternate" hrefLang=/g) || []).length,
           6,
@@ -63,7 +64,10 @@ for (const locale of locales)
 for (let i = 0; i < checks.length; i += 5)
   await Promise.all(checks.slice(i, i + 5).map((fn) => fn()));
 const sitemap = await (await fetch(base + "/sitemap.xml")).text();
-assert.equal((sitemap.match(/<url>/g) || []).length, 40);
+assert.equal(
+  (sitemap.match(/<url>/g) || []).length,
+  publicPaths.length * locales.length,
+);
 for (const path of ["/en/usluge/does-not-exist", "/xx", "/de/does-not-exist"])
   assert.equal((await fetch(base + path)).status, 404, path);
 const redirect = await fetch(base + "/sr/usluge", { redirect: "manual" });
@@ -77,5 +81,5 @@ const og = await fetch(base + "/opengraph-image");
 assert.equal(og.status, 200);
 assert.match(og.headers.get("content-type"), /image\/png/);
 console.log(
-  `${checks.length} rendered pages passed; 40 sitemap URLs, 404s, redirect, robots and social image verified.`,
+  `${checks.length} rendered pages passed; ${publicPaths.length * locales.length} sitemap URLs, 404s, redirect, robots and social image verified.`,
 );

@@ -11,7 +11,12 @@ import {
   isAdmin,
   authClient,
 } from "@/lib/supabase";
-import { money, statusLabels, paymentLabels } from "@/lib/catalog";
+import {
+  money,
+  statusLabels,
+  paymentLabels,
+  packageServiceId,
+} from "@/lib/catalog";
 import { ActionForm } from "@/components/action-form";
 export const dynamic = "force-dynamic";
 export default async function Account({
@@ -129,6 +134,9 @@ export default async function Account({
                   <h3>{t(r.services?.name || "")}</h3>
                   <span className="badge">{t(statusLabels[r.status])}</span>
                 </div>
+                {r.service_id === packageServiceId && (
+                  <p className="package-request-note">{r.note}</p>
+                )}
                 <p>
                   {r.reference} · {r.location}
                 </p>

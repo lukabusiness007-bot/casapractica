@@ -1,0 +1,103 @@
+import { z } from "zod";
+import { packageServiceId, type Service } from "./catalog";
+
+export const casaPlans = [
+  {
+    id: "once",
+    name: "Casa jednom",
+    rhythm: "Jedna pažljivo planirana poseta.",
+    description:
+      "Montaža, priprema za goste, organizacija ili više malih zadataka u jednom dolasku.",
+  },
+  {
+    id: "monthly",
+    name: "Casa mesečno",
+    rhythm: "Dve posete mesečno.",
+    description:
+      "Redovna pomoć oko garderobe, posteljine i kućnih obaveza, u ritmu koji vam odgovara.",
+  },
+  {
+    id: "weekly",
+    name: "Casa svake nedelje",
+    rhythm: "Jedna poseta svake nedelje.",
+    description:
+      "Kontinuitet brige o domu, dogovoreni termini i ista osoba iz tima kada je dostupna.",
+  },
+  {
+    id: "maintenance",
+    name: "Casa održavanje",
+    rhythm: "Plan održavanja po dogovoru.",
+    description:
+      "Sitne popravke, montaže i sezonsko održavanje uz odgovarajući stručni tim.",
+  },
+  {
+    id: "custom",
+    name: "Moja Casa",
+    rhythm: "Vaše usluge. Vaš ritam.",
+    description:
+      "Kombinujte svakodnevnu pomoć, majstorske poslove i tehnologiju u jednom ličnom planu.",
+  },
+] as const;
+export type PlanId = (typeof casaPlans)[number]["id"];
+export const frequencies = [
+  { id: "once", label: "Jednokratno" },
+  { id: "monthly", label: "Jednom mesečno" },
+  { id: "twice-monthly", label: "Dva puta mesečno" },
+  { id: "weekly", label: "Svake nedelje" },
+  { id: "absence", label: "Tokom odsustva" },
+] as const;
+export const packageSchema = z
+  .object({
+    plan_id: z.enum(["once", "monthly", "weekly", "maintenance", "custom"]),
+    items: z
+      .array(
+        z
+          .object({
+            service_id: z
+              .string()
+              .uuid()
+              .refine((id) => id !== packageServiceId),
+            frequency: z.enum([
+              "once",
+              "monthly",
+              "twice-monthly",
+              "weekly",
+              "absence",
+            ]),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(12)
+      .refine(
+        (items) =>
+          new Set(items.map((item) => item.service_id)).size === items.length,
+      ),
+  })
+  .strict();
+export type PackageSelection = z.infer<typeof packageSchema>;
+
+// Persist a server-built summary in the existing request note. Client prices and
+// service names are never accepted; administration and account history use this.
+export function packageRequestNote(
+  selection: PackageSelection,
+  available: Pick<Service, "id" | "name">[],
+  note: string,
+) {
+  const plan = casaPlans.find((plan) => plan.id === selection.plan_id);
+  if (!plan) throw new Error("Proverite izbor usluga u paketu.");
+  const lines = selection.items.map((item) => {
+    const service = available.find((service) => service.id === item.service_id);
+    const frequency = frequencies.find(
+      (frequency) => frequency.id === item.frequency,
+    );
+    if (!service || service.id === packageServiceId || !frequency)
+      throw new Error("Proverite izbor usluga u paketu.");
+    return `• ${service.name} — ${frequency.label}`;
+  });
+  return [
+    `Casa plan: ${plan.name}`,
+    ...lines,
+    ...(note ? ["", note] : []),
+  ].join("\n");
+}

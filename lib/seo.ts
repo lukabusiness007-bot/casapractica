@@ -76,9 +76,18 @@ export function pageMetadata(
 }
 export const homeTitle = "Usluge za dom u Beogradu";
 export const homeDescription =
-  "Pranje tepiha, montaža TV-a, zamena sijalica, servis klime i iznošenje smeća u Beogradu. Pošaljite zahtev i dogovorite cenu i termin.";
+  "Premium usluge za dom u Beogradu: montaža TV-a i nameštaja, popravke, nega garderobe, lična nabavka i Casa planovi po vašoj meri.";
 export function publicPageMetadata(locale: Locale, path: string) {
   const t = translator(locale);
+  if (path === "/paketi")
+    return pageMetadata(
+      locale,
+      path,
+      t("Casa planovi"),
+      t(
+        "Od jedne pažljivo planirane posete do redovne brige o domu. Premium pažnja u svakom dolasku.",
+      ),
+    );
   if (path === "/" || path === "/usluge")
     return pageMetadata(
       locale,

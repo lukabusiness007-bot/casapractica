@@ -1,24 +1,36 @@
 import { translator } from "./i18n";
 import type { Locale } from "./i18n/routing";
 import { z } from "zod";
-export const requestSchema = z.object({
-  service_id: z.string().uuid(),
-  name: z.string().trim().min(2).max(100),
-  email: z
-    .string()
-    .trim()
-    .email()
-    .max(254)
-    .transform((v) => v.toLowerCase()),
-  phone: z
-    .string()
-    .trim()
-    .regex(/^\+?[\d\s()\-]{8,22}$/),
-  location: z.string().trim().min(3).max(240),
-  desired_at: z.string().max(40).optional().default(""),
-  note: z.string().trim().max(2000).optional().default(""),
-  website: z.string().max(0).optional().default(""),
-});
+import { packageServiceId } from "./catalog";
+import { packageSchema } from "./packages";
+export const requestSchema = z
+  .object({
+    service_id: z.string().uuid(),
+    name: z.string().trim().min(2).max(100),
+    email: z
+      .string()
+      .trim()
+      .email()
+      .max(254)
+      .transform((v) => v.toLowerCase()),
+    phone: z
+      .string()
+      .trim()
+      .regex(/^\+?[\d\s()\-]{8,22}$/),
+    location: z.string().trim().min(3).max(240),
+    desired_at: z.string().max(40).optional().default(""),
+    note: z.string().trim().max(2000).optional().default(""),
+    website: z.string().max(0).optional().default(""),
+    package: packageSchema.optional(),
+  })
+  .superRefine((input, context) => {
+    if ((input.service_id === packageServiceId) !== Boolean(input.package))
+      context.addIssue({
+        code: "custom",
+        path: ["package"],
+        message: "Proverite izbor usluga u paketu.",
+      });
+  });
 export function finalAmount(base: number, discount: number) {
   if (
     !Number.isSafeInteger(base) ||

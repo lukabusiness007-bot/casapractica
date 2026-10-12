@@ -31,6 +31,12 @@ export default async function Terms() {
             "Članstvo je besplatno. Popusti i raniji pristup važe prema uslovima konkretne objavljene pogodnosti. Samo članstvo ne garantuje popust na svaku uslugu.",
           )}
         </p>
+        <h2>{t("Casa planovi")}</h2>
+        <p>
+          {t(
+            "Za redovne planove dogovaramo mesečnu ponudu i uplatu unapred, nakon aktiviranja naplate. Trajanje poseta, promene termina i eventualni prenos posete navode se u vašoj ponudi. Majstorski rad ima zaseban obračun u okviru istog plana.",
+          )}
+        </p>
         <h2>{t("Promene i otkazivanje")}</h2>
         <p>
           {t(
