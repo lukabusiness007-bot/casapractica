@@ -61,6 +61,7 @@ export function HomeProfileEditor({ home }: { home?: HomeProfile }) {
             maxLength={1500}
             defaultValue={home?.preferences}
             rows={3}
+            placeholder={t("Sprat, lift, kućni red i željeni termin dolaska…")}
           />
         </label>
         <label>

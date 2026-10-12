@@ -63,9 +63,9 @@ export const serviceCategories = [
   },
   {
     id: "gutters",
-    title: "Terase, bašte i oluci",
-    tagline: "Pažljiva briga o prostoru oko vašeg doma.",
-    description: "Pažljiva briga o prostoru oko vašeg doma.",
+    title: "Balkoni, terase i spoljni radovi",
+    tagline: "Balkoni i terase, uz dodatne usluge za kuće i spoljne površine.",
+    description: "Balkoni i terase, uz dodatne usluge za kuće i spoljne površine.",
   },
 ] as const;
 export type ServiceCategory = (typeof serviceCategories)[number]["id"];

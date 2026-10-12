@@ -1,11 +1,13 @@
 export type ServicePricing = { price: number; scope: string; unit: string };
+import { washingPriceList } from "./washing-pricing";
 
 // Indicative standard jobs researched on 12 October 2026; amounts are RSD minor units.
 // Rounded to the nearest 500 RSD, or 100 RSD for prices below 1,000 RSD.
+// Washing follows the user's exact doubled price list instead of rounding.
 export const servicePricing: Record<string, ServicePricing> = {
   "pranje-tepiha": {
-    "price": 90000,
-    "scope": "Standardni mašinski tepih",
+    "price": washingPriceList[0].items[0].price!,
+    "scope": "Dubinsko, mokro pranje",
     "unit": "po m²"
   },
   "ugradnja-tv-a": {

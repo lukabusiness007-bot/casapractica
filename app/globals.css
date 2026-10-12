@@ -5,21 +5,13 @@
   font-weight: 100 900;
   font-display: swap;
 }
-@font-face {
-  font-family: Home Serif;
-  src: url("/fonts/litteratur.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
 :root {
   --accent: #444835;
   --ink: #282828;
   --cream: #f8f8f1;
   --muted: #77796e;
   --line: #e5e5dc;
-  --font-serif: "Home Serif", Georgia, serif;
-  --font-script: "Home Serif", Georgia, serif;
-  --font-body: "Home Sans", var(--font-sans), Arial, sans-serif;
+  --font-body: "Home Sans", Arial, sans-serif;
 }
 * {
   box-sizing: border-box;
@@ -81,7 +73,7 @@ p {
 h1,
 h2,
 h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -330,7 +322,7 @@ p {
   gap: 20px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-size: 26px;
 }
 .navigation-panel nav a:hover {
@@ -487,7 +479,7 @@ p {
   background: #ffffff40;
 }
 .hero-news em {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-size: 15px;
 }
 .casa-hero-bottom {
@@ -641,7 +633,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: 36px;
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-size: 48px;
   line-height: 1.2;
   padding: 40px;
@@ -1364,7 +1356,7 @@ p {
   position: absolute;
   bottom: -15px;
   right: 20px;
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-weight: 400;
   font-size: 100px;
   color: #44483544;
@@ -1564,7 +1556,7 @@ p {
   padding-top: 100px;
 }
 .loading span {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-size: 40px;
 }
 .loading p {
@@ -2261,7 +2253,7 @@ p {
   min-width: 0;
 }
 .package-category legend {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-size: 26px;
   margin-bottom: 16px;
 }
@@ -3182,3 +3174,27 @@ p {
 .service-price-scope { background: var(--cream); padding: 18px; border-radius: 14px; font-size: 14px; margin-top: 24px; }
 .service-price-scope small { display: block; margin-top: 8px; color: var(--muted); }
 @media (max-width: 760px) { .monthly-plans-grid { grid-template-columns: 1fr; } .monthly-plan h2 { font-size: 30px; } .monthly-plan .monthly-plan-price { font-size: 26px; } }
+
+/* Full washing price list, with a dedicated amount column on every screen. */
+.washing-price-jump { margin-bottom: 24px; }
+.washing-price-jump svg { transform: rotate(-90deg); }
+.washing-prices { margin-top: 70px; padding-top: 48px; border-top: 1px solid var(--line); scroll-margin-top: 14px; }
+.washing-price-heading { max-width: 650px; margin-bottom: 32px; }
+.washing-price-heading h2 { margin: 18px 0 14px; font-size: clamp(30px, 4vw, 44px); }
+.washing-price-heading p { font-size: 15px; line-height: 1.7; }
+.washing-price-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.washing-price-group { border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: var(--cream); }
+.washing-price-group table { width: 100%; border-collapse: collapse; }
+.washing-price-group caption { text-align: left; color: var(--ink); font-size: 22px; padding-bottom: 18px; }
+.washing-price-group th, .washing-price-group td { padding-block: 16px; border-top: 1px solid var(--line); vertical-align: top; font-size: 14px; line-height: 1.5; }
+.washing-price-group tbody th { text-align: left; font-weight: 400; padding-right: 20px; }
+.washing-price-group td { text-align: right; width: 38%; }
+.washing-price-group td strong { font-weight: 500; display: block; }
+.washing-price-group small { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; font-weight: 400; }
+@media (max-width: 760px) {
+  .washing-prices { margin-top: 48px; padding-top: 32px; }
+  .washing-price-grid { grid-template-columns: 1fr; gap: 16px; }
+  .washing-price-group { padding: 20px; }
+  .washing-price-group th, .washing-price-group td { font-size: 13px; }
+  .washing-price-group tbody th { padding-right: 12px; }
+}

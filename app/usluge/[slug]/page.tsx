@@ -12,6 +12,7 @@ import { RequestForm } from "@/components/request-form";
 import { servicePricing } from "@/lib/service-pricing";
 import { serviceScopes } from "@/lib/catalog-additions";
 import { servicePriceLabel, packageServiceId } from "@/lib/catalog";
+import { WashingPriceList } from "@/components/washing-price-list";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
@@ -138,6 +139,7 @@ export default async function ServiceDetail({
               : t("Cena na upit")}
             <span>{t("Bez plaćanja prilikom slanja zahteva")}</span>
           </div>
+          {service.slug === "pranje-tepiha" && <a className="text-link washing-price-jump" href="#cenovnik">{t("Pogledajte ceo cenovnik")}<ArrowLeft size={15} aria-hidden="true" /></a>}
           {service.id === packageServiceId ? (
             <Link className="button button-dark" href="/paketi#moj-paket">
               {t("Sastavite svoj paket")}
@@ -157,6 +159,7 @@ export default async function ServiceDetail({
           </div>
         </div>
       </div>
+      {service.slug === "pranje-tepiha" && <WashingPriceList />}
     </div>
   );
 }

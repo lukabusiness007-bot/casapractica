@@ -7,7 +7,7 @@ export const collections = [
     id: "filmsko-vece",
     name: "Filmsko veče, spremno",
     description: "Televizor, povezivanje zvuka i polica za vaš omiljeni kutak.",
-    image: "/images/living.jpg",
+    image: "/images/hero.jpg",
     slugs: ["ugradnja-tv-a", "podesavanje-tv-a", "montaza-polica"],
   },
   {
@@ -39,7 +39,7 @@ export const collections = [
     name: "Useljenje sa lakoćom",
     description:
       "Raspakivanje, sklapanje nameštaja i pažljivo postavljene slike i ogledala.",
-    image: "/images/living.jpg",
+    image: "/images/hero.jpg",
     slugs: [
       "pakovanje-i-raspakivanje",
       "sklapanje-namestaja",

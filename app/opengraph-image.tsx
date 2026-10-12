@@ -1,7 +1,10 @@
 import { ImageResponse } from "next/og";
-export const alt = "casa practica — Dom, bez brige. Usluge za dom u Beogradu.";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+export const alt = "casa practica — Dom, bez brige. Usluge za stan u Beogradu.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+const diatype = await readFile(join(process.cwd(), "public/fonts/diatype-og.ttf"));
 export default async function OpenGraphImage() {
   return new ImageResponse(
     <div
@@ -11,6 +14,7 @@ export default async function OpenGraphImage() {
         height: "100%",
         background: "#f8f8f1",
         color: "#282828",
+        fontFamily: "Home Sans",
         padding: 65,
         flexDirection: "column",
         justifyContent: "space-between",
@@ -35,7 +39,7 @@ export default async function OpenGraphImage() {
         casa practica
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-        <div style={{ fontSize: 88, fontFamily: "serif", letterSpacing: -3 }}>
+        <div style={{ fontSize: 88, letterSpacing: -3 }}>
           Dom, bez brige.
         </div>
         <div style={{ fontSize: 27, color: "#77796e" }}>
@@ -58,11 +62,14 @@ export default async function OpenGraphImage() {
             padding: "15px 26px",
           }}
         >
-          Usluge za dom u Beogradu
+          Usluge za stan u Beogradu
         </div>
         <div>Pranje tepiha · Montaža TV-a · Servis klime</div>
       </div>
     </div>,
-    size,
+    {
+      ...size,
+      fonts: [{ name: "Home Sans", data: diatype, style: "normal", weight: 400 }],
+    },
   );
 }

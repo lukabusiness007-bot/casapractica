@@ -15,7 +15,6 @@ import {
   House,
 } from "lucide-react";
 import { ServiceWheel } from "@/components/service-wheel";
-import { HeroVideo } from "@/components/hero-video";
 import { TrustStandard } from "@/components/trust-standard";
 import { ViewEvent } from "@/components/analytics-consent";
 import { isIndividualService, servicePriceLabel, serviceCategories, serviceCategory } from "@/lib/catalog";
@@ -64,7 +63,7 @@ export default async function Home() {
               "@type": "WebPage",
               "@id": absoluteUrl("/", locale),
               url: absoluteUrl("/", locale),
-              name: t("Usluge za dom u Beogradu"),
+              name: t("Usluge za stan u Beogradu"),
               description: t(homeDescription),
               inLanguage: languageTags[locale],
               isPartOf: { "@id": `${siteUrl}/#website` },
@@ -82,7 +81,6 @@ export default async function Home() {
           alt=""
           fetchPriority="high"
         />
-        <HeroVideo />
         <div className="hero-shade" />
         <Link href="/klub" className="hero-news">
           <span>{t("casa practica klub")}</span>
@@ -91,10 +89,10 @@ export default async function Home() {
           <ArrowRight size={14} />
         </Link>
         <div className="casa-hero-copy">
-          <h1>{t("Šta je potrebno vašem domu?")}</h1>
+          <h1>{t("Šta je potrebno vašem stanu?")}</h1>
           <p>
             {t(
-              "Premijum briga o domu: popravke, održavanje i unapređenja uz pouzdanog majstora koji poznaje vaš dom i brine o detaljima pre nego što postanu obaveze.",
+              "Popravke, montaža, održavanje i svakodnevna pomoć za vaš stan. Od slavine koja kaplje do urednog garderobera — više vremena za vas.",
             )}
           </p>
         </div>
@@ -119,7 +117,7 @@ export default async function Home() {
               <House size={20} />
             </span>
           </a>
-          <p>{t("Usluge za dom u Beogradu")}</p>
+          <p>{t("Usluge za stan u Beogradu")}</p>
         </div>
       </section>
       <div className="casa-home-content">
@@ -166,14 +164,14 @@ export default async function Home() {
             <h2>{t("Vaša lista obaveza. Rešena.")}</h2>
             <p>
               {t(
-                "Od montaže TV-a do sveže posteljine. Pažljiva briga o svakom detalju vašeg doma.",
+                "TV na zidu, police na svom mestu, sveža posteljina i organizovan garderober. Pažljiva briga o svakom kutku vašeg stana.",
               )}
             </p>
           </div>
           <div className="casa-task-photo">
             <Image
               src="/images/kitchen.jpg"
-              alt={t("Usluge za dom u Beogradu")}
+              alt={t("Usluge za stan u Beogradu")}
               width={1800}
               height={1200}
               sizes="100vw"
@@ -186,7 +184,7 @@ export default async function Home() {
         <section className="home-services container" id="kolekcija-usluga">
           <div className="casa-section-heading">
             <span className="eyebrow eyebrow-sage">{t("USLUGE ZA DOM")}</span>
-            <h2>{t("Šta vam treba u domu?")}</h2>
+            <h2>{t("Šta vam treba u stanu?")}</h2>
             <p>
               {t(
                 "Izaberite uslugu. Pošaljite zahtev, a mi vam se javljamo sa cenom i predlogom termina.",
@@ -194,7 +192,7 @@ export default async function Home() {
             </p>
           </div>
           <nav className="home-category-links" aria-label={t("Kategorije usluga")}>
-            {serviceCategories.filter((category) => individualServices.some((service) => serviceCategory(service) === category.id)).map((category) => (
+            {serviceCategories.filter((category) => category.id !== "gutters" && individualServices.some((service) => serviceCategory(service) === category.id)).map((category) => (
               <Link key={category.id} href={`/usluge#${category.id}`}>
                 {t(category.title)}<ArrowRight size={14} aria-hidden="true" />
               </Link>

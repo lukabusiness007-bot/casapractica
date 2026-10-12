@@ -74,9 +74,9 @@ export function pageMetadata(
     },
   };
 }
-export const homeTitle = "Usluge za dom u Beogradu";
+export const homeTitle = "Usluge za stan u Beogradu";
 export const homeDescription =
-  "Premium usluge za dom u Beogradu: montaža TV-a i nameštaja, popravke, nega garderobe, lična nabavka i Casa planovi po vašoj meri.";
+  "Usluge za stan u Beogradu: montaža TV-a i polica, popravke, servis klime, organizacija garderobera i redovna pomoć uz Casa planove.";
 export function publicPageMetadata(locale: Locale, path: string) {
   const t = translator(locale);
   if (path === "/kolekcije")
@@ -85,7 +85,7 @@ export function publicPageMetadata(locale: Locale, path: string) {
       path,
       t("Casa kolekcije"),
       t(
-        "Povezane usluge za putovanja, goste, novu sezonu i novi dom. Jedan dogovor za celu listu.",
+        "Stan spreman za povratak s puta, goste, novu sezonu ili useljenje. Povezane usluge i jedan dogovor za celu listu.",
       ),
     );
   if (path === "/konsultacije")
@@ -101,7 +101,7 @@ export function publicPageMetadata(locale: Locale, path: string) {
     return pageMetadata(
       locale,
       path,
-      t("Mesečne pretplate za vaš dom"),
+      t("Mesečna pomoć za vaš stan"),
       t(
         "Izaberite obaveze koje želite da prepustite nama. Jedna mesečna cena, dogovoreni dolasci i vaš Casa koordinator.",
       ),

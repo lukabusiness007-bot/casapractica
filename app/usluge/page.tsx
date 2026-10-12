@@ -19,10 +19,10 @@ export default async function Services() {
           <span className="eyebrow">
             {t("MALE OBAVEZE. VIŠE VREMENA ZA VAS.")}
           </span>
-          <h1>{t("Usluge za dom u Beogradu")}</h1>
+          <h1>{t("Usluge za stan u Beogradu")}</h1>
           <p>
             {t(
-              "Od malih svakodnevnih obaveza do važnih popravki. Izaberite šta vam treba, a mi ćemo se pobrinuti za detalje.",
+              "Sve što vašem stanu treba: sitne popravke, montaža, nega i organizacija prostora. Izaberite zadatke za jednu posetu ili redovnu pomoć.",
             )}
           </p>
           <a className="text-link" href="#katalog">

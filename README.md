@@ -2,6 +2,8 @@
 
 Premium platforma za usluge u domu u Beogradu. Next.js 16, React, TypeScript, Tailwind CSS, Supabase Auth/PostgreSQL i Stripe Checkout.
 
+Osnovna smernica za ceo sajt: prema poslovnom kontekstu, 90% kupaca živi u stanovima. Tekstovi, izbor istaknutih usluga i fotografije treba prvenstveno da prikazuju život u beogradskom stanu: popravke, montažu TV-a i polica, organizaciju garderobera, održavanje klime, posteljinu i svakodnevnu pomoć. Stan ne mora biti mali; koristimo primere za različite kvadrature bez pretpostavke da kupac ima dvorište, garažu ili gostinsku sobu. Sprat, lift, pristup opremi i kućni red uzimaju se u obzir pri dogovoru. Usluge za kuće ostaju u katalogu kao dopunska ponuda. Podatak od 90% je interna smernica, ne javna marketinška tvrdnja.
+
 ## Deploy na Vercel
 
 Repozitorijum: [lukabusiness007-bot/casapractica](https://github.com/lukabusiness007-bot/casapractica).
@@ -45,8 +47,8 @@ Unesite vrednosti u `.env.local`; ne delite ključeve u kodu, screenshotovima ni
 
 ## Supabase
 
-1. Kreirajte Supabase projekat. U SQL editoru izvršite migracije `001_initial.sql`, `002_premium_catalog.sql`, `003_growth.sql`, `004_home_services.sql`, `005_service_prices.sql` i `006_rounded_service_prices.sql` iz direktorijuma `supabase/migrations`, tim redom, pa `supabase/seed.sql`. Na postojećoj bazi izvršite samo migracije koje još nisu primenjene. Migracija `004_home_services.sql` dodaje prošireni katalog bez izmena postojećih usluga, cena, vidljivosti, sadržaja ili zahteva.
-Migracija `006_rounded_service_prices.sql` zaokružuje izvorne početne cene na 500 RSD (ispod 1.000 RSD na 100 RSD), samo kada cena još odgovara izvornoj vrednosti.
+1. Kreirajte Supabase projekat. U SQL editoru izvršite migracije `001_initial.sql`, `002_premium_catalog.sql`, `003_growth.sql`, `004_home_services.sql`, `005_service_prices.sql`, `006_rounded_service_prices.sql` i `007_washing_prices.sql` iz direktorijuma `supabase/migrations`, tim redom, pa `supabase/seed.sql`. Na postojećoj bazi izvršite samo migracije koje još nisu primenjene. Migracija `004_home_services.sql` dodaje prošireni katalog bez izmena postojećih usluga, cena, vidljivosti, sadržaja ili zahteva.
+Migracija `006_rounded_service_prices.sql` zaokružuje izvorne početne cene na 500 RSD (ispod 1.000 RSD na 100 RSD), samo kada cena još odgovara izvornoj vrednosti. Migracija `007_washing_prices.sql` postavlja početnu cenu pranja tepiha na 980 RSD/m² prema vlasnikovom cenovniku, uz očuvanje drugačijih administrativnih cena. Detaljan cenovnik pranja je u `lib/washing-pricing.ts`.
 
 2. U okruženje unesite URL projekta, anon ključ i **serverski** service-role ključ. Nijedan privilegovani ključ nema `NEXT_PUBLIC_` prefiks.
 3. U Auth uključite email/password i obaveznu potvrdu email adrese. Podesite Site URL i dozvoljeni callback `https://vas-domen/auth/callback` (lokalno `http://localhost:3000/auth/callback`). Dodajte i callback sa `?next=/auth/oporavak` ako vaša allowlist konfiguracija traži tačan URL. Aplikacija koristi PKCE exchange i standardne Supabase confirmation/recovery linkove; ne menjajte template na direktan token link bez corresponding callback podrške.
@@ -124,7 +126,7 @@ Lokalno sačuvane fotografije enterijera sa Unsplash-a, korišćene kao ilustrac
 - enterijer / klima: `photo-1616486338812-3dadae4b4ace`
 - klub: `photo-1616486029423-aaa4789e8c9a`
 
-Dizajn prati referencu https://getcasa.com/: video hero, serifni naslovi, krem kartice i maslinast footer. Fontovi Diatype i Litteratur su u `public/fonts/`, a Inter kroz `next/font` služi kao rezerva za jezičke skupove. Ikonice kuće, alata i sata iz reference su u `public/images/casa/`. Video u `components/hero-video.tsx` učitava se sa originalnog Casa CDN-a; lokalni `public/images/hero.jpg` služi kao poster i zamena kada je uključeno smanjeno kretanje. Video ima dugme za pauzu. Izbor usluge u `components/service-explorer.tsx` podržava miš, dodir i tastaturu.
+Dizajn prati referencu https://getcasa.com/: krem kartice i maslinast footer. Sajt koristi isti lokalni Diatype font kao header (`public/fonts/diatype.woff2`) za naslove i sav ostali tekst. Ikonice kuće, alata i sata iz reference su u `public/images/casa/`. Početna prikazuje lokalnu fotografiju enterijera stana `public/images/hero.jpg`. Ranija komponenta `components/hero-video.tsx` ostaje sačuvana, ali se ne koristi na početnoj jer strani video nije prilagođen pretežno stanarskoj publici. Izbor usluge u `components/service-explorer.tsx` podržava miš, dodir i tastaturu.
 
 ## Jezici, identitet i SEO
 

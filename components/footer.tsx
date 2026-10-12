@@ -11,7 +11,7 @@ export async function Footer() {
           <h2>
             {t("Manje obaveza. Više vremena za sebe.")}{" "}
             {t(
-              "Pažljivo odabrane usluge za vaš dom i jedan jednostavniji svakodnevni život.",
+              "Pažljivo odabrane usluge za vaš stan i jednostavniji život u gradu.",
             )}
           </h2>
           <p>{t("Posebne ponude i male privilegije.")}</p>

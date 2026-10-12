@@ -12,7 +12,7 @@ export default async function Collections() {
         <h1>{t("Vaš trenutak. Sve spremno.")}</h1>
         <p>
           {t(
-            "Povezane usluge za putovanja, goste, novu sezonu i novi dom. Jedan dogovor za celu listu.",
+            "Stan spreman za povratak s puta, goste, novu sezonu ili useljenje. Povezane usluge i jedan dogovor za celu listu.",
           )}
         </p>
       </div>

@@ -4,6 +4,10 @@ export async function Faq() {
 
   const questions = [
     [
+      t("Kako organizujete dolazak u zgradu?"),
+      t("U zahtevu navedite sprat, lift i pravila kućnog reda. Pristup stanu, unos opreme i termin bučnih radova usaglašavamo sa vama pre dolaska. Za radove na zajedničkim delovima zgrade prethodno dogovaramo potrebnu saglasnost."),
+    ],
+    [
       t("Kako da zakažem uslugu?"),
       t(
         "Pošaljite kratak zahtev za uslugu ili razgovor o planu. Tim vas kontaktira na izabrani način. WhatsApp je opciona mogućnost da odmah dodate detalje.",

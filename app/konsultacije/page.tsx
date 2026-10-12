@@ -50,7 +50,7 @@ export default async function Consultation({
             : subscription
               ? t(subscription.name)
               : tier === "once"
-              ? t("Šta vam treba u domu?")
+              ? t("Šta vam treba u stanu?")
               : tier === "signature"
                 ? t("Dva dolaska mesečno.")
                 : t("Jedna poseta svake nedelje.")}

@@ -12,7 +12,7 @@ export default async function Packages() {
       <ViewEvent context="plans" />
       <div className="center-heading catalog-heading">
         <span className="eyebrow">{t("JEDNOKRATNA I REDOVNA POMOĆ")}</span>
-        <h1>{t("Mesečne pretplate za vaš dom")}</h1>
+        <h1>{t("Mesečna pomoć za vaš stan")}</h1>
         <p>
           {t(
             "Izaberite obaveze koje želite da prepustite nama. Jedna mesečna cena, dogovoreni dolasci i vaš Casa koordinator.",

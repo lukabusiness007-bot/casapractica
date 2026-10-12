@@ -65,7 +65,7 @@ on conflict do nothing;
 update public.services as service
 set price = proposed.price
 from (values
-('pranje-tepiha',90000),
+('pranje-tepiha',98000),
 ('ugradnja-tv-a',1100000),
 ('servis-klime',850000),
 ('kacenje-slika-i-ogledala',800000),

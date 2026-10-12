@@ -227,8 +227,12 @@ export function RequestForm({
             name="note"
             rows={3}
             maxLength={2000}
-            placeholder={t("Zadaci, količine i vaše želje…")}
+            placeholder={t("Zadaci, količine, sprat, lift i vaše želje…")}
+            aria-describedby={`${formId}-building-details`}
           />
+          <small id={`${formId}-building-details`}>
+            {t("Navedite sprat, dostupnost lifta i pravila zgrade za bučne radove. Termin i pristup dogovaramo pre dolaska.")}
+          </small>
         </label>
         <details className="contact-details">
           <summary>{t("Dodajte detalje, ako želite")}</summary>
