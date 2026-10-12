@@ -15,6 +15,8 @@ import {
   type Service,
 } from "@/lib/catalog";
 import { useTranslation } from "./locale-provider";
+import Link from "./localized-link";
+import { track } from "@/lib/analytics-client";
 import { RequestForm } from "./request-form";
 
 export function PackagesExperience({
@@ -41,6 +43,10 @@ export function PackagesExperience({
         : "once";
   function choosePlan(id: PlanId) {
     setPlanId(id);
+    track(
+      "plan_select",
+      `tier:${id === "weekly" ? "private" : id === "monthly" ? "signature" : "once"}`,
+    );
     setItems((previous) =>
       previous.map((item) => ({
         ...item,
@@ -59,29 +65,48 @@ export function PackagesExperience({
   return (
     <>
       <div className="plans-grid">
-        {casaPlans.map((entry, index) => (
-          <article
-            className={`plan-card ${entry.id === "custom" ? "plan-card-custom" : ""}`}
-            key={entry.id}
-          >
-            <span className="eyebrow">
-              {String(index + 1).padStart(2, "0")} / CASA
-            </span>
-            <h2>{t(entry.name)}</h2>
-            <p className="plan-rhythm">{t(entry.rhythm)}</p>
-            <p>{t(entry.description)}</p>
-            <span className="plan-price">{t("Cena prema vašem izboru")}</span>
-            <button
-              className="button button-dark"
-              disabled={submitting}
-              onClick={() => choosePlan(entry.id)}
+        {casaPlans
+          .filter((entry) => ["once", "monthly", "weekly"].includes(entry.id))
+          .map((entry, index) => (
+            <article
+              className={`plan-card ${entry.id === "custom" ? "plan-card-custom" : ""}`}
+              key={entry.id}
             >
-              {t("Sastavite ovaj plan")}
-              <ArrowUpRight size={16} />
-            </button>
-          </article>
-        ))}
+              <span className="eyebrow">
+                {String(index + 1).padStart(2, "0")} / CASA
+              </span>
+              <h2>{t(entry.name)}</h2>
+              <p className="plan-rhythm">{t(entry.rhythm)}</p>
+              <p>{t(entry.description)}</p>
+              <span className="plan-price">{t("Cena prema vašem izboru")}</span>
+              <button
+                className="button button-dark"
+                disabled={submitting}
+                onClick={() => choosePlan(entry.id)}
+              >
+                {t("Sastavite ovaj plan")}
+                <ArrowUpRight size={16} />
+              </button>
+            </article>
+          ))}
       </div>
+      <section className="concierge-prompt">
+        <h2>{t("Neka naš tim sastavi plan za vas.")}</h2>
+        <p>
+          {t(
+            "Podelite svoje želje. Mi predlažemo usluge i ritam, uz jednu preglednu ponudu.",
+          )}
+        </p>
+        <Link
+          className="button button-dark"
+          href="/konsultacije?tier=signature"
+        >
+          {t("Prepustite nam brigu o domu")}
+        </Link>
+        <Link className="text-link" href="/konsultacije?tier=private">
+          {t("Razgovarajte o Casa Private")}
+        </Link>
+      </section>
       <section className="premium-standard">
         <Sparkles size={24} strokeWidth={1.3} />
         <div>

@@ -5,6 +5,8 @@ import { join } from "node:path";
 import { localePath, splitLocale, locales } from "../lib/i18n/routing";
 import { translator } from "../lib/i18n";
 import { pageMetadata, languageAlternates, absoluteUrl } from "../lib/seo";
+import { collections, upgrades } from "../lib/growth";
+import { casaPlans } from "../lib/packages";
 import { services } from "../lib/catalog";
 import messages from "../lib/i18n/messages.json";
 
@@ -64,6 +66,20 @@ test("all supported languages include public copy and catalog translations", () 
         );
       }
   }
+  for (const [, dictionary] of entries)
+    for (const source of [
+      ...collections.flatMap((item) => [item.name, item.description]),
+      ...upgrades.flatMap((item) => [item.name, item.description]),
+      ...casaPlans.flatMap((item) => [
+        item.name,
+        item.rhythm,
+        item.description,
+      ]),
+    ])
+      assert.ok(
+        source in dictionary,
+        `Missing commercial translation: ${source}`,
+      );
   const files: string[] = [];
   function collect(dir: string) {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {

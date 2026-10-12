@@ -12,7 +12,7 @@ export async function Faq() {
     [
       t("Kako da zakažem uslugu?"),
       t(
-        "Izaberite uslugu i popunite kratak zahtev. Zatim otvorite pripremljenu WhatsApp poruku i pošaljite je našem timu. Zajedno dogovaramo detalje, cenu i termin.",
+        "Pošaljite kratak zahtev za uslugu ili razgovor o planu. Tim vas kontaktira na izabrani način. WhatsApp je opciona mogućnost da odmah dodate detalje.",
       ),
     ],
     [

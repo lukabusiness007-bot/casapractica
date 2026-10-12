@@ -3,16 +3,24 @@ import type { Locale } from "./i18n/routing";
 import { z } from "zod";
 import { packageServiceId } from "./catalog";
 import { packageSchema } from "./packages";
+import { commerceSchema } from "./growth";
 export const requestSchema = z
   .object({
     service_id: z.string().uuid(),
     name: z.string().trim().min(2).max(100),
     email: z
-      .string()
-      .trim()
-      .email()
-      .max(254)
-      .transform((v) => v.toLowerCase()),
+      .preprocess(
+        (v) => (v === "" || v == null ? null : v),
+        z
+          .string()
+          .trim()
+          .email()
+          .max(254)
+          .transform((v) => v.toLowerCase())
+          .nullable(),
+      )
+      .optional()
+      .default(null),
     phone: z
       .string()
       .trim()
@@ -22,9 +30,15 @@ export const requestSchema = z
     note: z.string().trim().max(2000).optional().default(""),
     website: z.string().max(0).optional().default(""),
     package: packageSchema.optional(),
+    commerce: commerceSchema.optional(),
+    analytics_session_id: z.string().uuid().optional(),
   })
   .superRefine((input, context) => {
-    if ((input.service_id === packageServiceId) !== Boolean(input.package))
+    if (
+      (input.service_id === packageServiceId &&
+        (!input.commerce || input.commerce.intent === "service")) !==
+      Boolean(input.package)
+    )
       context.addIssue({
         code: "custom",
         path: ["package"],

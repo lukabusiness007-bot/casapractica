@@ -29,6 +29,8 @@ export async function Footer() {
               </Link>
             ))}
             <Link href="/paketi">{t("Casa planovi")}</Link>
+            <Link href="/kolekcije">{t("Casa kolekcije")}</Link>
+            <Link href="/konsultacije">{t("Zakažite posetu")}</Link>
           </div>
           <div>
             <span className="eyebrow">{t("KORISNE INFORMACIJE")}</span>

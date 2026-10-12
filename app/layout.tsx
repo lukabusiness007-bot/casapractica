@@ -8,6 +8,8 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import "./globals.css";
+import { AnalyticsConsent } from "@/components/analytics-consent";
+import { growthReady } from "@/lib/data";
 const sans = Inter({
   subsets: ["latin", "latin-ext", "cyrillic"],
   variable: "--font-sans",
@@ -35,6 +37,7 @@ export default async function RootLayout({
           <Header />
           <main id="main">{children}</main>
           <Footer />
+          <AnalyticsConsent ready={await growthReady()} />
         </LocaleProvider>
       </body>
     </html>

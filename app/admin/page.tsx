@@ -1,12 +1,16 @@
 import Link from "next/link";
+import { growthReady } from "@/lib/data";
 import { redirect } from "next/navigation";
 import { configured, currentUser, isAdmin, db } from "@/lib/supabase";
 import {
   ServiceEditor,
   BenefitEditor,
   RequestEditor,
+  RequestOperations,
+  ShowcaseEditor,
 } from "@/components/admin-forms";
 import { ActionForm } from "@/components/action-form";
+import { GrowthDashboard } from "@/components/admin-growth";
 import { money, paymentLabels } from "@/lib/catalog";
 export const metadata = {
   title: "Administracija",
@@ -34,6 +38,7 @@ export default async function Admin({
   if (!(await isAdmin(u.id))) redirect("/nalog");
   const { tab = "zahtevi" } = await searchParams;
   const c = db();
+  const growth = await growthReady();
   return (
     <div className="container page-section">
       <div className="dashboard-heading">
@@ -48,6 +53,9 @@ export default async function Admin({
       <nav className="admin-tabs">
         {[
           ["zahtevi", "Zahtevi i ponude"],
+          ["rast", "Prodaja i praćenje"],
+          ["domovi", "Profili domova"],
+          ["dokazi", "Tim i radovi"],
           ["usluge", "Usluge"],
           ["pogodnosti", "Klupske pogodnosti"],
           ["clanice", "Članice"],
@@ -62,6 +70,56 @@ export default async function Admin({
         ))}
       </nav>
       {await (async () => {
+        if (!growth && ["rast", "domovi", "dokazi"].includes(tab))
+          return (
+            <p className="notice">
+              Za ove mogućnosti izvršite migraciju 003_growth.sql.
+            </p>
+          );
+        if (tab === "rast") return <GrowthDashboard />;
+        if (tab === "domovi") {
+          const { data, error } = await c
+            .from("home_profiles")
+            .select("*")
+            .order("created_at", { ascending: false });
+          if (error) throw error;
+          return (
+            <div className="admin-grid">
+              {data?.map((home) => (
+                <article className="panel" key={home.id}>
+                  <h2>{home.label}</h2>
+                  <p>{home.location}</p>
+                  <p style={{ whiteSpace: "pre-wrap" }}>{home.appliances}</p>
+                  <p style={{ whiteSpace: "pre-wrap" }}>{home.preferences}</p>
+                  <p style={{ whiteSpace: "pre-wrap" }}>{home.future_tasks}</p>
+                  <p>Održavanje: {home.maintenance_due || "nije dogovoreno"}</p>
+                </article>
+              ))}
+              {!data?.length && <p>Još nema profila domova.</p>}
+            </div>
+          );
+        }
+        if (tab === "dokazi") {
+          const { data, error } = await c
+            .from("showcase")
+            .select("*")
+            .order("created_at", { ascending: false });
+          if (error) throw error;
+          return (
+            <div className="admin-grid">
+              <article className="panel">
+                <h2>Novi prikaz</h2>
+                <ShowcaseEditor />
+              </article>
+              {data?.map((item) => (
+                <article className="panel" key={item.id}>
+                  <h2>{item.title}</h2>
+                  <ShowcaseEditor item={item} />
+                </article>
+              ))}
+            </div>
+          );
+        }
         if (tab === "usluge") {
           const { data, error } = await c
             .from("services")
@@ -159,7 +217,8 @@ export default async function Admin({
                   <span className="eyebrow">{r.reference}</span>
                   <h2 style={{ marginTop: 12 }}>{r.services?.name}</h2>
                   <p>
-                    <strong>{r.name}</strong> · {r.email} · {r.phone}
+                    <strong>{r.name}</strong> ·{" "}
+                    {r.email || "email se prikuplja naknadno"} · {r.phone}
                   </p>
                   <p>
                     {r.location} · Željeni datum:{" "}
@@ -168,6 +227,18 @@ export default async function Admin({
                   <p style={{ whiteSpace: "pre-wrap", margin: "10px 0 20px" }}>
                     {r.note}
                   </p>
+                  <p>
+                    Kontakt: {r.commerce?.contact_preference || "po dogovoru"} ·
+                    lične preporuke:{" "}
+                    {r.commerce?.follow_up_opt_in ? "da" : "ne"} · organizator:{" "}
+                    {r.commerce?.booked_for || "self"}
+                  </p>
+                  {growth && (
+                    <details className="operations-editor">
+                      <summary>Kontakt, trošak i naredna poseta</summary>
+                      <RequestOperations request={r} />
+                    </details>
+                  )}
                   <RequestEditor
                     id={r.id}
                     status={r.status}

@@ -2445,3 +2445,346 @@ p {
     display: none;
   }
 }
+
+.hero-concierge-actions {
+  position: absolute;
+  z-index: 3;
+  bottom: 160px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.hero-concierge-link {
+  color: white;
+  font-size: 15px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.casa-hero-copy {
+  padding-bottom: 220px;
+}
+.concierge-prompt {
+  margin: 32px 0;
+  padding: 36px;
+  background: #e8ebdf;
+  border-radius: 24px;
+}
+.concierge-prompt h2 {
+  font-size: 34px;
+  margin-bottom: 16px;
+}
+.concierge-prompt p {
+  max-width: 680px;
+  margin-bottom: 24px;
+}
+.concierge-prompt .text-link {
+  margin-left: 24px;
+}
+.consultation-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: start;
+}
+.concierge-copy h2 {
+  font-size: 40px;
+  margin-bottom: 24px;
+}
+.concierge-copy p,
+.concierge-copy li {
+  color: var(--muted);
+}
+.concierge-copy ul {
+  padding-left: 20px;
+  margin: 24px 0;
+}
+.concierge-copy li {
+  margin: 14px 0;
+}
+.request-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  gap: 18px;
+}
+.visit-extras {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #f4f5ed;
+}
+.visit-extras h3 {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+.visit-extras > p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.form label.inline-check {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 12px;
+  padding: 8px 0;
+}
+.form .inline-check input {
+  width: 18px;
+  min-height: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+.form .inline-check span {
+  font-size: 13px;
+}
+.form .inline-check small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+}
+.contact-details {
+  border-block: 1px solid var(--line);
+  padding: 14px 0;
+}
+.contact-details summary {
+  cursor: pointer;
+  font-size: 14px;
+}
+.contact-details .form {
+  margin-top: 20px;
+}
+.success-next {
+  display: grid;
+  gap: 14px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  margin-top: 24px;
+}
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.collection-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  background: var(--cream);
+  overflow: hidden;
+}
+.collection-image {
+  height: 240px;
+}
+.collection-card > div:last-child {
+  padding: 26px;
+}
+.collection-card h3 {
+  font-size: 30px;
+  margin-bottom: 14px;
+}
+.collection-card p {
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.collection-includes {
+  padding-left: 20px;
+  margin: 24px 0;
+}
+.collection-includes li {
+  margin-bottom: 12px;
+}
+.detail-content > .notice {
+  margin-bottom: 24px;
+}
+.home-collections {
+  padding-block: 64px;
+}
+.trust-standard {
+  padding-block: 64px;
+}
+.trust-standard h2 {
+  font-size: 46px;
+  margin: 20px 0 36px;
+}
+.trust-grid,
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.trust-grid article {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+}
+.trust-grid h3 {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+.trust-grid p {
+  color: var(--muted);
+}
+.proof-grid {
+  margin-top: 36px;
+}
+.proof-image {
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.proof-grid h3 {
+  margin: 14px 0;
+}
+.home-profile-editor {
+  padding-block: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.home-profile-editor summary {
+  cursor: pointer;
+  font-size: 18px;
+}
+.home-profile-editor .form {
+  margin-top: 24px;
+}
+.completed-next {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0;
+  padding: 20px;
+  border-radius: 18px;
+  background: var(--cream);
+}
+.referral-url {
+  width: 100%;
+  margin: 20px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 14px;
+}
+.dashboard-grid aside .text-link {
+  margin-top: 12px;
+  display: flex;
+}
+.operations-editor {
+  padding: 16px 0;
+  margin: 16px 0;
+  border-block: 1px solid var(--line);
+}
+.operations-editor summary {
+  cursor: pointer;
+}
+.operations-editor .form {
+  margin-top: 20px;
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.metrics-grid article {
+  padding: 22px;
+  background: var(--cream);
+  border-radius: 18px;
+}
+.metrics-grid small,
+.metrics-grid strong,
+.metrics-grid span {
+  display: block;
+}
+.metrics-grid strong {
+  font-size: 28px;
+  margin-block: 10px;
+}
+.privacy-settings {
+  display: block;
+  margin: 12px auto;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  text-decoration: underline;
+}
+.analytics-consent {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 80;
+  max-width: 650px;
+  margin-left: auto;
+  background: white;
+  box-shadow: 0 10px 50px #28282825;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+}
+.analytics-consent p {
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.analytics-consent > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+@media (max-width: 1000px) {
+  .collection-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .consultation-grid {
+    gap: 28px;
+  }
+}
+@media (max-width: 760px) {
+  .hero-concierge-actions {
+    bottom: 152px;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .casa-hero-copy {
+    padding-bottom: 270px;
+  }
+  .concierge-prompt {
+    padding: 24px;
+  }
+  .concierge-prompt .text-link {
+    display: block;
+    margin: 20px 0 0;
+  }
+  .consultation-grid,
+  .collection-grid,
+  .trust-grid,
+  .proof-grid,
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .consultation-grid {
+    gap: 32px;
+  }
+  .concierge-copy h2 {
+    font-size: 34px;
+  }
+  .trust-standard h2 {
+    font-size: 36px;
+  }
+  .analytics-consent {
+    padding: 20px;
+  }
+  .collection-image {
+    height: 220px;
+  }
+}
+.hero-concierge-actions .button-light {
+  color: var(--ink);
+}

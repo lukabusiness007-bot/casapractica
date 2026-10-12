@@ -5,10 +5,14 @@ import { assertOrigin, assertReady, failure, HttpError } from "@/lib/http";
 import { db, currentUser } from "@/lib/supabase";
 import { requestSchema, whatsappLink } from "@/lib/validation";
 import { packageRequestNote } from "@/lib/packages";
+import { growthReady } from "@/lib/data";
+import { commerceNote } from "@/lib/growth";
 export async function POST(req: Request) {
   try {
     assertOrigin(req);
     assertReady();
+    if (!(await growthReady()))
+      throw new HttpError(503, "Dodatne mogućnosti trenutno nisu dostupne.");
     const parsed = requestSchema.safeParse(await req.json());
     if (!parsed.success)
       throw new HttpError(
@@ -26,7 +30,7 @@ export async function POST(req: Request) {
     const client = db();
     const { data: service } = await client
       .from("services")
-      .select("id,name")
+      .select("id,name,slug")
       .eq("id", input.service_id)
       .eq("active", true)
       .single();
@@ -36,10 +40,12 @@ export async function POST(req: Request) {
       req.headers.get("x-forwarded-for")?.split(",")[0] ||
       "local";
     const hash = (s: string) => createHash("sha256").update(s).digest("hex");
-    for (const [key, limit] of [
+    const limits: [string, number][] = [
       [`ip:${hash(ip)}`, 15],
-      [`email:${hash(input.email)}`, 5],
-    ] as const) {
+      [`phone:${hash(input.phone.replace(/\D/g, ""))}`, 5],
+    ];
+    if (input.email) limits.push([`email:${hash(input.email)}`, 5]);
+    for (const [key, limit] of limits) {
       const { data, error } = await client.rpc("consume_rate_limit", {
         p_key: key,
         p_limit: limit,
@@ -53,11 +59,36 @@ export async function POST(req: Request) {
     }
     const user = await currentUser();
     const userId =
-      user?.email_confirmed_at && user.email?.toLowerCase() === input.email
+      user?.email_confirmed_at &&
+      (!input.email || user.email?.toLowerCase() === input.email)
         ? user.id
         : null;
     const { website: _, package: selection, ...record } = input;
     void _;
+    if (input.commerce?.referral_code) {
+      const { data: referral, error: referralError } = await client
+        .from("referral_codes")
+        .select("user_id")
+        .eq("code", input.commerce.referral_code)
+        .eq("active", true)
+        .maybeSingle();
+      if (referralError) throw referralError;
+      if (!referral || referral.user_id === user?.id)
+        delete record.commerce!.referral_code;
+    }
+    if (input.commerce) {
+      const { data: available, error: catalogError } = await client
+        .from("services")
+        .select("*")
+        .eq("active", true);
+      if (catalogError) throw catalogError;
+      try {
+        const summary = commerceNote(input.commerce, service, available || []);
+        record.note = [summary, record.note].filter(Boolean).join("\n\n");
+      } catch {
+        throw new HttpError(400, "Proverite izbor dopuna.");
+      }
+    }
     if (selection) {
       const { data: selectedServices, error: selectionError } = await client
         .from("services")

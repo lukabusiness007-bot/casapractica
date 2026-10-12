@@ -8,6 +8,7 @@ import {
   serviceCategory,
 } from "@/lib/catalog";
 import Link from "@/components/localized-link";
+import { ViewEvent } from "@/components/analytics-consent";
 import { ArrowUpRight } from "lucide-react";
 export const dynamic = "force-dynamic";
 export default async function Services() {
@@ -16,6 +17,7 @@ export default async function Services() {
   const services = await getServices();
   return (
     <div className="container page-section catalog-page">
+      <ViewEvent context="catalog" />
       <div className="center-heading catalog-heading">
         <span className="eyebrow">
           {t("MALE OBAVEZE. VIŠE VREMENA ZA VAS.")}

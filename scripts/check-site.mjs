@@ -1,6 +1,7 @@
 // HTTP smoke test of rendered HTML, independent of client-side JavaScript.
 import assert from "node:assert/strict";
 import { services } from "../lib/catalog.ts";
+import { collections } from "../lib/growth.ts";
 const base = process.env.TEST_SITE_URL || "http://localhost:3100";
 const locales = ["sr", "en", "ru", "de", "tr"];
 const publicPaths = [
@@ -8,6 +9,9 @@ const publicPaths = [
   "/usluge",
   "/klub",
   "/paketi",
+  "/konsultacije",
+  "/kolekcije",
+  ...collections.map((item) => `/kolekcije/${item.id}`),
   ...services.map((service) => `/usluge/${service.slug}`),
 ];
 const paths = [

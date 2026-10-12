@@ -13,3 +13,12 @@ export const getServices = cache(async (): Promise<Service[]> => {
     throw new Error("Usluge trenutno nisu dostupne. Pokušajte ponovo.");
   return data || [];
 });
+
+// Keep the existing site readable while a connected deployment awaits migration 003.
+export const growthReady = cache(async (): Promise<boolean> => {
+  if (!configured()) return false;
+  const { error } = await db().from("home_profiles").select("id").limit(0);
+  if (error && ["PGRST205", "42P01"].includes(error.code)) return false;
+  if (error) throw new Error("Dodatne mogućnosti trenutno nisu dostupne.");
+  return true;
+});

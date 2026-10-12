@@ -1,3 +1,4 @@
+import { growthReady } from "@/lib/data";
 import { publicPageMetadata } from "@/lib/seo";
 import { localePath } from "@/lib/i18n/routing";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
@@ -17,6 +18,9 @@ import {
   paymentLabels,
   packageServiceId,
 } from "@/lib/catalog";
+import { HomeProfileEditor } from "@/components/home-profile-editor";
+import { ReferralCard } from "@/components/referral-card";
+import { siteUrl } from "@/lib/seo";
 import { ActionForm } from "@/components/action-form";
 export const dynamic = "force-dynamic";
 export default async function Account({
@@ -65,6 +69,7 @@ export default async function Account({
   if (!user?.email_confirmed_at) redirect(localePath("/prijava", locale));
   const auth = await authClient();
   await auth.rpc("claim_my_requests");
+  const growth = await growthReady();
   const c = db();
   const [
     { data: requests, error },
@@ -72,18 +77,35 @@ export default async function Account({
     { data: benefits },
     { data: profile },
     admin,
+    { data: homes, error: homeError },
+    { data: referral, error: referralError },
   ] = await Promise.all([
     c
       .from("requests")
-      .select("*,services(name),quotes(*,payments(*))")
+      .select("*,services(name,slug),quotes(*,payments(*))")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false }),
     c.from("memberships").select("*").eq("user_id", user.id).maybeSingle(),
     auth.from("benefits").select("*").order("member_at", { ascending: false }),
     c.from("profiles").select("*").eq("id", user.id).maybeSingle(),
     isAdmin(user.id),
+    growth
+      ? auth
+          .from("home_profiles")
+          .select("*")
+          .order("created_at")
+          .eq("user_id", user.id)
+      : Promise.resolve({ data: [], error: null }),
+    growth
+      ? auth
+          .from("referral_codes")
+          .select("code")
+          .eq("user_id", user.id)
+          .maybeSingle()
+      : Promise.resolve({ data: null, error: null }),
   ]);
-  if (error) throw error;
+  if (error || homeError || referralError)
+    throw error || homeError || referralError;
   const q = await searchParams;
   return (
     <div className="container page-section">
@@ -110,6 +132,36 @@ export default async function Account({
                 "Proveravamo status uplate. Potvrđena uplata biće prikazana uz ponudu nakon obrade platnog servisa.",
               )}
         </p>
+      )}
+      {growth && (
+        <section className="panel">
+          <h2>{t("Vaš dom, upoznat.")}</h2>
+          <p>
+            {t(
+              "Sačuvajte uređaje, želje i naredne zadatke. Svaka sledeća poseta počinje sa više konteksta.",
+            )}
+          </p>
+          {homes?.map((home) => (
+            <div key={home.id}>
+              {home.maintenance_due && (
+                <p className="notice">
+                  {t("Podsetnik za održavanje")}:{" "}
+                  {new Date(
+                    home.maintenance_due + "T12:00:00Z",
+                  ).toLocaleDateString(
+                    locale === "sr" ? "sr-Latn-RS" : locale,
+                    {
+                      timeZone: "Europe/Belgrade",
+                    },
+                  )}{" "}
+                  · {home.label}
+                </p>
+              )}
+              <HomeProfileEditor home={home} />
+            </div>
+          ))}
+          <HomeProfileEditor />
+        </section>
       )}
       <div className="dashboard-grid">
         <div className="panel">
@@ -150,6 +202,51 @@ export default async function Account({
                       },
                     )}
                   </p>
+                )}
+                {growth && r.status === "completed" && (
+                  <div className="completed-next">
+                    <ActionForm
+                      endpoint="/api/ocene"
+                      payload={{ request_id: r.id }}
+                      label={t("Pošaljite ocenu")}
+                    >
+                      <label>
+                        {t("Kako ste zadovoljni posetom?")}
+                        <select
+                          name="score"
+                          required
+                          defaultValue={r.satisfaction_score || ""}
+                        >
+                          <option value="" disabled>
+                            {t("Izaberite ocenu")}
+                          </option>
+                          {[1, 2, 3, 4, 5].map((score) => (
+                            <option key={score} value={score}>
+                              {score} / 5
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </ActionForm>
+                    <Link
+                      className="text-link"
+                      href={
+                        r.service_id === packageServiceId
+                          ? "/konsultacije"
+                          : "/usluge/" + r.services?.slug
+                      }
+                    >
+                      {t("Dogovorite narednu posetu")}
+                    </Link>
+                    {r.satisfaction_score >= 4 && (
+                      <Link
+                        className="text-link"
+                        href="/konsultacije?tier=signature"
+                      >
+                        {t("Upoznajte Casa Signature")}
+                      </Link>
+                    )}
+                  </div>
                 )}
                 {r.quotes?.map(
                   (offer: {
@@ -204,6 +301,33 @@ export default async function Account({
           )}
         </div>
         <aside>
+          {growth && <ReferralCard code={referral?.code} origin={siteUrl} />}
+          <div className="panel">
+            <h3>{t("Ritam koji se menja sa vama.")}</h3>
+            <p>
+              {t(
+                "Pauzu, ređe dolaske ili sezonski plan dogovaramo sa timom. Promena ne menja automatski postojeću ponudu.",
+              )}
+            </p>
+            <Link
+              className="text-link"
+              href="/konsultacije?intent=plan-change&change=pause"
+            >
+              {t("Dogovorite pauzu")}
+            </Link>
+            <Link
+              className="text-link"
+              href="/konsultacije?intent=plan-change&change=less-often"
+            >
+              {t("Izaberite ređi ritam")}
+            </Link>
+            <Link
+              className="text-link"
+              href="/konsultacije?intent=plan-change&change=seasonal"
+            >
+              {t("Sezonska briga")}
+            </Link>
+          </div>
           <div className="panel member">
             <Sparkles size={23} />
             <h3 style={{ marginTop: 15 }}>{t("Vaš klub.")}</h3>

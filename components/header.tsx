@@ -40,8 +40,8 @@ export function Header() {
             <Link href="/paketi" className="header-benefits header-plans">
               {t("Casa planovi")}
             </Link>
-            <Link href="/usluge" className="header-cta">
-              {t("Pošaljite zahtev")}
+            <Link href="/konsultacije" className="header-cta">
+              {t("Zakažite posetu")}
               <ArrowRight size={17} />
             </Link>
             <button
@@ -83,6 +83,14 @@ export function Header() {
             </Link>
             <Link href="/usluge">
               {t("Naše usluge")}
+              <ChevronRight size={16} />
+            </Link>
+            <Link href="/kolekcije">
+              {t("Casa kolekcije")}
+              <ChevronRight size={16} />
+            </Link>
+            <Link href="/konsultacije?tier=signature">
+              {t("Casa Concierge")}
               <ChevronRight size={16} />
             </Link>
             <Link href="/klub">

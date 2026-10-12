@@ -1,3 +1,4 @@
+import { collections } from "@/lib/growth";
 import type { MetadataRoute } from "next";
 import { getServices } from "@/lib/data";
 import { locales } from "@/lib/i18n/routing";
@@ -10,6 +11,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/usluge",
     "/klub",
     "/paketi",
+    "/konsultacije",
+    "/kolekcije",
+    ...collections.map((item) => `/kolekcije/${item.id}`),
     ...services.map((service) => `/usluge/${service.slug}`),
   ];
   return paths.flatMap((path) =>

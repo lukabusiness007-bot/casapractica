@@ -4,24 +4,24 @@ import { packageServiceId, type Service } from "./catalog";
 export const casaPlans = [
   {
     id: "once",
-    name: "Casa jednom",
+    name: "Casa poseta",
     rhythm: "Jedna pažljivo planirana poseta.",
     description:
       "Montaža, priprema za goste, organizacija ili više malih zadataka u jednom dolasku.",
   },
   {
     id: "monthly",
-    name: "Casa mesečno",
+    name: "Casa Signature",
     rhythm: "Dve posete mesečno.",
     description:
       "Redovna pomoć oko garderobe, posteljine i kućnih obaveza, u ritmu koji vam odgovara.",
   },
   {
     id: "weekly",
-    name: "Casa svake nedelje",
+    name: "Casa Private",
     rhythm: "Jedna poseta svake nedelje.",
     description:
-      "Kontinuitet brige o domu, dogovoreni termini i ista osoba iz tima kada je dostupna.",
+      "Lični koordinator, proaktivno planiranje i briga o jednoj ili više nekretnina u dogovorenom obimu.",
   },
   {
     id: "maintenance",

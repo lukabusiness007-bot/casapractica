@@ -16,7 +16,7 @@ export default async function Privacy() {
         <h2>{t("Podaci za dogovor o usluzi")}</h2>
         <p>
           {t(
-            "Forma za zahtev prikuplja ime, email, telefon, lokaciju, željeni datum i napomenu. Ovi podaci služe obradi zahteva i dogovoru o usluzi. Ne unosite osetljive informacije u napomenu.",
+            "Kratak zahtev prikuplja ime, telefon i deo grada. Email, željeni datum i dodatne želje su opcioni. Izbor usluga, dopuna, načina kontakta i ličnih preporuka koristimo za dogovor o usluzi. Ne unosite osetljive informacije u napomenu.",
           )}
         </p>
         <h2>{t("Korisnički nalog i klub")}</h2>
@@ -36,10 +36,16 @@ export default async function Privacy() {
             "Supabase čuva podatke naloga i zahteva. Stripe obrađuje kartično plaćanje; platforma ne čuva broj kartice. WhatsApp se otvara tek kada izaberete nastavak razgovora. Poruku šaljete sami.",
           )}
         </p>
+        <h2>{t("Profil doma i preporuke")}</h2>
+        <p>
+          {t(
+            "Profil doma čuva vaše uređaje, želje, zadatke i datum održavanja. Kod preporuke povezujemo sa zahtevom radi provere objavljene pogodnosti. Lične preporuke i podsetnike birate u formi; tim ih obrađuje prema tom izboru.",
+          )}
+        </p>
         <h2>{t("Kolačići")}</h2>
         <p>
           {t(
-            "Platforma koristi kolačiće potrebne za prijavljivanje. U ovoj verziji nisu dodati oglasni pikseli ni analitički kolačići.",
+            "Platforma koristi kolačiće potrebne za prijavljivanje. Analitika sajta uključuje se samo kada je dozvolite. Izbor se čuva u browseru, a nasumičan ID sesije traje u toj sesiji. Događaji ne sadrže ime, telefon, email ili adresu. Nema oglasnih piksela.",
           )}
         </p>
         <h2>{t("Pristup podacima")}</h2>

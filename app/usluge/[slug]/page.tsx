@@ -5,8 +5,9 @@ import { getLocale, getTranslator } from "@/lib/i18n/server";
 import Link from "@/components/localized-link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check } from "lucide-react";
-import { getServices } from "@/lib/data";
-import { configured } from "@/lib/supabase";
+import { getServices, growthReady } from "@/lib/data";
+import { relatedServices } from "@/lib/growth";
+import { ViewEvent } from "@/components/analytics-consent";
 import { RequestForm } from "@/components/request-form";
 import { money, packageServiceId } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
@@ -42,6 +43,7 @@ export default async function ServiceDetail({
   const url = absoluteUrl(`/usluge/${slug}`, locale);
   return (
     <div className="container page-section">
+      <ViewEvent context={`service:${service.id}`} />
       <StructuredData
         data={{
           "@context": "https://schema.org",
@@ -130,7 +132,11 @@ export default async function ServiceDetail({
               {t("Sastavite svoj paket")}
             </Link>
           ) : (
-            <RequestForm service={service} ready={configured()} />
+            <RequestForm
+              service={service}
+              ready={await growthReady()}
+              recommendations={relatedServices(service, await getServices())}
+            />
           )}
           <div className="detail-plan-link">
             <p>{t("Ovu uslugu možete uključiti u svoj Casa plan.")}</p>

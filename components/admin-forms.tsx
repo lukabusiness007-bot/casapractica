@@ -270,3 +270,164 @@ export function RequestEditor({
     </TimedForm>
   );
 }
+
+export function RequestOperations({
+  request: r,
+}: {
+  request: {
+    id: string;
+    email: string | null;
+    direct_cost: number | null;
+    satisfaction_score: number | null;
+    follow_up_at: string | null;
+    follow_up_state: string;
+    follow_up_kind: string;
+  };
+}) {
+  return (
+    <ActionForm
+      endpoint="/api/admin"
+      payload={{ action: "operations", id: r.id }}
+      label="Sačuvajte kontakt i praćenje"
+    >
+      <label>
+        Email za ponudu — prikuplja se tokom razgovora
+        <input name="email" type="email" defaultValue={r.email || ""} />
+      </label>
+      <div className="form-row">
+        <label>
+          Direktni trošak realizacije (RSD)
+          <input
+            name="direct_cost"
+            type="number"
+            min="0"
+            max="10000000"
+            step="0.01"
+            defaultValue={r.direct_cost == null ? "" : r.direct_cost / 100}
+          />
+        </label>
+        <label>
+          Zadovoljstvo posetom
+          <select
+            name="satisfaction_score"
+            defaultValue={String(r.satisfaction_score || "")}
+          >
+            <option value="">Još nije zabeleženo</option>
+            {[1, 2, 3, 4, 5].map((score) => (
+              <option key={score} value={score}>
+                {score} / 5
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <label>
+        Naredni kontakt
+        <input
+          name="follow_up_at"
+          type="date"
+          defaultValue={r.follow_up_at || ""}
+        />
+      </label>
+      <div className="form-row">
+        <label>
+          Povod
+          <select
+            name="follow_up_kind"
+            defaultValue={r.follow_up_kind || "satisfaction"}
+          >
+            <option value="satisfaction">Provera zadovoljstva</option>
+            <option value="plan">Predlog redovnog plana</option>
+            <option value="seasonal">Sezonska briga</option>
+            <option value="referral">Preporuka prijateljima</option>
+            <option value="retention">Pauza ili ređi ritam</option>
+          </select>
+        </label>
+        <label>
+          Status praćenja
+          <select
+            name="follow_up_state"
+            defaultValue={r.follow_up_state || "todo"}
+          >
+            <option value="todo">Za kontakt</option>
+            <option value="done">Završeno</option>
+            <option value="cancelled">Otkazano</option>
+          </select>
+        </label>
+      </div>
+      <p className="fine-print">
+        Trošak uključuje rad, put, materijal i dogovorenu alokaciju
+        organizacije. Prazno znači da trošak još nije poznat. Poruke se ne šalju
+        automatski.
+      </p>
+    </ActionForm>
+  );
+}
+
+export function ShowcaseEditor({
+  item,
+}: {
+  item?: {
+    id: string;
+    kind: string;
+    title: string;
+    description: string;
+    image: string | null;
+    active: boolean;
+  };
+}) {
+  return (
+    <ActionForm
+      endpoint="/api/admin"
+      payload={{ action: "showcase", ...(item ? { id: item.id } : {}) }}
+      label="Sačuvajte prikaz"
+    >
+      <label>
+        Vrsta
+        <select name="kind" defaultValue={item?.kind || "work"}>
+          <option value="work">Obavljeni rad</option>
+          <option value="team">Član tima</option>
+        </select>
+      </label>
+      <label>
+        Naslov
+        <input
+          name="title"
+          minLength={2}
+          maxLength={100}
+          required
+          defaultValue={item?.title}
+        />
+      </label>
+      <label>
+        Opis
+        <textarea
+          name="description"
+          minLength={10}
+          maxLength={2000}
+          required
+          defaultValue={item?.description}
+        />
+      </label>
+      <label>
+        Fotografija — opciono
+        <input
+          name="image"
+          defaultValue={item?.image || ""}
+          placeholder="/images/… ili HTTPS adresa"
+        />
+      </label>
+      <label>
+        Objava
+        <select name="active" defaultValue={String(item?.active || false)}>
+          <option value="false">Nacrt</option>
+          <option value="true">Objavljeno</option>
+        </select>
+      </label>
+      <p className="fine-print">
+        Objavite samo stvarne radove i članove tima, uz dozvolu za fotografije i
+        podatke. Za prevode dodajte tekst u jezički rečnik.
+      </p>
+    </ActionForm>
+  );
+}

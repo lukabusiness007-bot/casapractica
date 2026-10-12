@@ -79,6 +79,24 @@ export const homeDescription =
   "Premium usluge za dom u Beogradu: montaža TV-a i nameštaja, popravke, nega garderobe, lična nabavka i Casa planovi po vašoj meri.";
 export function publicPageMetadata(locale: Locale, path: string) {
   const t = translator(locale);
+  if (path === "/kolekcije")
+    return pageMetadata(
+      locale,
+      path,
+      t("Casa kolekcije"),
+      t(
+        "Povezane usluge za putovanja, goste, novu sezonu i novi dom. Jedan dogovor za celu listu.",
+      ),
+    );
+  if (path === "/konsultacije")
+    return pageMetadata(
+      locale,
+      path,
+      t("Casa Concierge"),
+      t(
+        "Recite nam šta vam je važno. Naš tim predlaže usluge, dogovara detalje i priprema jednu preglednu ponudu.",
+      ),
+    );
   if (path === "/paketi")
     return pageMetadata(
       locale,

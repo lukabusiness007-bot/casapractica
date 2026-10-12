@@ -101,6 +101,92 @@ export async function POST(req: Request) {
           409,
           "Promena nije moguća. Za zakazivanje unesite termin; za ponudu prvo sačuvajte iznos. Otkazivanje zaključane naplate zahteva obradu u Stripe-u.",
         );
+    } else if (body.action === "follow-up-done") {
+      const input = z.object({ id: z.string().uuid() }).safeParse(body);
+      if (!input.success)
+        throw new HttpError(400, "Proverite podatke za praćenje.");
+      const { error } = await c
+        .from("requests")
+        .update({ follow_up_state: "done" })
+        .eq("id", input.data.id);
+      if (error) throw error;
+    } else if (body.action === "operations") {
+      const input = z
+        .object({
+          id: z.string().uuid(),
+          email: z.preprocess(
+            (v) => (v === "" || v == null ? null : v),
+            z
+              .string()
+              .trim()
+              .email()
+              .max(254)
+              .transform((v) => v.toLowerCase())
+              .nullable(),
+          ),
+          direct_cost: z.preprocess(
+            (v) => (v === "" || v == null ? null : Math.round(Number(v) * 100)),
+            z.number().int().min(0).max(1000000000).nullable(),
+          ),
+          satisfaction_score: z.preprocess(
+            (v) => (v === "" || v == null ? null : Number(v)),
+            z.number().int().min(1).max(5).nullable(),
+          ),
+          follow_up_at: z.preprocess(
+            (v) => (v === "" || v == null ? null : v),
+            z.iso.date().nullable(),
+          ),
+          follow_up_state: z.enum(["todo", "done", "cancelled"]),
+          follow_up_kind: z.enum([
+            "satisfaction",
+            "plan",
+            "seasonal",
+            "referral",
+            "retention",
+          ]),
+        })
+        .safeParse(body);
+      if (!input.success)
+        throw new HttpError(400, "Proverite podatke za praćenje.");
+      const { id, ...record } = input.data;
+      const { data: request, error: readError } = await c
+        .from("requests")
+        .select("user_id,email,status")
+        .eq("id", id)
+        .maybeSingle();
+      if (readError) throw readError;
+      if (!request) throw new HttpError(404, "Zahtev nije pronađen.");
+      if (request.user_id && request.email && request.email !== record.email)
+        throw new HttpError(
+          409,
+          "Email povezanog zahteva ne može da se promeni.",
+        );
+      if (record.satisfaction_score !== null && request.status !== "completed")
+        throw new HttpError(409, "Ocena je dostupna nakon završene posete.");
+      const { error } = await c.from("requests").update(record).eq("id", id);
+      if (error) throw error;
+    } else if (body.action === "showcase") {
+      const input = z
+        .object({
+          id: z.string().uuid().optional(),
+          kind: z.enum(["team", "work"]),
+          title: z.string().trim().min(2).max(100),
+          description: z.string().trim().min(10).max(2000),
+          image: z.preprocess(
+            (v) => (v === "" || v == null ? null : v),
+            z
+              .string()
+              .regex(/^(\/images\/[a-zA-Z0-9._-]+|https:\/\/[^\s]+)$/)
+              .max(1000)
+              .nullable(),
+          ),
+          active: z.enum(["true", "false"]).transform((v) => v === "true"),
+        })
+        .safeParse(body);
+      if (!input.success)
+        throw new HttpError(400, "Proverite podatke za prikaz.");
+      const { error } = await c.from("showcase").upsert(input.data);
+      if (error) throw error;
     } else if (body.action === "quote") {
       const parsed = z
         .object({

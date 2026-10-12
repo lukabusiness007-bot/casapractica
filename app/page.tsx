@@ -21,6 +21,9 @@ import {
 } from "lucide-react";
 import { HeroVideo } from "@/components/hero-video";
 import { ServiceExplorer } from "@/components/service-explorer";
+import { CollectionCards } from "@/components/collection-cards";
+import { TrustStandard } from "@/components/trust-standard";
+import { ViewEvent } from "@/components/analytics-consent";
 import { isIndividualService } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
 export default async function Home() {
@@ -42,6 +45,7 @@ export default async function Home() {
   const locale = await getLocale();
   return (
     <>
+      <ViewEvent context="home" />
       <StructuredData
         data={{
           "@context": "https://schema.org",
@@ -99,6 +103,17 @@ export default async function Home() {
               "Sve što vašem domu treba, na jednom mestu. Prepustite nam svakodnevne obaveze i sačuvajte vreme za ono što volite.",
             )}
           </p>
+        </div>
+        <div className="hero-concierge-actions">
+          <Link className="button button-light" href="/konsultacije">
+            {t("Zakažite prvu Casa posetu")}
+          </Link>
+          <Link
+            className="hero-concierge-link"
+            href="/konsultacije?tier=signature"
+          >
+            {t("Prepustite nam brigu o domu")} →
+          </Link>
         </div>
         <div className="casa-hero-bottom">
           <a className="hero-start" href="#kolekcija-usluga">
@@ -311,6 +326,19 @@ export default async function Home() {
             />
           </Link>
         </section>
+        <section className="home-collections container">
+          <div className="casa-section-heading">
+            <span className="eyebrow">{t("CASA KOLEKCIJE")}</span>
+            <h2>{t("Vaš trenutak. Sve spremno.")}</h2>
+            <p>
+              {t(
+                "Povezane usluge za putovanja, goste, novu sezonu i novi dom. Jedan dogovor za celu listu.",
+              )}
+            </p>
+          </div>
+          <CollectionCards />
+        </section>
+        <TrustStandard />
         <section className="casa-club container">
           <div className="casa-section-heading">
             <span className="eyebrow eyebrow-sage">
