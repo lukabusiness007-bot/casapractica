@@ -1,5 +1,6 @@
 import { servicePricing } from "./service-pricing";
 import { additionalServices } from "./catalog-additions";
+import { serviceImage } from "./service-images";
 export type Service = {
   id: string;
   slug: string;
@@ -13,71 +14,59 @@ export type Service = {
 };
 export const serviceCategories = [
   {
-    "id": "electrical",
-    "title": "Elektrika i rasveta",
-    "tagline": "Svetlo, sigurnost i pouzdane instalacije.",
-    "description": "Svetlo, sigurnost i pouzdane instalacije."
+    id: "everyday",
+    title: "Čišćenje i nega doma",
+    tagline: "Tepisi, garderoba i posteljina. Svežina u svakom kutku.",
+    description: "Tepisi, garderoba i posteljina. Svežina u svakom kutku.",
   },
   {
-    "id": "plumbing",
-    "title": "Vodovod i sanitarije",
-    "tagline": "Od slavine koja kaplje do novih sanitarija.",
-    "description": "Od slavine koja kaplje do novih sanitarija."
+    id: "organization",
+    title: "Svakodnevna pomoć i organizacija",
+    tagline: "Nabavka, selidba i briga o domu dok ste odsutni.",
+    description: "Nabavka, selidba i briga o domu dok ste odsutni.",
   },
   {
-    "id": "maintenance",
-    "title": "Popravke i održavanje",
-    "tagline": "Redovna briga, u kući i oko nje.",
-    "description": "Redovna briga, u kući i oko nje."
+    id: "mounting",
+    title: "Montaža i nameštaj",
+    tagline: "Od prve police do poslednje fioke. Sve na svom mestu.",
+    description: "Od prve police do poslednje fioke. Sve na svom mestu.",
   },
   {
-    "id": "window-treatments",
-    "title": "Zavese, roletne i žaluzine",
-    "tagline": "Lepše svetlo. Više privatnosti.",
-    "description": "Lepše svetlo. Više privatnosti."
+    id: "plumbing",
+    title: "Vodovod i sanitarije",
+    tagline: "Od slavine koja kaplje do novih sanitarija.",
+    description: "Od slavine koja kaplje do novih sanitarija.",
   },
   {
-    "id": "doors-windows",
-    "title": "Vrata i prozori",
-    "tagline": "Otvaranje sa lakoćom, zatvaranje bez brige.",
-    "description": "Otvaranje sa lakoćom, zatvaranje bez brige."
+    id: "electrical",
+    title: "Elektrika i rasveta",
+    tagline: "Svetlo, sigurnost i pouzdane instalacije.",
+    description: "Svetlo, sigurnost i pouzdane instalacije.",
   },
   {
-    "id": "walls",
-    "title": "Zidovi i gipsani radovi",
-    "tagline": "Uredne površine, do poslednjeg detalja.",
-    "description": "Uredne površine, do poslednjeg detalja."
+    id: "maintenance",
+    title: "Klima, aparati i održavanje",
+    tagline: "Prijatna temperatura i uređaji na koje možete da računate.",
+    description: "Prijatna temperatura i uređaji na koje možete da računate.",
   },
   {
-    "id": "mounting",
-    "title": "Montaža i postavljanje",
-    "tagline": "TV, slike, ogledala i police na svom mestu.",
-    "description": "TV, slike, ogledala i police na svom mestu."
+    id: "doors-windows",
+    title: "Vrata, prozori i zidovi",
+    tagline: "Zavese, okovi i uredne površine. Detalji koji menjaju dom.",
+    description: "Zavese, okovi i uredne površine. Detalji koji menjaju dom.",
   },
   {
-    "id": "furniture",
-    "title": "Nameštaj: montaža i popravke",
-    "tagline": "Stabilno, funkcionalno i spremno za korišćenje.",
-    "description": "Stabilno, funkcionalno i spremno za korišćenje."
+    id: "technology",
+    title: "Tehnologija u domu",
+    tagline: "Pametni uređaji, Wi-Fi i povezan dom.",
+    description: "Pametni uređaji, Wi-Fi i povezan dom.",
   },
   {
-    "id": "technology",
-    "title": "Tehnologija u domu",
-    "tagline": "Pametni uređaji, Wi-Fi i povezan dom.",
-    "description": "Pametni uređaji, Wi-Fi i povezan dom."
+    id: "gutters",
+    title: "Terase, bašte i oluci",
+    tagline: "Pažljiva briga o prostoru oko vašeg doma.",
+    description: "Pažljiva briga o prostoru oko vašeg doma.",
   },
-  {
-    "id": "gutters",
-    "title": "Oluci i odvod kišnice",
-    "tagline": "Čisti oluci i kišnica na pravom putu.",
-    "description": "Čisti oluci i kišnica na pravom putu."
-  },
-  {
-    "id": "everyday",
-    "title": "Svakodnevna briga",
-    "tagline": "Garderoba, posteljina, nabavka i male obaveze uz pažnju prema vašim navikama.",
-    "description": "Garderoba, posteljina, nabavka i male obaveze uz pažnju prema vašim navikama."
-  }
 ] as const;
 export type ServiceCategory = (typeof serviceCategories)[number]["id"];
 const categoriesBySlug: Record<string, ServiceCategory> = {
@@ -88,11 +77,11 @@ const categoriesBySlug: Record<string, ServiceCategory> = {
   "servis-klime": "maintenance",
   "kacenje-slika-i-ogledala": "mounting",
   "montaza-polica": "mounting",
-  "postavljanje-garnisni": "window-treatments",
-  "sklapanje-namestaja": "furniture",
-  "podesavanje-vrata-i-fioka": "furniture",
-  "obnova-silikona": "maintenance",
-  "sitne-popravke-zidova": "walls",
+  "postavljanje-garnisni": "doors-windows",
+  "sklapanje-namestaja": "mounting",
+  "podesavanje-vrata-i-fioka": "mounting",
+  "obnova-silikona": "plumbing",
+  "sitne-popravke-zidova": "doors-windows",
   "vodoinstalaterske-intervencije": "plumbing",
   "elektricarske-intervencije": "electrical",
   "odrzavanje-filtera": "maintenance",
@@ -101,36 +90,36 @@ const categoriesBySlug: Record<string, ServiceCategory> = {
   "pametni-uredjaji": "technology",
   "nega-garderobe": "everyday",
   "sveza-posteljina": "everyday",
-  "organizacija-doma": "everyday",
-  "licna-nabavka": "everyday",
-  "paketi-i-hemijsko-ciscenje": "everyday",
-  "dom-na-cuvanju": "everyday",
-  "pakovanje-i-raspakivanje": "everyday",
-  "dom-spreman-za-goste": "everyday",
-  "ventilatori-i-ventilacija": "electrical",
+  "organizacija-doma": "organization",
+  "licna-nabavka": "organization",
+  "paketi-i-hemijsko-ciscenje": "organization",
+  "dom-na-cuvanju": "organization",
+  "pakovanje-i-raspakivanje": "organization",
+  "dom-spreman-za-goste": "organization",
+  "ventilatori-i-ventilacija": "maintenance",
   "detektori-dima": "electrical",
   "elektroinstalacije": "electrical",
   "odgusenje-odvoda": "plumbing",
   "mlin-za-otpatke": "plumbing",
   "bojleri-pumpe-i-cevi": "plumbing",
   "odrzavanje-kucnih-aparata": "maintenance",
-  "terase-i-spoljne-povrsine": "maintenance",
+  "terase-i-spoljne-povrsine": "gutters",
   "preventivni-pregled-doma": "maintenance",
-  "krov-temelji-i-dimnjak": "maintenance",
-  "montaza-i-servis-roletni": "window-treatments",
-  "zavese-i-roletne-po-meri": "window-treatments",
+  "krov-temelji-i-dimnjak": "gutters",
+  "montaza-i-servis-roletni": "doors-windows",
+  "zavese-i-roletne-po-meri": "doors-windows",
   "popravka-vrata-i-prozora": "doors-windows",
   "zaptivanje-i-komarnici": "doors-windows",
   "ugradnja-i-obnova-prozora": "doors-windows",
-  "gipsani-radovi-i-sanacija": "walls",
+  "gipsani-radovi-i-sanacija": "doors-windows",
   "nosaci-i-organizacija-garaze": "mounting",
   "ugradnja-zvucnih-sistema": "technology",
-  "vertikalne-baste": "maintenance",
-  "popravka-i-ucvrscivanje-namestaja": "furniture",
-  "tapaciranje-i-mehanizmi": "furniture",
+  "vertikalne-baste": "gutters",
+  "popravka-i-ucvrscivanje-namestaja": "mounting",
+  "tapaciranje-i-mehanizmi": "mounting",
   "pametna-zvona-kamere-i-brave": "technology",
   "mrezna-dijagnostika-i-bezbednost": "technology",
-  "punjaci-za-elektricna-vozila": "technology",
+  "punjaci-za-elektricna-vozila": "electrical",
   "ciscenje-oluka": "gutters",
   "popravka-i-podesavanje-oluka": "gutters",
   "usmeravanje-i-sakupljanje-kisnice": "gutters",
@@ -471,7 +460,11 @@ export const services: Service[] = [
     active: true,
     sort_order: 100,
   },
-].map((service) => ({ ...service, price: servicePricing[service.slug]?.price ?? service.price }));
+].map((service) => ({
+  ...service,
+  image: serviceImage(service),
+  price: servicePricing[service.slug]?.price ?? service.price,
+}));
 export const statusLabels: Record<string, string> = {
   received: "Primljen zahtev",
   discussing: "U dogovoru",
@@ -491,6 +484,7 @@ export const money = (minor: number, locale = "sr-Latn-RS") =>
   new Intl.NumberFormat(locale, {
     style: "currency",
     currency: "RSD",
+    minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   }).format(minor / 100);
 

@@ -159,6 +159,9 @@ test("catalog migrations preserve existing requests, prices and admin edits and 
     const prices = await readFile("supabase/migrations/005_service_prices.sql", "utf8");
     await db.exec(prices);
     await db.exec(prices);
+    const roundedPrices = await readFile("supabase/migrations/006_rounded_service_prices.sql", "utf8");
+    await db.exec(roundedPrices);
+    await db.exec(roundedPrices);
     for (const [slug, pricing] of Object.entries(servicePricing)) {
       if (["pranje-tepiha", "ugradnja-tv-a"].includes(slug)) continue;
       const stored = (await db.query<{ price: string }>("select price from public.services where slug=$1", [slug])).rows[0];

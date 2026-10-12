@@ -1,9 +1,10 @@
 export type ServicePricing = { price: number; scope: string; unit: string };
 
 // Indicative standard jobs researched on 12 October 2026; amounts are RSD minor units.
+// Rounded to the nearest 500 RSD, or 100 RSD for prices below 1,000 RSD.
 export const servicePricing: Record<string, ServicePricing> = {
   "pranje-tepiha": {
-    "price": 94667,
+    "price": 90000,
     "scope": "Standardni mašinski tepih",
     "unit": "po m²"
   },
@@ -13,7 +14,7 @@ export const servicePricing: Record<string, ServicePricing> = {
     "unit": "po poslu"
   },
   "servis-klime": {
-    "price": 833333,
+    "price": 850000,
     "scope": "Redovan servis 9/12.000 BTU",
     "unit": "po uređaju"
   },
@@ -23,7 +24,7 @@ export const servicePricing: Record<string, ServicePricing> = {
     "unit": "po poslu"
   },
   "montaza-polica": {
-    "price": 1160000,
+    "price": 1150000,
     "scope": "Jedna zidna polica, 2 rupe",
     "unit": "po poslu"
   },
@@ -48,12 +49,12 @@ export const servicePricing: Record<string, ServicePricing> = {
     "unit": "po poslu"
   },
   "vodoinstalaterske-intervencije": {
-    "price": 970000,
+    "price": 950000,
     "scope": "Zamena standardne slavine",
     "unit": "po poslu"
   },
   "elektricarske-intervencije": {
-    "price": 873333,
+    "price": 850000,
     "scope": "Zamena jedne šuko utičnice",
     "unit": "po poslu"
   },
@@ -68,12 +69,12 @@ export const servicePricing: Record<string, ServicePricing> = {
     "unit": "po uređaju"
   },
   "pametni-uredjaji": {
-    "price": 880000,
+    "price": 900000,
     "scope": "Ugradnja jedne pametne utičnice",
     "unit": "po uređaju"
   },
   "nega-garderobe": {
-    "price": 86667,
+    "price": 90000,
     "scope": "Standardni veš, samo peglanje",
     "unit": "po kg"
   },
@@ -83,7 +84,7 @@ export const servicePricing: Record<string, ServicePricing> = {
     "unit": "po poslu"
   },
   "elektroinstalacije": {
-    "price": 2040000,
+    "price": 2050000,
     "scope": "Nova tabla do 12 osigurača, na zid",
     "unit": "po poslu"
   },
@@ -98,7 +99,7 @@ export const servicePricing: Record<string, ServicePricing> = {
     "unit": "po poslu"
   },
   "montaza-i-servis-roletni": {
-    "price": 1120000,
+    "price": 1100000,
     "scope": "Montaža jedne roletne",
     "unit": "po prozoru"
   },
@@ -113,7 +114,7 @@ export const servicePricing: Record<string, ServicePricing> = {
     "unit": "po poslu"
   },
   "pametna-zvona-kamere-i-brave": {
-    "price": 1840000,
+    "price": 1850000,
     "scope": "Montaža jedne elektronske brave",
     "unit": "po poslu"
   },

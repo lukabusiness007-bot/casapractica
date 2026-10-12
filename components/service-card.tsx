@@ -17,7 +17,7 @@ export async function ServiceCard({
       <div className="service-image">
         <Image
           width={900}
-          height={1100}
+          height={service.image.startsWith("/images/services/") ? 600 : 1100}
           sizes="(max-width: 760px) 100vw, 50vw"
           unoptimized={!service.image.startsWith("/images/")}
           src={service.image}

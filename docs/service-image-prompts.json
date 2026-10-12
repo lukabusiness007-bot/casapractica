@@ -1,0 +1,331 @@
+{
+  "generator": "Built-in image_gen",
+  "useCase": "photorealistic-natural",
+  "images": [
+    {
+      "slug": "pranje-tepiha",
+      "scene": "A professional cleaning a beige carpet with a transparent extraction nozzle pressed against the rug.",
+      "file": "/images/services/pranje-tepiha.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service photograph, landscape 3:2. A real-life close documentary photograph of a professional cleaning a beige short-pile area carpet with a transparent hot-water extraction hand nozzle connected to an extraction hose. The nozzle is pressed flat against the rug, water and fibers visible naturally, gloved hand operating the handle. Warm ordinary European apartment, wood floor, natural window light, genuine working situation, honest believable equipment, detailed materials. Focus is the cleaning action, not a generic room. No text, no logos, no watermark. Landscape horizontal composition suitable for a service card."
+    },
+    {
+      "slug": "iznosenje-smeca",
+      "scene": "A uniform-free home helper lifting one tied dark household rubbish bag out of a small kitchen waste bin. Separate recycling bin beside it, tidy ordinary apartment. Real everyday waste removal, no spilling rubbish.",
+      "file": "/images/services/iznosenje-smeca.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A uniform-free home helper lifting one tied dark household rubbish bag out of a small kitchen waste bin. Separate recycling bin beside it, tidy ordinary apartment. Real everyday waste removal, no spilling rubbish."
+    },
+    {
+      "slug": "ugradnja-tv-a",
+      "scene": "Two adult installers carefully lifting a flat-screen television onto an already securely fixed wall mounting bracket. Both support the television from below. A spirit level and organized hand tools on protective cloth nearby, simple living room, credible mounting hardware.",
+      "file": "/images/services/ugradnja-tv-a.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Two adult installers carefully lifting a flat-screen television onto an already securely fixed wall mounting bracket. Both support the television from below. A spirit level and organized hand tools on protective cloth nearby, simple living room, credible mounting hardware."
+    },
+    {
+      "slug": "zamena-sijalica",
+      "scene": "An adult standing securely on a small household stepladder, unscrewing an ordinary LED light bulb from an unlit ceiling pendant. One hand supporting the lamp shade, other hand on the bulb, daytime apartment, main focus lamp and hands.",
+      "file": "/images/services/zamena-sijalica.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: An adult standing securely on a small household stepladder, unscrewing an ordinary LED light bulb from an unlit ceiling pendant. One hand supporting the lamp shade, other hand on the bulb, daytime apartment, main focus lamp and hands."
+    },
+    {
+      "slug": "servis-klime",
+      "scene": "A technician removing the washable mesh air filter from a wall-mounted mini-split air conditioner with its front plastic cover raised. Filter panels and an unused cleaning cloth clearly visible, no spraying water into electronic parts, realistic common European residential unit.",
+      "file": "/images/services/servis-klime.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A technician removing the washable mesh air filter from a wall-mounted mini-split air conditioner with its front plastic cover raised. Filter panels and an unused cleaning cloth clearly visible, no spraying water into electronic parts, realistic common European residential unit."
+    },
+    {
+      "slug": "kacenje-slika-i-ogledala",
+      "scene": "Hands carefully straightening a framed art print hanging on a wall, with a small spirit level held against the upper frame. A second small mirror nearby. Clear picture hanging work, warm apartment.",
+      "file": "/images/services/kacenje-slika-i-ogledala.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands carefully straightening a framed art print hanging on a wall, with a small spirit level held against the upper frame. A second small mirror nearby. Clear picture hanging work, warm apartment."
+    },
+    {
+      "slug": "montaza-polica",
+      "scene": "A craftsperson using a cordless driver to secure a bracket underneath an oak wall shelf. Focus on the real screw, shelf bracket and hands. A spirit level and anchors on a protective work mat, ordinary plaster wall.",
+      "file": "/images/services/montaza-polica.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A craftsperson using a cordless driver to secure a bracket underneath an oak wall shelf. Focus on the real screw, shelf bracket and hands. A spirit level and anchors on a protective work mat, ordinary plaster wall."
+    },
+    {
+      "slug": "postavljanje-garnisni",
+      "scene": "Hands securing a metal curtain rod into its wall bracket above an apartment window, linen curtain already threaded onto rings. Short stable stepladder partially visible, soft natural light, believable rod attachment.",
+      "file": "/images/services/postavljanje-garnisni.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands securing a metal curtain rod into its wall bracket above an apartment window, linen curtain already threaded onto rings. Short stable stepladder partially visible, soft natural light, believable rod attachment."
+    },
+    {
+      "slug": "sklapanje-namestaja",
+      "scene": "A person kneeling on a protective mat and assembling a wooden flat-pack chest of drawers using a small hand screwdriver. Clearly recognizable partly assembled cabinet, neatly sorted screws and real printed assembly diagram with no legible text.",
+      "file": "/images/services/sklapanje-namestaja.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A person kneeling on a protective mat and assembling a wooden flat-pack chest of drawers using a small hand screwdriver. Clearly recognizable partly assembled cabinet, neatly sorted screws and real printed assembly diagram with no legible text."
+    },
+    {
+      "slug": "podesavanje-vrata-i-fioka",
+      "scene": "Close-up of hands adjusting a concealed European cabinet hinge inside an open kitchen cupboard using a screwdriver. Correct ordinary hinge shape, cupboard door remains attached, practical adjustment rather than new installation.",
+      "file": "/images/services/podesavanje-vrata-i-fioka.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of hands adjusting a concealed European cabinet hinge inside an open kitchen cupboard using a screwdriver. Correct ordinary hinge shape, cupboard door remains attached, practical adjustment rather than new installation."
+    },
+    {
+      "slug": "obnova-silikona",
+      "scene": "Close-up of a careful gloved hand using a real caulking gun to apply a narrow continuous white silicone bead along the joint between bathtub rim and ceramic wall tile. Correct gun tip at the joint, masking tape guides, clean workspace.",
+      "file": "/images/services/obnova-silikona.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of a careful gloved hand using a real caulking gun to apply a narrow continuous white silicone bead along the joint between bathtub rim and ceramic wall tile. Correct gun tip at the joint, masking tape guides, clean workspace."
+    },
+    {
+      "slug": "sitne-popravke-zidova",
+      "scene": "A hand using a small putty knife to fill a shallow nail hole in an interior plaster wall. Tiny patch with a small tray of wall filler, gentle window light, believable minor wall repair.",
+      "file": "/images/services/sitne-popravke-zidova.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A hand using a small putty knife to fill a shallow nail hole in an interior plaster wall. Tiny patch with a small tray of wall filler, gentle window light, believable minor wall repair."
+    },
+    {
+      "slug": "vodoinstalaterske-intervencije",
+      "scene": "A plumber tightening the underside fitting of a kitchen faucet beneath the sink, seen through an open base cupboard. A standard basin wrench and real water supply hoses visible, water shut off, dry floor and small towel.",
+      "file": "/images/services/vodoinstalaterske-intervencije.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A plumber tightening the underside fitting of a kitchen faucet beneath the sink, seen through an open base cupboard. A standard basin wrench and real water supply hoses visible, water shut off, dry floor and small towel."
+    },
+    {
+      "slug": "elektricarske-intervencije",
+      "scene": "An electrician fitting the outer faceplate of an ordinary two-rocker light switch with an insulated screwdriver.",
+      "file": "/images/services/elektricarske-intervencije-v2.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of an electrician's hands securing an ordinary white European Schuko socket faceplate to the wall using an insulated screwdriver. Only the outer plate visible, no exposed live wiring, realistic domestic socket, safe tidy work.",
+      "editPrompt": "Change the outlet into an ordinary WHITE TWO-ROCKER LIGHT SWITCH. There must be NO electrical outlet and NO power socket holes in this image. Two broad rectangular rocker buttons side by side on a square white plate, physically believable household light switch. The person is fitting the OUTER decorative surround of the light switch, holding an insulated screwdriver against a tiny retaining screw at the TOP EDGE of the surround, outside the rocker buttons. Reposition his hands and screwdriver slightly if necessary for believable contact. Keep his face, hair, clothes, room and light unchanged. Service photo of repairing a wall light switch. No socket anywhere. No visible wires. No text."
+    },
+    {
+      "slug": "odrzavanje-filtera",
+      "scene": "Hands removing a rectangular metal grease filter from the underside of a kitchen extractor hood. Real stainless steel mesh panel and normal release latch, stove switched off, warm practical kitchen.",
+      "file": "/images/services/odrzavanje-filtera.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands removing a rectangular metal grease filter from the underside of a kitchen extractor hood. Real stainless steel mesh panel and normal release latch, stove switched off, warm practical kitchen."
+    },
+    {
+      "slug": "podesavanje-tv-a",
+      "scene": "A person sitting near a television with a generic settings menu of abstract unreadable shapes on screen, holding a remote while connecting a soundbar underneath. A plain HDMI cable plugged into the soundbar visible, real domestic TV setup.",
+      "file": "/images/services/podesavanje-tv-a.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A person sitting near a television with a generic settings menu of abstract unreadable shapes on screen, holding a remote while connecting a soundbar underneath. A plain HDMI cable plugged into the soundbar visible, real domestic TV setup."
+    },
+    {
+      "slug": "podesavanje-wifi-mreze",
+      "scene": "Close-up of a person's hands plugging a standard Ethernet cable into the back of a small home Wi-Fi router on a desk. Real RJ45 ports, two modest antennas, connected power supply. No impossible cables or floating plugs.",
+      "file": "/images/services/podesavanje-wifi-mreze.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of a person's hands plugging a standard Ethernet cable into the back of a small home Wi-Fi router on a desk. Real RJ45 ports, two modest antennas, connected power supply. No impossible cables or floating plugs."
+    },
+    {
+      "slug": "pametni-uredjaji",
+      "scene": "A hand placing a compact European smart plug into an ordinary Schuko wall socket next to a small table lamp. Smartphone on table with a generic unbranded control screen, realistic plug dimensions.",
+      "file": "/images/services/pametni-uredjaji.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A hand placing a compact European smart plug into an ordinary Schuko wall socket next to a small table lamp. Smartphone on table with a generic unbranded control screen, realistic plug dimensions."
+    },
+    {
+      "slug": "nega-garderobe",
+      "scene": "Close-up of a person ironing a cream cotton shirt laid flat on a real padded ironing board. Modern steam iron in natural grip, lightly folded clean laundry nearby, warm daylight, clear fabric texture.",
+      "file": "/images/services/nega-garderobe.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of a person ironing a cream cotton shirt laid flat on a real padded ironing board. Modern steam iron in natural grip, lightly folded clean laundry nearby, warm daylight, clear fabric texture."
+    },
+    {
+      "slug": "sveza-posteljina",
+      "scene": "Hands spreading a freshly washed white duvet cover onto a bed, with clean folded pillowcases nearby. Sunlit bedroom, natural cotton creases, recognizable linen changing, no hotel branding.",
+      "file": "/images/services/sveza-posteljina.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands spreading a freshly washed white duvet cover onto a bed, with clean folded pillowcases nearby. Sunlit bedroom, natural cotton creases, recognizable linen changing, no hotel branding."
+    },
+    {
+      "slug": "organizacija-doma",
+      "scene": "A home helper arranging folded clothing and wicker storage baskets inside an open wardrobe. Natural practical organization, not a luxury showroom, hands placing one sweater neatly on a shelf.",
+      "file": "/images/services/organizacija-doma.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A home helper arranging folded clothing and wicker storage baskets inside an open wardrobe. Natural practical organization, not a luxury showroom, hands placing one sweater neatly on a shelf."
+    },
+    {
+      "slug": "licna-nabavka",
+      "scene": "Hands unpacking fresh grocery shopping from reusable cloth bags onto an apartment kitchen counter: vegetables, bread and milk, grocery checklist without readable text. Genuine household shopping assistance.",
+      "file": "/images/services/licna-nabavka.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands unpacking fresh grocery shopping from reusable cloth bags onto an apartment kitchen counter: vegetables, bread and milk, grocery checklist without readable text. Genuine household shopping assistance."
+    },
+    {
+      "slug": "paketi-i-hemijsko-ciscenje",
+      "scene": "A home helper's hands carrying a small plain cardboard parcel and two shirts on hangers in clear protective dry-cleaning garment bags, just inside an apartment entrance. No brand, no courier uniform.",
+      "file": "/images/services/paketi-i-hemijsko-ciscenje.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A home helper's hands carrying a small plain cardboard parcel and two shirts on hangers in clear protective dry-cleaning garment bags, just inside an apartment entrance. No brand, no courier uniform."
+    },
+    {
+      "slug": "dom-na-cuvanju",
+      "scene": "Hands watering an indoor potted plant using a small watering can beside an apartment window. A smartphone set nearby for a visit report, ordinary lived-in home, clearly plant care while homeowner is away.",
+      "file": "/images/services/dom-na-cuvanju.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands watering an indoor potted plant using a small watering can beside an apartment window. A smartphone set nearby for a visit report, ordinary lived-in home, clearly plant care while homeowner is away."
+    },
+    {
+      "slug": "pakovanje-i-raspakivanje",
+      "scene": "A person wrapping ceramic cups in packing paper and placing them into an open cardboard moving box on a table. Other closed boxes and a tape dispenser nearby, credible gentle packing for a move.",
+      "file": "/images/services/pakovanje-i-raspakivanje.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A person wrapping ceramic cups in packing paper and placing them into an open cardboard moving box on a table. Other closed boxes and a tape dispenser nearby, credible gentle packing for a move."
+    },
+    {
+      "slug": "dom-spreman-za-goste",
+      "scene": "Hands carefully setting a dining table for guests, positioning a folded linen napkin beside a ceramic plate, clean glassware and simple flowers, warm ordinary apartment. Focus on preparation action.",
+      "file": "/images/services/dom-spreman-za-goste.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands carefully setting a dining table for guests, positioning a folded linen napkin beside a ceramic plate, clean glassware and simple flowers, warm ordinary apartment. Focus on preparation action."
+    },
+    {
+      "slug": "ventilatori-i-ventilacija",
+      "scene": "A technician attaching the front grille of a small white bathroom extractor fan on a tiled wall using a screwdriver. Fan powered off, visible ordinary round housing, no exposed wires, believable bathroom ventilation maintenance.",
+      "file": "/images/services/ventilatori-i-ventilacija.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A technician attaching the front grille of a small white bathroom extractor fan on a tiled wall using a screwdriver. Fan powered off, visible ordinary round housing, no exposed wires, believable bathroom ventilation maintenance."
+    },
+    {
+      "slug": "detektori-dima",
+      "scene": "Hands replacing the battery in a standard round smoke detector removed from the ceiling, detector and mounting base both visible, person on stable small ladder, realistic battery compartment, no text.",
+      "file": "/images/services/detektori-dima.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands replacing the battery in a standard round smoke detector removed from the ceiling, detector and mounting base both visible, person on stable small ladder, realistic battery compartment, no text."
+    },
+    {
+      "slug": "elektroinstalacije",
+      "scene": "A qualified technician inspecting a modern European home electrical distribution panel with its outer hinged cover open and protective internal cover intact. Neatly aligned circuit breakers, labels unreadable, insulated tools safely in tool bag, no exposed live conductors.",
+      "file": "/images/services/elektroinstalacije.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A qualified technician inspecting a modern European home electrical distribution panel with its outer hinged cover open and protective internal cover intact. Neatly aligned circuit breakers, labels unreadable, insulated tools safely in tool bag, no exposed live conductors."
+    },
+    {
+      "slug": "odgusenje-odvoda",
+      "scene": "Gloved hands using a flexible manual drain snake in the shower floor drain with its small grille removed. Real tiled shower tray, a towel and small bucket nearby, recognizable unclogging task, clean non-gory presentation.",
+      "file": "/images/services/odgusenje-odvoda.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Gloved hands using a flexible manual drain snake in the shower floor drain with its small grille removed. Real tiled shower tray, a towel and small bucket nearby, recognizable unclogging task, clean non-gory presentation."
+    },
+    {
+      "slug": "mlin-za-otpatke",
+      "scene": "A plumber fitting a compact real food-waste disposer beneath a kitchen sink through an open cupboard. Cylindrical disposal body connected to the sink drain, power cable unplugged, hands holding a fitting, technically plausible undersink layout.",
+      "file": "/images/services/mlin-za-otpatke.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A plumber fitting a compact real food-waste disposer beneath a kitchen sink through an open cupboard. Cylindrical disposal body connected to the sink drain, power cable unplugged, hands holding a fitting, technically plausible undersink layout."
+    },
+    {
+      "slug": "bojleri-pumpe-i-cevi",
+      "scene": "A technician tightening a water connection under a compact wall-mounted electric hot-water boiler in a tiled utility room. Real flexible hoses, shutoff valves and wrench, power off, believable domestic water heater.",
+      "file": "/images/services/bojleri-pumpe-i-cevi.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A technician tightening a water connection under a compact wall-mounted electric hot-water boiler in a tiled utility room. Real flexible hoses, shutoff valves and wrench, power off, believable domestic water heater."
+    },
+    {
+      "slug": "odrzavanje-kucnih-aparata",
+      "scene": "Gloved hands cleaning the rubber door seal and accessible detergent drawer of a front-loading washing machine with a cloth. Appliance switched off, no disassembly of electronic components, practical minor appliance maintenance.",
+      "file": "/images/services/odrzavanje-kucnih-aparata.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Gloved hands cleaning the rubber door seal and accessible detergent drawer of a front-loading washing machine with a cloth. Appliance switched off, no disassembly of electronic components, practical minor appliance maintenance."
+    },
+    {
+      "slug": "terase-i-spoljne-povrsine",
+      "scene": "A person washing a paved small outdoor terrace with a pressure washer lance angled down toward the stone paving. Real hose and plausible water spray, protective footwear, plants at edge, natural daylight.",
+      "file": "/images/services/terase-i-spoljne-povrsine.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A person washing a paved small outdoor terrace with a pressure washer lance angled down toward the stone paving. Real hose and plausible water spray, protective footwear, plants at edge, natural daylight."
+    },
+    {
+      "slug": "preventivni-pregled-doma",
+      "scene": "A home safety helper checking that a low wooden cabinet is secured to the wall with an anti-tip safety strap, also an ordinary childproof cupboard latch visible. Hands inspecting attachment, practical preventive safety check, no children present.",
+      "file": "/images/services/preventivni-pregled-doma.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A home safety helper checking that a low wooden cabinet is secured to the wall with an anti-tip safety strap, also an ordinary childproof cupboard latch visible. Hands inspecting attachment, practical preventive safety check, no children present."
+    },
+    {
+      "slug": "krov-temelji-i-dimnjak",
+      "scene": "An adult professional chimney sweep brushing soot from the accessible opening of an unlit domestic fireplace using a chimney brush, wearing gloves and dust protection. Protective sheet and collection bucket, realistic home inspection maintenance, no open fire.",
+      "file": "/images/services/krov-temelji-i-dimnjak.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: An adult professional chimney sweep brushing soot from the accessible opening of an unlit domestic fireplace using a chimney brush, wearing gloves and dust protection. Protective sheet and collection bucket, realistic home inspection maintenance, no open fire."
+    },
+    {
+      "slug": "montaza-i-servis-roletni",
+      "scene": "Close-up of hands repairing the strap mechanism of an interior roller shutter beside an apartment window. Actual roller shutter visible outside the window, ordinary strap winder and screwdriver, plausible maintenance.",
+      "file": "/images/services/montaza-i-servis-roletni.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of hands repairing the strap mechanism of an interior roller shutter beside an apartment window. Actual roller shutter visible outside the window, ordinary strap winder and screwdriver, plausible maintenance."
+    },
+    {
+      "slug": "zavese-i-roletne-po-meri",
+      "scene": "A professional measuring the width of an apartment window recess using a tape measure to prepare custom fitted blinds. Fabric sample book and neatly folded linen curtain on nearby sill, believable measuring action.",
+      "file": "/images/services/zavese-i-roletne-po-meri.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A professional measuring the width of an apartment window recess using a tape measure to prepare custom fitted blinds. Fabric sample book and neatly folded linen curtain on nearby sill, believable measuring action."
+    },
+    {
+      "slug": "popravka-vrata-i-prozora",
+      "scene": "Close-up of hands adjusting a metal hinge on an open white PVC casement window with a small hex key. Real European tilt-and-turn window fittings, daylight, technically plausible window hardware adjustment.",
+      "file": "/images/services/popravka-vrata-i-prozora.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of hands adjusting a metal hinge on an open white PVC casement window with a small hex key. Real European tilt-and-turn window fittings, daylight, technically plausible window hardware adjustment."
+    },
+    {
+      "slug": "zaptivanje-i-komarnici",
+      "scene": "Hands pressing a new flexible rubber weather seal into the channel around an open apartment window frame. Roll of sealing strip and fitted mesh insect screen visible nearby. Realistic careful seal replacement.",
+      "file": "/images/services/zaptivanje-i-komarnici.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands pressing a new flexible rubber weather seal into the channel around an open apartment window frame. Roll of sealing strip and fitted mesh insect screen visible nearby. Realistic careful seal replacement."
+    },
+    {
+      "slug": "ugradnja-i-obnova-prozora",
+      "scene": "Two adult installers fitting a white PVC window frame into a prepared masonry window opening, safely working from inside the apartment. Glass supported carefully, level visible, protective gloves, realistic European apartment window replacement.",
+      "file": "/images/services/ugradnja-i-obnova-prozora.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Two adult installers fitting a white PVC window frame into a prepared masonry window opening, safely working from inside the apartment. Glass supported carefully, level visible, protective gloves, realistic European apartment window replacement."
+    },
+    {
+      "slug": "gipsani-radovi-i-sanacija",
+      "scene": "An adult craftsperson fastening a gypsum plasterboard sheet to a metal stud partition with a cordless driver. Clearly visible real gypsum board and metal framing, controlled indoor renovation, no demolition chaos.",
+      "file": "/images/services/gipsani-radovi-i-sanacija.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: An adult craftsperson fastening a gypsum plasterboard sheet to a metal stud partition with a cordless driver. Clearly visible real gypsum board and metal framing, controlled indoor renovation, no demolition chaos."
+    },
+    {
+      "slug": "nosaci-i-organizacija-garaze",
+      "scene": "Hands securing a sturdy wall-mounted bicycle storage hook in a tidy residential garage. One bicycle already hanging on a neighboring bracket, real anchors, workbench with organized tools.",
+      "file": "/images/services/nosaci-i-organizacija-garaze.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands securing a sturdy wall-mounted bicycle storage hook in a tidy residential garage. One bicycle already hanging on a neighboring bracket, real anchors, workbench with organized tools."
+    },
+    {
+      "slug": "ugradnja-zvucnih-sistema",
+      "scene": "A technician connecting speaker cable to the binding posts of a compact wall-mounted living room loudspeaker. Real red and black speaker terminals, cable ends correctly placed, stereo setup rather than invented machinery.",
+      "file": "/images/services/ugradnja-zvucnih-sistema.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A technician connecting speaker cable to the binding posts of a compact wall-mounted living room loudspeaker. Real red and black speaker terminals, cable ends correctly placed, stereo setup rather than invented machinery."
+    },
+    {
+      "slug": "vertikalne-baste",
+      "scene": "Hands planting small green herbs into the pockets of a real wall-mounted vertical garden on an apartment terrace. Potting soil, small trowel and rooted plants visible, believable gardening work.",
+      "file": "/images/services/vertikalne-baste.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands planting small green herbs into the pockets of a real wall-mounted vertical garden on an apartment terrace. Potting soil, small trowel and rooted plants visible, believable gardening work."
+    },
+    {
+      "slug": "popravka-i-ucvrscivanje-namestaja",
+      "scene": "Close-up of hands tightening a loose wooden chair joint using a clamp and hand screwdriver. Chair resting safely on its side on a padded work surface, believable repair of a real wood chair.",
+      "file": "/images/services/popravka-i-ucvrscivanje-namestaja.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of hands tightening a loose wooden chair joint using a clamp and hand screwdriver. Chair resting safely on its side on a padded work surface, believable repair of a real wood chair."
+    },
+    {
+      "slug": "tapaciranje-i-mehanizmi",
+      "scene": "An upholstery craftsperson stapling beige fabric onto the underside of a removable dining chair seat on a work table. Actual hand stapler, fabric edges and padding visible, plausible careful upholstery task.",
+      "file": "/images/services/tapaciranje-i-mehanizmi.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: An upholstery craftsperson stapling beige fabric onto the underside of a removable dining chair seat on a work table. Actual hand stapler, fabric edges and padding visible, plausible careful upholstery task."
+    },
+    {
+      "slug": "pametna-zvona-kamere-i-brave",
+      "scene": "An installer mounting a compact unbranded video doorbell on the wall beside an apartment entrance door using a screwdriver. Actual small camera lens, ordinary mounting plate, neatly routed low-voltage cable, no faces on screens.",
+      "file": "/images/services/pametna-zvona-kamere-i-brave.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: An installer mounting a compact unbranded video doorbell on the wall beside an apartment entrance door using a screwdriver. Actual small camera lens, ordinary mounting plate, neatly routed low-voltage cable, no faces on screens."
+    },
+    {
+      "slug": "mrezna-dijagnostika-i-bezbednost",
+      "scene": "An IT helper inspecting a home router and connected laptop on a desk. Laptop shows a simple abstract network diagram with no legible text, real connected Ethernet cables, hands checking one port, genuine home network diagnosis.",
+      "file": "/images/services/mrezna-dijagnostika-i-bezbednost.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: An IT helper inspecting a home router and connected laptop on a desk. Laptop shows a simple abstract network diagram with no legible text, real connected Ethernet cables, hands checking one port, genuine home network diagnosis."
+    },
+    {
+      "slug": "punjaci-za-elektricna-vozila",
+      "scene": "A qualified electrician inspecting the closed-front distribution equipment beside a wall-mounted residential EV charging box in a garage. Proper insulated tools and safe equipment, unplugged charging cable neatly on holder, no exposed live parts, focus on electrical preparation.",
+      "file": "/images/services/punjaci-za-elektricna-vozila.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A qualified electrician inspecting the closed-front distribution equipment beside a wall-mounted residential EV charging box in a garage. Proper insulated tools and safe equipment, unplugged charging cable neatly on holder, no exposed live parts, focus on electrical preparation."
+    },
+    {
+      "slug": "ciscenje-oluka",
+      "scene": "Close-up of gloved hands scooping dry leaves out of a metal rain gutter at the edge of a single-storey house roof. Worker securely on a stable ladder, roof edge and downpipe visible, actual gutter-cleaning action.",
+      "file": "/images/services/ciscenje-oluka.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Close-up of gloved hands scooping dry leaves out of a metal rain gutter at the edge of a single-storey house roof. Worker securely on a stable ladder, roof edge and downpipe visible, actual gutter-cleaning action."
+    },
+    {
+      "slug": "popravka-i-podesavanje-oluka",
+      "scene": "Hands using a screwdriver to tighten a real metal bracket securing an exterior rain gutter to the eaves of a low house. Clearly show gutter channel, bracket and screw, safe ladder position, real repair.",
+      "file": "/images/services/popravka-i-podesavanje-oluka.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands using a screwdriver to tighten a real metal bracket securing an exterior rain gutter to the eaves of a low house. Clearly show gutter channel, bracket and screw, safe ladder position, real repair."
+    },
+    {
+      "slug": "usmeravanje-i-sakupljanje-kisnice",
+      "scene": "Hands connecting an extension to an exterior rain downpipe beside a rainwater collection barrel. Actual gutter downpipe diverter and hose, stone yard surface, practical rainwater management installation.",
+      "file": "/images/services/usmeravanje-i-sakupljanje-kisnice.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Hands connecting an extension to an exterior rain downpipe beside a rainwater collection barrel. Actual gutter downpipe diverter and hose, stone yard surface, practical rainwater management installation."
+    },
+    {
+      "slug": "zamena-i-zastita-oluka",
+      "scene": "Gloved hands clipping a perforated leaf-guard mesh section onto a clean metal gutter along a low house roof edge. Genuine gutter and fitted metal mesh, safe working platform, natural daylight.",
+      "file": "/images/services/zamena-i-zastita-oluka.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Gloved hands clipping a perforated leaf-guard mesh section onto a clean metal gutter along a low house roof edge. Genuine gutter and fitted metal mesh, safe working platform, natural daylight."
+    }
+  ]
+}

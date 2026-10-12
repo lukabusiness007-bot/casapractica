@@ -5,6 +5,7 @@ import { ServiceCatalog } from "@/components/service-catalog";
 import Link from "@/components/localized-link";
 import { ViewEvent } from "@/components/analytics-consent";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 export const dynamic = "force-dynamic";
 export default async function Services() {
   const t = await getTranslator();
@@ -13,16 +14,33 @@ export default async function Services() {
   return (
     <div className="container page-section catalog-page">
       <ViewEvent context="catalog" />
-      <div className="center-heading catalog-heading">
-        <span className="eyebrow">
-          {t("MALE OBAVEZE. VIŠE VREMENA ZA VAS.")}
-        </span>
-        <h1>{t("Usluge za dom u Beogradu")}</h1>
-        <p>
-          {t(
-            "Popravke, održavanje, montaža i svakodnevna pomoć. Pronađite sve što vašem domu treba, uz premijum pažnju prema svakom detalju.",
-          )}
-        </p>
+      <div className="catalog-hero">
+        <div className="catalog-heading">
+          <span className="eyebrow">
+            {t("MALE OBAVEZE. VIŠE VREMENA ZA VAS.")}
+          </span>
+          <h1>{t("Usluge za dom u Beogradu")}</h1>
+          <p>
+            {t(
+              "Od malih svakodnevnih obaveza do važnih popravki. Izaberite šta vam treba, a mi ćemo se pobrinuti za detalje.",
+            )}
+          </p>
+          <a className="text-link" href="#katalog">
+            {t("Pronađite svoju uslugu")}
+            <ArrowUpRight size={17} aria-hidden="true" />
+          </a>
+        </div>
+        <div className="catalog-hero-image">
+          <Image
+            src="/images/kitchen.jpg"
+            alt={t("Pažnja prema svakom detalju doma")}
+            width={900}
+            height={700}
+            sizes="(max-width: 760px) 100vw, 540px"
+            preload
+          />
+          <span>{t("Beograd, sa pažnjom.")}</span>
+        </div>
       </div>
       <ServiceCatalog services={services} />
       <section className="premium-standard">

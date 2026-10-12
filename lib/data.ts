@@ -2,6 +2,7 @@ import { cache } from "react";
 import { services } from "./catalog";
 import type { Service } from "./catalog";
 import { configured, db } from "./supabase";
+import { serviceImage } from "./service-images";
 export const getServices = cache(async (): Promise<Service[]> => {
   if (!configured()) return services;
   const { data, error } = await db()
@@ -11,7 +12,10 @@ export const getServices = cache(async (): Promise<Service[]> => {
     .order("sort_order");
   if (error)
     throw new Error("Usluge trenutno nisu dostupne. Pokušajte ponovo.");
-  return data || [];
+  return (data || []).map((service: Service) => ({
+    ...service,
+    image: serviceImage(service),
+  }));
 });
 
 // Keep the existing site readable while a connected deployment awaits migration 003.

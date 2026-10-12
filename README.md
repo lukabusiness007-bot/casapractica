@@ -45,7 +45,9 @@ Unesite vrednosti u `.env.local`; ne delite ključeve u kodu, screenshotovima ni
 
 ## Supabase
 
-1. Kreirajte Supabase projekat. U SQL editoru izvršite migracije `001_initial.sql`, `002_premium_catalog.sql`, `003_growth.sql`, `004_home_services.sql` i `005_service_prices.sql` iz direktorijuma `supabase/migrations`, tim redom, pa `supabase/seed.sql`. Na postojećoj bazi izvršite samo migracije koje još nisu primenjene. Migracija `004_home_services.sql` dodaje prošireni katalog bez izmena postojećih usluga, cena, vidljivosti, sadržaja ili zahteva.
+1. Kreirajte Supabase projekat. U SQL editoru izvršite migracije `001_initial.sql`, `002_premium_catalog.sql`, `003_growth.sql`, `004_home_services.sql`, `005_service_prices.sql` i `006_rounded_service_prices.sql` iz direktorijuma `supabase/migrations`, tim redom, pa `supabase/seed.sql`. Na postojećoj bazi izvršite samo migracije koje još nisu primenjene. Migracija `004_home_services.sql` dodaje prošireni katalog bez izmena postojećih usluga, cena, vidljivosti, sadržaja ili zahteva.
+Migracija `006_rounded_service_prices.sql` zaokružuje izvorne početne cene na 500 RSD (ispod 1.000 RSD na 100 RSD), samo kada cena još odgovara izvornoj vrednosti.
+
 2. U okruženje unesite URL projekta, anon ključ i **serverski** service-role ključ. Nijedan privilegovani ključ nema `NEXT_PUBLIC_` prefiks.
 3. U Auth uključite email/password i obaveznu potvrdu email adrese. Podesite Site URL i dozvoljeni callback `https://vas-domen/auth/callback` (lokalno `http://localhost:3000/auth/callback`). Dodajte i callback sa `?next=/auth/oporavak` ako vaša allowlist konfiguracija traži tačan URL. Aplikacija koristi PKCE exchange i standardne Supabase confirmation/recovery linkove; ne menjajte template na direktan token link bez corresponding callback podrške.
 4. Za stvarnu isporuku emaila podesite SMTP provajdera u Supabase. Podesite Supabase Auth rate limits i zaštitu od zloupotrebe prema saobraćaju.
@@ -109,6 +111,8 @@ Projekat je pripremljen za Vercel, nije javno objavljen. Podesite sve promenljiv
 Pre puštanja dopunite radne stranice privatnosti/uslova stvarnim poslovnim podacima i potvrđenim uslovima poslovanja. Pregledajte i proverite naplatu i otkazivanje sa poslovnim timom. Greške webhook-a vraćaju 500 radi Stripe ponavljanja; pratite Stripe failed deliveries i Vercel server logs. Aplikacija ne instalira marketinške trackere.
 
 ## Fotografije
+
+Katalog i stranice usluga koriste namenski generisane, fotorealistične ilustracije konkretnih zadataka u `public/images/services/`. To nisu fotografije našeg tima niti dokumentacija obavljenih radova. Generisane su ugrađenim `image_gen` alatom; specifikacije i kompletan skup promptova su u `docs/service-image-prompts.json`. WebP verzije su optimizovane na širinu 900 px i učitavaju se preko `next/image`. `lib/service-images.ts` zamenjuje originalne opšte enterijere i zadržava prilagođene fotografije iz administracije.
 
 Lokalno sačuvane fotografije enterijera sa Unsplash-a, korišćene kao ilustracija doma (ne kao fotografije izvođača ili potvrda obavljenih radova):
 

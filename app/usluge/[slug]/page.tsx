@@ -99,10 +99,10 @@ export default async function ServiceDetail({
       </Link>
       <div className="detail-grid">
         <div>
-          <div className="detail-image">
+          <div className={`detail-image${service.image.startsWith("/images/services/") ? " detail-image-service" : ""}`}>
             <Image
               width={900}
-              height={1100}
+              height={service.image.startsWith("/images/services/") ? 600 : 1100}
               sizes="(max-width: 760px) 100vw, 50vw"
               unoptimized={!service.image.startsWith("/images/")}
               src={service.image}
