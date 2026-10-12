@@ -1,0 +1,7 @@
+insert into public.services(id,slug,name,tagline,description,image,sort_order) values
+('11111111-1111-4111-8111-111111111111','pranje-tepiha','Pranje tepiha','Svežina koju vaš dom zaslužuje.','Osvežite svoj omiljeni kutak. Pošaljite nam dimenzije i vrstu tepiha, a pre potvrde dogovorićemo način preuzimanja, pranje i povratak.','/images/carpet.jpg',1),
+('22222222-2222-4222-8222-222222222222','iznosenje-smeca','Iznošenje smeća','Jedna obaveza manje. Svakog dana.','Za trenutke kada vam znači dodatna pomoć. Navedite količinu, sprat i da li zgrada ima lift, pa ćemo dogovoriti iznošenje kućnog smeća.','/images/kitchen.jpg',2),
+('33333333-3333-4333-8333-333333333333','ugradnja-tv-a','Ugradnja TV-a','Vaše malo kućno bioskopsko veče.','Televizor na svom mestu, a vi bez brige. Pošaljite model televizora, tip zida i informaciju o nosaču kako bismo pripremili ponudu za montažu.','/images/living.jpg',3),
+('44444444-4444-4444-8444-444444444444','zamena-sijalica','Zamena sijalica','Mala promena. Lepše svetlo.','Vratite toplinu u svaki kutak doma. Navedite broj sijalica, vrstu rasvete i visinu plafona. Nabavku sijalica dogovaramo pre dolaska.','/images/lamp.jpg',4),
+('55555555-5555-4555-8555-555555555555','servis-klime','Servis klime','Savršena temperatura za vaš mir.','Za prijatnije dane kod kuće. Navedite model klime, pristupačnost uređaja i da li vam je potrebno redovno održavanje ili pregled kvara.','/images/air.jpg',5)
+on conflict(id) do nothing;

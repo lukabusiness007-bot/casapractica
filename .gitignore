@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.tsbuildinfo
+output/
+.playwright-cli/
+
+# Local tooling and platform-generated files
+.DS_Store
+.vercel/
+next-env.d.ts
