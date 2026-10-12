@@ -92,7 +92,7 @@ export function publicPageMetadata(locale: Locale, path: string) {
     return pageMetadata(
       locale,
       path,
-      t("Casa Concierge"),
+      t("Zakažite posetu"),
       t(
         "Recite nam šta vam je važno. Naš tim predlaže usluge, dogovara detalje i priprema jednu preglednu ponudu.",
       ),
@@ -101,9 +101,9 @@ export function publicPageMetadata(locale: Locale, path: string) {
     return pageMetadata(
       locale,
       path,
-      t("Casa planovi"),
+      t("Redovna pomoć"),
       t(
-        "Od jedne pažljivo planirane posete do redovne brige o domu. Premium pažnja u svakom dolasku.",
+        "Izaberite jedan dolazak ili redovnu pomoć. Recite nam koje poslove imate, a mi pripremamo ponudu sa cenom i terminima.",
       ),
     );
   if (path === "/" || path === "/usluge")

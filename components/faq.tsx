@@ -4,21 +4,9 @@ export async function Faq() {
 
   const questions = [
     [
-      t("Mogu li da sastavim svoj paket?"),
-      t(
-        "Da. U Casa planovima izaberite usluge i učestalost, pa pošaljite zahtev. Tim potvrđuje dostupnost, obim i konačnu ponudu. Slanje zahteva ne aktivira automatsku pretplatu.",
-      ),
-    ],
-    [
       t("Kako da zakažem uslugu?"),
       t(
         "Pošaljite kratak zahtev za uslugu ili razgovor o planu. Tim vas kontaktira na izabrani način. WhatsApp je opciona mogućnost da odmah dodate detalje.",
-      ),
-    ],
-    [
-      t("Da li moram da budem članica kluba?"),
-      t(
-        "Ne. Usluge su dostupne i bez članstva. Besplatan klub je tu za one koje žele pristup posebnim ponudama i novitetima pre svih.",
       ),
     ],
     [
@@ -34,9 +22,21 @@ export async function Faq() {
       ),
     ],
     [
+      t("Mogu li da pošaljem više poslova u jednom zahtevu?"),
+      t(
+        "Da. Pošaljite svoju listu kroz zahtev za posetu. Tim će sa vama dogovoriti obim, cenu i da li se poslovi mogu završiti u jednom dolasku.",
+      ),
+    ],
+    [
       t("Mogu li da promenim dogovoreni termin?"),
       t(
         "Javite nam se preko istog WhatsApp razgovora i navedite broj zahteva. Tim će sa vama proveriti mogućnost promene termina.",
+      ),
+    ],
+    [
+      t("Da li moram da budem članica kluba?"),
+      t(
+        "Ne. Usluge su dostupne i bez članstva. Besplatan klub je tu za one koje žele pristup posebnim ponudama i novitetima pre svih.",
       ),
     ],
   ];

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ArrowUpRight, Check, Sparkles } from "lucide-react";
+import { ArrowUpRight, Check, ArrowRight } from "lucide-react";
 import {
   casaPlans,
   frequencies,
@@ -58,233 +58,238 @@ export function PackagesExperience({
               : "once",
       })),
     );
-    document
-      .getElementById("moj-paket")
-      ?.scrollIntoView({ behavior: "smooth" });
   }
   return (
     <>
       <div className="plans-grid">
         {casaPlans
           .filter((entry) => ["once", "monthly", "weekly"].includes(entry.id))
-          .map((entry, index) => (
-            <article
-              className={`plan-card ${entry.id === "custom" ? "plan-card-custom" : ""}`}
-              key={entry.id}
-            >
-              <span className="eyebrow">
-                {String(index + 1).padStart(2, "0")} / CASA
+          .map((entry) => (
+            <article className="plan-card" key={entry.id}>
+              <span className="eyebrow">{t(entry.name)}</span>
+              <h2>
+                {entry.id === "once"
+                  ? t("Jedna poseta.")
+                  : entry.id === "monthly"
+                    ? t("Dva dolaska mesečno.")
+                    : t("Pomoć svake nedelje.")}
+              </h2>
+              <p>
+                {entry.id === "weekly"
+                  ? t(
+                      "Za obaveze koje se ponavljaju svake nedelje. Dogovaramo listu poslova i stalni ritam dolazaka.",
+                    )
+                  : t(entry.description)}
+              </p>
+              <span className="plan-price">
+                {t("Ponudu dobijate pre potvrde.")}
               </span>
-              <h2>{t(entry.name)}</h2>
-              <p className="plan-rhythm">{t(entry.rhythm)}</p>
-              <p>{t(entry.description)}</p>
-              <span className="plan-price">{t("Cena prema vašem izboru")}</span>
-              <button
+              <Link
                 className="button button-dark"
-                disabled={submitting}
-                onClick={() => choosePlan(entry.id)}
+                href={`/konsultacije?tier=${entry.id === "weekly" ? "private" : entry.id === "monthly" ? "signature" : "once"}`}
+                onClick={() =>
+                  track(
+                    "plan_select",
+                    `tier:${entry.id === "weekly" ? "private" : entry.id === "monthly" ? "signature" : "once"}`,
+                  )
+                }
               >
-                {t("Sastavite ovaj plan")}
-                <ArrowUpRight size={16} />
-              </button>
+                {t("Zatražite ponudu")}
+                <ArrowRight size={16} />
+              </Link>
             </article>
           ))}
       </div>
-      <section className="concierge-prompt">
-        <h2>{t("Neka naš tim sastavi plan za vas.")}</h2>
-        <p>
-          {t(
-            "Podelite svoje želje. Mi predlažemo usluge i ritam, uz jednu preglednu ponudu.",
-          )}
-        </p>
-        <Link
-          className="button button-dark"
-          href="/konsultacije?tier=signature"
-        >
-          {t("Prepustite nam brigu o domu")}
-        </Link>
-        <Link className="text-link" href="/konsultacije?tier=private">
-          {t("Razgovarajte o Casa Private")}
-        </Link>
-      </section>
-      <section className="premium-standard">
-        <Sparkles size={24} strokeWidth={1.3} />
+      <section className="plan-guidance">
         <div>
-          <h2>{t("Ista pažnja. Vaš ritam.")}</h2>
+          <h2>{t("Niste sigurni koliko često vam treba pomoć?")}</h2>
           <p>
             {t(
-              "Svaki Casa plan uključuje jasan dogovor, pažljiv rad i uredan prostor nakon posete. Broj dolazaka i obim usluga prilagođavamo vama.",
+              "Opišite svoje obaveze. Predložićemo poslove i broj dolazaka, a vi odlučujete da li vam ponuda odgovara.",
             )}
           </p>
         </div>
+        <Link className="text-link" href="/konsultacije">
+          {t("Pomozite mi da izaberem")}
+          <ArrowRight size={17} />
+        </Link>
       </section>
-      <section id="moj-paket" className="package-builder">
-        <div className="package-heading">
-          <span className="eyebrow">{t("BRIGA PO VAŠOJ MERI")}</span>
-          <h2>{t("Sastavite svoju Casa.")}</h2>
-          <p>
-            {t(
-              "Izaberite usluge i učestalost. Obim posla, dostupnost i konačnu cenu potvrđujemo zajedno.",
-            )}
-          </p>
-        </div>
-        <div className="builder-grid">
-          <div className="package-choices">
-            <label className="plan-select">
-              {t("Vaš plan")}
-              <select
-                disabled={submitting}
-                value={planId}
-                onChange={(event) => choosePlan(event.target.value as PlanId)}
-              >
-                {casaPlans.map((entry) => (
-                  <option value={entry.id} key={entry.id}>
-                    {t(entry.name)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            {items.length > 0 && (
-              <a className="package-review-link" href="#pregled-paketa">
-                {t("Vaš izbor")} · {items.length}
-                <ArrowUpRight size={16} />
-              </a>
-            )}
-            {serviceCategories.map((category) => (
-              <fieldset
-                disabled={submitting}
-                key={category.id}
-                className="package-category"
-              >
-                <legend>{t(category.title)}</legend>
-                {choices
-                  .filter((service) => serviceCategory(service) === category.id)
-                  .map((service) => {
-                    const selected = items.some(
-                      (item) => item.service_id === service.id,
-                    );
-                    return (
-                      <label
-                        className={`package-choice ${selected ? "is-selected" : ""}`}
-                        key={service.id}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selected}
-                          disabled={!selected && items.length >= 12}
-                          onChange={() =>
-                            setItems((previous) =>
-                              selected
-                                ? previous.filter(
-                                    (item) => item.service_id !== service.id,
-                                  )
-                                : [
-                                    ...previous,
-                                    {
-                                      service_id: service.id,
-                                      frequency: defaultFrequency,
-                                    },
-                                  ],
-                            )
-                          }
-                        />
-                        <span>
-                          {t(service.name)}
-                          <small>{t(service.tagline)}</small>
-                        </span>
-                        <Check
-                          className="choice-check"
-                          size={18}
-                          aria-hidden="true"
-                        />
-                      </label>
-                    );
-                  })}
-              </fieldset>
-            ))}
-            {items.length >= 12 && (
-              <p className="fine-print" role="status">
-                {t(
-                  "Do 12 usluga u jednom zahtevu. Dodatne zadatke navedite u napomeni.",
-                )}
-              </p>
-            )}
+      {/* Fragment navigation can make the browser open this before hydration. */}
+      <details className="package-builder-disclosure" suppressHydrationWarning>
+        <summary>
+          {t("Želim samostalno da izaberem usluge")}
+          <span aria-hidden="true">+</span>
+        </summary>
+        <section id="moj-paket" className="package-builder">
+          <div className="package-heading">
+            <span className="eyebrow">{t("BRIGA PO VAŠOJ MERI")}</span>
+            <h2>{t("Izaberite usluge za svoju posetu.")}</h2>
+            <p>
+              {t(
+                "Izaberite usluge i učestalost. Obim posla, dostupnost i konačnu cenu potvrđujemo zajedno.",
+              )}
+            </p>
           </div>
-          <aside
-            id="pregled-paketa"
-            className="package-summary"
-            aria-label={t("Vaš izbor")}
-          >
-            <span className="eyebrow">{t("VAŠ LIČNI PLAN")}</span>
-            <h3>{t(plan.name)}</h3>
-            {items.length === 0 ? (
-              <p className="package-empty">
-                {t("Dodajte prvu uslugu da započnete svoj plan.")}
-              </p>
-            ) : (
-              <>
-                <div className="selected-services">
-                  {items.map((item) => {
-                    const service = choices.find(
-                      (service) => service.id === item.service_id,
-                    )!;
-                    return (
-                      <label key={item.service_id}>
-                        <span>{t(service.name)}</span>
-                        <select
-                          disabled={submitting}
-                          aria-label={`${t("Učestalost")}: ${t(service.name)}`}
-                          value={item.frequency}
-                          onChange={(event) => {
-                            setPlanId("custom");
-                            setItems((previous) =>
-                              previous.map((current) =>
-                                current.service_id === item.service_id
-                                  ? {
-                                      ...current,
-                                      frequency: event.target
-                                        .value as typeof item.frequency,
-                                    }
-                                  : current,
-                              ),
-                            );
-                          }}
+          <div className="builder-grid">
+            <div className="package-choices">
+              <label className="plan-select">
+                {t("Vaš plan")}
+                <select
+                  disabled={submitting}
+                  value={planId}
+                  onChange={(event) => choosePlan(event.target.value as PlanId)}
+                >
+                  {casaPlans.map((entry) => (
+                    <option value={entry.id} key={entry.id}>
+                      {t(entry.name)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {items.length > 0 && (
+                <a className="package-review-link" href="#pregled-paketa">
+                  {t("Vaš izbor")} · {items.length}
+                  <ArrowUpRight size={16} />
+                </a>
+              )}
+              {serviceCategories.map((category) => (
+                <fieldset
+                  disabled={submitting}
+                  key={category.id}
+                  className="package-category"
+                >
+                  <legend>{t(category.title)}</legend>
+                  {choices
+                    .filter(
+                      (service) => serviceCategory(service) === category.id,
+                    )
+                    .map((service) => {
+                      const selected = items.some(
+                        (item) => item.service_id === service.id,
+                      );
+                      return (
+                        <label
+                          className={`package-choice ${selected ? "is-selected" : ""}`}
+                          key={service.id}
                         >
-                          {frequencies.map((frequency) => (
-                            <option key={frequency.id} value={frequency.id}>
-                              {t(frequency.label)}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    );
-                  })}
-                </div>
-                <p className="package-billing">
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            disabled={!selected && items.length >= 12}
+                            onChange={() =>
+                              setItems((previous) =>
+                                selected
+                                  ? previous.filter(
+                                      (item) => item.service_id !== service.id,
+                                    )
+                                  : [
+                                      ...previous,
+                                      {
+                                        service_id: service.id,
+                                        frequency: defaultFrequency,
+                                      },
+                                    ],
+                              )
+                            }
+                          />
+                          <span>
+                            {t(service.name)}
+                            <small>{t(service.tagline)}</small>
+                          </span>
+                          <Check
+                            className="choice-check"
+                            size={18}
+                            aria-hidden="true"
+                          />
+                        </label>
+                      );
+                    })}
+                </fieldset>
+              ))}
+              {items.length >= 12 && (
+                <p className="fine-print" role="status">
                   {t(
-                    "Dobijate jednu preglednu ponudu. Materijal, kupljeni proizvodi i dodatni rad navode se odvojeno. Slanje zahteva ne pokreće naplatu niti automatsku pretplatu.",
+                    "Do 12 usluga u jednom zahtevu. Dodatne zadatke navedite u napomeni.",
                   )}
                 </p>
-                {packageService ? (
-                  <RequestForm
-                    service={packageService}
-                    ready={ready}
-                    onBusyChange={setSubmitting}
-                    packageSelection={{ plan_id: planId, items }}
-                    formId="zahtev-za-paket"
-                  />
-                ) : (
-                  <p className="notice">
+              )}
+            </div>
+            <aside
+              id="pregled-paketa"
+              className="package-summary"
+              aria-label={t("Vaš izbor")}
+            >
+              <span className="eyebrow">{t("VAŠ LIČNI PLAN")}</span>
+              <h3>{t(plan.name)}</h3>
+              {items.length === 0 ? (
+                <p className="package-empty">
+                  {t("Dodajte prvu uslugu da započnete svoj plan.")}
+                </p>
+              ) : (
+                <>
+                  <div className="selected-services">
+                    {items.map((item) => {
+                      const service = choices.find(
+                        (service) => service.id === item.service_id,
+                      )!;
+                      return (
+                        <label key={item.service_id}>
+                          <span>{t(service.name)}</span>
+                          <select
+                            disabled={submitting}
+                            aria-label={`${t("Učestalost")}: ${t(service.name)}`}
+                            value={item.frequency}
+                            onChange={(event) => {
+                              setPlanId("custom");
+                              setItems((previous) =>
+                                previous.map((current) =>
+                                  current.service_id === item.service_id
+                                    ? {
+                                        ...current,
+                                        frequency: event.target
+                                          .value as typeof item.frequency,
+                                      }
+                                    : current,
+                                ),
+                              );
+                            }}
+                          >
+                            {frequencies.map((frequency) => (
+                              <option key={frequency.id} value={frequency.id}>
+                                {t(frequency.label)}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      );
+                    })}
+                  </div>
+                  <p className="package-billing">
                     {t(
-                      "Prijem zahteva za pakete otvaramo nakon aktiviranja ponude.",
+                      "Dobijate jednu preglednu ponudu. Materijal, kupljeni proizvodi i dodatni rad navode se odvojeno. Slanje zahteva ne pokreće naplatu niti automatsku pretplatu.",
                     )}
                   </p>
-                )}
-              </>
-            )}
-          </aside>
-        </div>
-      </section>
+                  {packageService ? (
+                    <RequestForm
+                      service={packageService}
+                      ready={ready}
+                      onBusyChange={setSubmitting}
+                      packageSelection={{ plan_id: planId, items }}
+                      formId="zahtev-za-paket"
+                    />
+                  ) : (
+                    <p className="notice">
+                      {t(
+                        "Prijem zahteva za pakete otvaramo nakon aktiviranja ponude.",
+                      )}
+                    </p>
+                  )}
+                </>
+              )}
+            </aside>
+          </div>
+        </section>
+      </details>
     </>
   );
 }

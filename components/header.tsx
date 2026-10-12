@@ -38,7 +38,7 @@ export function Header() {
               {t("Usluge")}
             </Link>
             <Link href="/paketi" className="header-benefits header-plans">
-              {t("Casa planovi")}
+              {t("Redovna pomoć")}
             </Link>
             <Link href="/konsultacije" className="header-cta">
               {t("Zakažite posetu")}
@@ -89,16 +89,12 @@ export function Header() {
               {t("Casa kolekcije")}
               <ChevronRight size={16} />
             </Link>
-            <Link href="/konsultacije?tier=signature">
-              {t("Casa Concierge")}
-              <ChevronRight size={16} />
-            </Link>
             <Link href="/klub">
               {t("casa practica klub")}
               <ChevronRight size={16} />
             </Link>
             <Link href="/paketi">
-              {t("Casa planovi")}
+              {t("Redovna pomoć")}
               <ChevronRight size={16} />
             </Link>
             <Link href="/#kako-funkcionise">

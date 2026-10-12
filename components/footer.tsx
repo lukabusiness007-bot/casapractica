@@ -28,7 +28,7 @@ export async function Footer() {
                 {t(category.title)}
               </Link>
             ))}
-            <Link href="/paketi">{t("Casa planovi")}</Link>
+            <Link href="/paketi">{t("Redovna pomoć")}</Link>
             <Link href="/kolekcije">{t("Casa kolekcije")}</Link>
             <Link href="/konsultacije">{t("Zakažite posetu")}</Link>
           </div>

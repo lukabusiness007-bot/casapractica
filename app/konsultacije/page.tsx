@@ -39,13 +39,15 @@ export default async function Consultation({
     <div className="container page-section consultation-page">
       <ViewEvent context="consultation" />
       <div className="center-heading catalog-heading">
-        <span className="eyebrow">CASA CONCIERGE</span>
+        <span className="eyebrow">{t("POMOĆ ZA VAŠ DOM")}</span>
         <h1>
           {intent === "plan-change"
             ? t("Ritam koji se menja sa vama.")
             : tier === "once"
-              ? t("Vaša prva Casa poseta.")
-              : t("Prepustite nam brigu o domu.")}
+              ? t("Šta vam treba u domu?")
+              : tier === "signature"
+                ? t("Dva dolaska mesečno.")
+                : t("Jedna poseta svake nedelje.")}
         </h1>
         <p>
           {t(
@@ -55,7 +57,7 @@ export default async function Consultation({
       </div>
       <div className="consultation-grid">
         <section className="concierge-copy">
-          <h2>{t("Jedan kontakt. Detalji rešeni.")}</h2>
+          <h2>{t("Vi kažete šta treba. Mi predlažemo rešenje.")}</h2>
           <p>
             {t(
               "Možete nam prepustiti izbor usluga ili poslati svoju listu. Za vas, vaše domaćinstvo ili osobu koju zastupate.",
