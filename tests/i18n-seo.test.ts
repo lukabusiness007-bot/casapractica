@@ -7,6 +7,7 @@ import { translator } from "../lib/i18n";
 import { pageMetadata, languageAlternates, absoluteUrl } from "../lib/seo";
 import { collections, upgrades } from "../lib/growth";
 import { casaPlans } from "../lib/packages";
+import { serviceScopes } from "../lib/catalog-additions";
 import { services } from "../lib/catalog";
 import messages from "../lib/i18n/messages.json";
 
@@ -57,6 +58,9 @@ test("all supported languages include public copy and catalog translations", () 
     assert.ok(
       Object.values(dictionary).every((value) => value.trim().length > 0),
     );
+    for (const scope of Object.values(serviceScopes))
+      for (const task of scope.tasks)
+        assert.ok(task in dictionary, `${locale}: missing task translation: ${task}`);
     for (const service of services)
       for (const field of ["name", "tagline", "description"] as const) {
         assert.notEqual(

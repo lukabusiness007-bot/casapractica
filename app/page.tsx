@@ -18,7 +18,7 @@ import { ServiceWheel } from "@/components/service-wheel";
 import { HeroVideo } from "@/components/hero-video";
 import { TrustStandard } from "@/components/trust-standard";
 import { ViewEvent } from "@/components/analytics-consent";
-import { isIndividualService, money } from "@/lib/catalog";
+import { isIndividualService, servicePriceLabel, serviceCategories, serviceCategory } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
 export default async function Home() {
   const t = await getTranslator();
@@ -91,10 +91,10 @@ export default async function Home() {
           <ArrowRight size={14} />
         </Link>
         <div className="casa-hero-copy">
-          <h1>{t("Dom, bez brige.")}</h1>
+          <h1>{t("Šta je potrebno vašem domu?")}</h1>
           <p>
             {t(
-              "Sve što vašem domu treba, na jednom mestu. Prepustite nam svakodnevne obaveze i sačuvajte vreme za ono što volite.",
+              "Premijum briga o domu: popravke, održavanje i unapređenja uz pouzdanog majstora koji poznaje vaš dom i brine o detaljima pre nego što postanu obaveze.",
             )}
           </p>
         </div>
@@ -193,6 +193,13 @@ export default async function Home() {
               )}
             </p>
           </div>
+          <nav className="home-category-links" aria-label={t("Kategorije usluga")}>
+            {serviceCategories.filter((category) => individualServices.some((service) => serviceCategory(service) === category.id)).map((category) => (
+              <Link key={category.id} href={`/usluge#${category.id}`}>
+                {t(category.title)}<ArrowRight size={14} aria-hidden="true" />
+              </Link>
+            ))}
+          </nav>
           <div className="home-services-grid">
             {(featured.length ? featured : individualServices.slice(0, 6)).map(
               (service) => (
@@ -216,7 +223,7 @@ export default async function Home() {
                     <h3>{t(service.name)}</h3>
                     <p>
                       {service.price
-                        ? `${t("Od")} ${money(service.price, locale)}`
+                        ? servicePriceLabel(service, locale, t)
                         : t("Cena prema obimu posla")}
                     </p>
                     <span>
@@ -253,7 +260,7 @@ export default async function Home() {
             <h2>{t("Treba vam pomoć redovno?")}</h2>
             <p>
               {t(
-                "Dva dolaska mesečno ili pomoć svake nedelje. Dogovaramo poslove i termine prema vašim potrebama.",
+                "Peglanje, kućne rutine i briga tokom odsustva. Izaberite svoj mesečni paket.",
               )}
             </p>
             <Link className="text-link" href="/paketi">

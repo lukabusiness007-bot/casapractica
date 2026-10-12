@@ -1,12 +1,7 @@
 import { publicPageMetadata } from "@/lib/seo";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 import { getServices } from "@/lib/data";
-import { ServiceCard } from "@/components/service-card";
-import {
-  isIndividualService,
-  serviceCategories,
-  serviceCategory,
-} from "@/lib/catalog";
+import { ServiceCatalog } from "@/components/service-catalog";
 import Link from "@/components/localized-link";
 import { ViewEvent } from "@/components/analytics-consent";
 import { ArrowUpRight } from "lucide-react";
@@ -25,43 +20,11 @@ export default async function Services() {
         <h1>{t("Usluge za dom u Beogradu")}</h1>
         <p>
           {t(
-            "Od montaže TV-a do sveže posteljine. Pažljiva briga o svakom detalju vašeg doma.",
+            "Popravke, održavanje, montaža i svakodnevna pomoć. Pronađite sve što vašem domu treba, uz premijum pažnju prema svakom detalju.",
           )}
         </p>
       </div>
-      <nav className="category-nav" aria-label={t("Kategorije usluga")}>
-        {serviceCategories.map((category) => (
-          <a key={category.id} href={`#${category.id}`}>
-            {t(category.title)}
-          </a>
-        ))}
-      </nav>
-      {serviceCategories.map((category) => {
-        const group = services.filter(
-          (service) =>
-            isIndividualService(service) &&
-            serviceCategory(service) === category.id,
-        );
-        if (!group.length) return null;
-        return (
-          <section
-            className="catalog-category"
-            id={category.id}
-            key={category.id}
-          >
-            <div className="category-heading">
-              <span className="eyebrow">{t(category.tagline)}</span>
-              <h2>{t(category.title)}</h2>
-              <p>{t(category.description)}</p>
-            </div>
-            <div className="catalog-grid">
-              {group.map((service) => (
-                <ServiceCard service={service} key={service.id} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      <ServiceCatalog services={services} />
       <section className="premium-standard">
         <div>
           <h2>{t("Više zadataka. Jedan Casa plan.")}</h2>

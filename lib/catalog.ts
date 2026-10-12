@@ -1,3 +1,5 @@
+import { servicePricing } from "./service-pricing";
+import { additionalServices } from "./catalog-additions";
 export type Service = {
   id: string;
   slug: string;
@@ -11,49 +13,88 @@ export type Service = {
 };
 export const serviceCategories = [
   {
-    id: "mounting",
-    title: "Montaža i postavljanje",
-    tagline: "Sve na svom mestu.",
-    description:
-      "TV, ogledala, police i nameštaj, pažljivo postavljeni i spremni za korišćenje.",
+    "id": "electrical",
+    "title": "Elektrika i rasveta",
+    "tagline": "Svetlo, sigurnost i pouzdane instalacije.",
+    "description": "Svetlo, sigurnost i pouzdane instalacije."
   },
   {
-    id: "maintenance",
-    title: "Popravke i održavanje",
-    tagline: "Detalji pod kontrolom.",
-    description:
-      "Sitne popravke i sezonsko održavanje uz jasan dogovor i stručni tim.",
+    "id": "plumbing",
+    "title": "Vodovod i sanitarije",
+    "tagline": "Od slavine koja kaplje do novih sanitarija.",
+    "description": "Od slavine koja kaplje do novih sanitarija."
   },
   {
-    id: "technology",
-    title: "Tehnologija u domu",
-    tagline: "Povezano sa lakoćom.",
-    description: "Vaši uređaji podešeni, povezani i spremni za svakodnevicu.",
+    "id": "maintenance",
+    "title": "Popravke i održavanje",
+    "tagline": "Redovna briga, u kući i oko nje.",
+    "description": "Redovna briga, u kući i oko nje."
   },
   {
-    id: "everyday",
-    title: "Svakodnevna briga",
-    tagline: "Više vremena za vas.",
-    description:
-      "Garderoba, posteljina, nabavka i male obaveze uz pažnju prema vašim navikama.",
+    "id": "window-treatments",
+    "title": "Zavese, roletne i žaluzine",
+    "tagline": "Lepše svetlo. Više privatnosti.",
+    "description": "Lepše svetlo. Više privatnosti."
   },
+  {
+    "id": "doors-windows",
+    "title": "Vrata i prozori",
+    "tagline": "Otvaranje sa lakoćom, zatvaranje bez brige.",
+    "description": "Otvaranje sa lakoćom, zatvaranje bez brige."
+  },
+  {
+    "id": "walls",
+    "title": "Zidovi i gipsani radovi",
+    "tagline": "Uredne površine, do poslednjeg detalja.",
+    "description": "Uredne površine, do poslednjeg detalja."
+  },
+  {
+    "id": "mounting",
+    "title": "Montaža i postavljanje",
+    "tagline": "TV, slike, ogledala i police na svom mestu.",
+    "description": "TV, slike, ogledala i police na svom mestu."
+  },
+  {
+    "id": "furniture",
+    "title": "Nameštaj: montaža i popravke",
+    "tagline": "Stabilno, funkcionalno i spremno za korišćenje.",
+    "description": "Stabilno, funkcionalno i spremno za korišćenje."
+  },
+  {
+    "id": "technology",
+    "title": "Tehnologija u domu",
+    "tagline": "Pametni uređaji, Wi-Fi i povezan dom.",
+    "description": "Pametni uređaji, Wi-Fi i povezan dom."
+  },
+  {
+    "id": "gutters",
+    "title": "Oluci i odvod kišnice",
+    "tagline": "Čisti oluci i kišnica na pravom putu.",
+    "description": "Čisti oluci i kišnica na pravom putu."
+  },
+  {
+    "id": "everyday",
+    "title": "Svakodnevna briga",
+    "tagline": "Garderoba, posteljina, nabavka i male obaveze uz pažnju prema vašim navikama.",
+    "description": "Garderoba, posteljina, nabavka i male obaveze uz pažnju prema vašim navikama."
+  }
 ] as const;
 export type ServiceCategory = (typeof serviceCategories)[number]["id"];
 const categoriesBySlug: Record<string, ServiceCategory> = {
   "pranje-tepiha": "everyday",
   "iznosenje-smeca": "everyday",
   "ugradnja-tv-a": "mounting",
-  "zamena-sijalica": "maintenance",
+  "zamena-sijalica": "electrical",
   "servis-klime": "maintenance",
   "kacenje-slika-i-ogledala": "mounting",
   "montaza-polica": "mounting",
-  "postavljanje-garnisni": "mounting",
-  "sklapanje-namestaja": "mounting",
-  "podesavanje-vrata-i-fioka": "maintenance",
+  "postavljanje-garnisni": "window-treatments",
+  "sklapanje-namestaja": "furniture",
+  "podesavanje-vrata-i-fioka": "furniture",
   "obnova-silikona": "maintenance",
-  "sitne-popravke-zidova": "maintenance",
-  "vodoinstalaterske-intervencije": "maintenance",
-  "elektricarske-intervencije": "maintenance",
+  "sitne-popravke-zidova": "walls",
+  "vodoinstalaterske-intervencije": "plumbing",
+  "elektricarske-intervencije": "electrical",
   "odrzavanje-filtera": "maintenance",
   "podesavanje-tv-a": "technology",
   "podesavanje-wifi-mreze": "technology",
@@ -66,6 +107,34 @@ const categoriesBySlug: Record<string, ServiceCategory> = {
   "dom-na-cuvanju": "everyday",
   "pakovanje-i-raspakivanje": "everyday",
   "dom-spreman-za-goste": "everyday",
+  "ventilatori-i-ventilacija": "electrical",
+  "detektori-dima": "electrical",
+  "elektroinstalacije": "electrical",
+  "odgusenje-odvoda": "plumbing",
+  "mlin-za-otpatke": "plumbing",
+  "bojleri-pumpe-i-cevi": "plumbing",
+  "odrzavanje-kucnih-aparata": "maintenance",
+  "terase-i-spoljne-povrsine": "maintenance",
+  "preventivni-pregled-doma": "maintenance",
+  "krov-temelji-i-dimnjak": "maintenance",
+  "montaza-i-servis-roletni": "window-treatments",
+  "zavese-i-roletne-po-meri": "window-treatments",
+  "popravka-vrata-i-prozora": "doors-windows",
+  "zaptivanje-i-komarnici": "doors-windows",
+  "ugradnja-i-obnova-prozora": "doors-windows",
+  "gipsani-radovi-i-sanacija": "walls",
+  "nosaci-i-organizacija-garaze": "mounting",
+  "ugradnja-zvucnih-sistema": "technology",
+  "vertikalne-baste": "maintenance",
+  "popravka-i-ucvrscivanje-namestaja": "furniture",
+  "tapaciranje-i-mehanizmi": "furniture",
+  "pametna-zvona-kamere-i-brave": "technology",
+  "mrezna-dijagnostika-i-bezbednost": "technology",
+  "punjaci-za-elektricna-vozila": "technology",
+  "ciscenje-oluka": "gutters",
+  "popravka-i-podesavanje-oluka": "gutters",
+  "usmeravanje-i-sakupljanje-kisnice": "gutters",
+  "zamena-i-zastita-oluka": "gutters"
 };
 export const packageServiceId = "ca5a0000-0000-4000-8000-000000000100";
 export function serviceCategory(
@@ -389,6 +458,7 @@ export const services: Service[] = [
     active: true,
     sort_order: 26,
   },
+  ...additionalServices,
   {
     id: "ca5a0000-0000-4000-8000-000000000100",
     slug: "moja-casa",
@@ -401,7 +471,7 @@ export const services: Service[] = [
     active: true,
     sort_order: 100,
   },
-];
+].map((service) => ({ ...service, price: servicePricing[service.slug]?.price ?? service.price }));
 export const statusLabels: Record<string, string> = {
   received: "Primljen zahtev",
   discussing: "U dogovoru",
@@ -423,3 +493,9 @@ export const money = (minor: number, locale = "sr-Latn-RS") =>
     currency: "RSD",
     maximumFractionDigits: 2,
   }).format(minor / 100);
+
+export function servicePriceLabel(service: Pick<Service, "slug" | "price">, locale: string, t: (value: string) => string) {
+  if (service.price === null) return t("Cena na upit");
+  const unit = servicePricing[service.slug]?.unit;
+  return `${t("Od")} ${money(service.price, locale)}${unit ? ` · ${t(unit)}` : ""}`;
+}

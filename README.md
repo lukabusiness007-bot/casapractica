@@ -45,7 +45,7 @@ Unesite vrednosti u `.env.local`; ne delite ključeve u kodu, screenshotovima ni
 
 ## Supabase
 
-1. Kreirajte Supabase projekat. U SQL editoru izvršite `supabase/migrations/001_initial.sql`, a zatim `supabase/seed.sql`. Za novu bazu izvršite i `supabase/migrations/002_premium_catalog.sql` i `supabase/migrations/003_growth.sql`, pa seed. Na postojećoj bazi izvršite samo novu migraciju `002_premium_catalog.sql`: dodaje katalog i uslugu Moja Casa bez brisanja zahteva, cena, vidljivosti ili sadržaja koji je administrator menjao.
+1. Kreirajte Supabase projekat. U SQL editoru izvršite migracije `001_initial.sql`, `002_premium_catalog.sql`, `003_growth.sql`, `004_home_services.sql` i `005_service_prices.sql` iz direktorijuma `supabase/migrations`, tim redom, pa `supabase/seed.sql`. Na postojećoj bazi izvršite samo migracije koje još nisu primenjene. Migracija `004_home_services.sql` dodaje prošireni katalog bez izmena postojećih usluga, cena, vidljivosti, sadržaja ili zahteva.
 2. U okruženje unesite URL projekta, anon ključ i **serverski** service-role ključ. Nijedan privilegovani ključ nema `NEXT_PUBLIC_` prefiks.
 3. U Auth uključite email/password i obaveznu potvrdu email adrese. Podesite Site URL i dozvoljeni callback `https://vas-domen/auth/callback` (lokalno `http://localhost:3000/auth/callback`). Dodajte i callback sa `?next=/auth/oporavak` ako vaša allowlist konfiguracija traži tačan URL. Aplikacija koristi PKCE exchange i standardne Supabase confirmation/recovery linkove; ne menjajte template na direktan token link bez corresponding callback podrške.
 4. Za stvarnu isporuku emaila podesite SMTP provajdera u Supabase. Podesite Supabase Auth rate limits i zaštitu od zloupotrebe prema saobraćaju.
@@ -136,7 +136,7 @@ Dizajn prati referencu https://getcasa.com/: video hero, serifni naslovi, krem k
 Dodatna provera renderovanog HTML-a (pokrenite lokalni server pre provere):
 
 ```sh
-TEST_SITE_URL=http://localhost:3000 node scripts/check-site.mjs
+TEST_SITE_URL=http://localhost:3000 npx tsx scripts/check-site.mjs
 ```
 
 Proverava 65 stranica, jezike, canonical/hreflang oznake, sitemap, JSON-LD, 404 odgovore, robots i sliku za deljenje. Automatizovani testovi dodatno proveravaju prevode i putanje. Stvarni email, zahtevi i plaćanja zahtevaju podešene servise.
@@ -166,3 +166,15 @@ Pre deployment-a povezanog sa stvarnom bazom izvršite `supabase/migrations/003_
 - `Administracija → Tim i radovi` prima samo stvarne zapise i fotografije uz dozvolu. Nacrt je podrazumevan. Objavljeni zapisi prikazuju se uz Casa standard na početnoj; prazna baza ne prikazuje izmišljene izvođače, recenzije ili završene radove. Dinamičan sadržaj iz administracije prevodi se kroz postojeći jezički rečnik.
 
 Automatska naplata pretplata, automatski email/WhatsApp, garantovani termini i kalendar zaposlenih nisu aktivirani. Sve javne ponude imaju dogovoren obim i cenu. Za stvarne naplate i isporuku poruka potrebni su odgovarajući povezani servisi i zasebna provera poslovne konfiguracije.
+
+## Mesečni paketi, cenovnik i operativa
+
+`lib/subscriptions.ts` definiše Casa Garderoba (10.000 RSD), Casa Ritam (18.000 RSD), Casa Na čuvanju (12.000 RSD) i Casa Family (38.000 RSD). To su mesečne ponude sa jasno ograničenim obimom. Izbor paketa prenosi se kroz `commerce.subscription_id`; server formira opis i cenu u zahtevu. Slanje zahteva ne aktivira automatsku pretplatu niti Stripe recurring naplatu. Tim prvo potvrđuje dostupnost, obim, početak i način mesečne uplate.
+
+`lib/service-pricing.ts` čuva informativne cene za 24 standardna zadatka, na osnovu javnih beogradskih cenovnika proverenih 12.10.2026. Naša referentna cena je 2× prosek malog uporedivog uzorka, odnosno 2× jedna referenca gde nema više izvora. Cena se odnosi samo na prikazani obim i jedinicu; materijal, posebni uslovi, minimum i troškovi dolaska potvrđuju se ponudom. Za preostalih 30 usluga ostaje cena na upit.
+
+Na postojećoj bazi primeniti `004_home_services.sql`, pa `005_service_prices.sql` nakon ranije primenjenih 001–003. Migracija 005 popunjava samo nedostajuće cene i čuva administratorove cene, zahteve, već prihvaćene ponude i uplate. Seed uključuje nove usluge i nove cene; na postojećoj produkciji ne ponavljati migracije 001 i 003.
+
+WhatsApp Business služi za kontakt; admin sistem ostaje evidencija. Koordinator vodi svaki posao kroz prijem, procenu partnera, ponudu, potvrdu termina, izvršenje i kontrolu. Svaki posao mora imati ID, odgovornu osobu, prihod, trošak partnera i termin. Izvođač dobija zaseban radni nalog i ne menja cenu bez nove potvrde korisnika. Brzi odgovori `/start`, `/ponuda`, `/partner`, `/gotovo`, `/pauza` i `/ponovi` olakšavaju ručni rad koordinatora. Ovo nisu automatske WhatsApp komande; API automatizacija i zajednički inbox zahtevaju dodatnu vezu sa WhatsApp Business Platform.
+
+Kredit za preporuku tim odobrava ručno nakon provere koda preporuke, prvog izvršenog i plaćenog posla od najmanje 10.000 RSD i članstva. Svaka osoba dobija 500 RSD kredita za sledeću uslugu, najviše jednom mesečno, sa rokom 90 dana i bez sabiranja akcija. Odobrenje i iskorišćenje beleže se uz zahtev; kredit se uključuje u članski popust sledeće ponude. Kontrola kvaliteta i rešavanje reklamacija važe za sve korisnike.

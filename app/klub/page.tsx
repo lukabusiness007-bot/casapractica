@@ -64,34 +64,16 @@ export default async function Club() {
         </span>
       </section>
       <section className="club-benefits container">
-        <div>
-          <Gift size={30} />
-          <h3>{t("Malo lepše ponude.")}</h3>
-          <p>
-            {t(
-              "Članski popusti i odabrane pogodnosti za usluge koje vaš svakodnevni život čine jednostavnijim.",
-            )}
-          </p>
-        </div>
-        <div>
-          <Sparkles size={30} />
-          <h3>{t("Vi saznajete prvi.")}</h3>
-          <p>
-            {t(
-              "Nove usluge i posebne ponude dostupne članicama pre nego što ih predstavimo svima.",
-            )}
-          </p>
-        </div>
-        <div>
-          <Heart size={30} />
-          <h3>{t("Pripadate svom krugu.")}</h3>
-          <p>
-            {t(
-              "Vaše pogodnosti na jednom mestu, u vašem nalogu. Bez članarine i komplikovanih koraka.",
-            )}
-          </p>
-        </div>
+        {[
+          { Icon: House, title: "Vaš profil doma", text: "Uređaji, želje i prethodni zahtevi na jednom mestu. Pri sledećoj poseti nastavljamo od dogovorene liste." },
+          { Icon: Heart, title: "Jedna poruka: PONOVI", text: "Ponovite prethodnu uslugu preko WhatsApp-a. Koordinator potvrđuje aktuelnu cenu i novi termin." },
+          { Icon: Gift, title: "Preporuka koja se vraća", text: "Po 500 RSD kredita za vas i prijatelja nakon njegove prve izvršene i plaćene usluge od najmanje 10.000 RSD. Tim proverava i potvrđuje pogodnost." },
+          { Icon: CalendarDays, title: "Sezonska briga, na vreme", text: "Uz vaš pristanak podsećamo vas na klimu, filtere i pripremu doma pred put. Svaku uslugu posebno potvrđujete." },
+          { Icon: ClipboardList, title: "Više zadataka u jednom dolasku", text: "Pošaljite svoju listu. Spajamo kompatibilne poslove i pripremamo jednu ponudu sa jasno iskazanim dolaskom." },
+          { Icon: Sparkles, title: "Vaš koordinator za redovnu brigu", text: "Uz mesečni paket dogovaramo stalne termine i vaš način komunikacije. Promene i dodatne poslove rešavate preko jednog kontakta." },
+        ].map(({ Icon, title, text }) => <div key={title}><Icon size={30} /><h3>{t(title)}</h3><p>{t(text)}</p></div>)}
       </section>
+      <p className="container fine-print center">{t("Najviše jedan klupski kredit po nalogu mesečno. Kredit važi 90 dana, koristi se za sledeću uslugu i ne sabira se sa drugim akcijama.")}</p>
       <section className="container">
         {benefits?.map((b) => (
           <article className="panel" key={b.id}>

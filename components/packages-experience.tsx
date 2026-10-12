@@ -61,45 +61,6 @@ export function PackagesExperience({
   }
   return (
     <>
-      <div className="plans-grid">
-        {casaPlans
-          .filter((entry) => ["once", "monthly", "weekly"].includes(entry.id))
-          .map((entry) => (
-            <article className="plan-card" key={entry.id}>
-              <span className="eyebrow">{t(entry.name)}</span>
-              <h2>
-                {entry.id === "once"
-                  ? t("Jedna poseta.")
-                  : entry.id === "monthly"
-                    ? t("Dva dolaska mesečno.")
-                    : t("Pomoć svake nedelje.")}
-              </h2>
-              <p>
-                {entry.id === "weekly"
-                  ? t(
-                      "Za obaveze koje se ponavljaju svake nedelje. Dogovaramo listu poslova i stalni ritam dolazaka.",
-                    )
-                  : t(entry.description)}
-              </p>
-              <span className="plan-price">
-                {t("Ponudu dobijate pre potvrde.")}
-              </span>
-              <Link
-                className="button button-dark"
-                href={`/konsultacije?tier=${entry.id === "weekly" ? "private" : entry.id === "monthly" ? "signature" : "once"}`}
-                onClick={() =>
-                  track(
-                    "plan_select",
-                    `tier:${entry.id === "weekly" ? "private" : entry.id === "monthly" ? "signature" : "once"}`,
-                  )
-                }
-              >
-                {t("Zatražite ponudu")}
-                <ArrowRight size={16} />
-              </Link>
-            </article>
-          ))}
-      </div>
       <section className="plan-guidance">
         <div>
           <h2>{t("Niste sigurni koliko često vam treba pomoć?")}</h2>

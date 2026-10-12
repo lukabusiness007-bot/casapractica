@@ -27,3 +27,67 @@ insert into public.services(id,slug,name,tagline,description,image,sort_order) v
 ('ca5a0000-0000-4000-8000-000000000026','dom-spreman-za-goste','Dom spreman za goste','Više vremena za vas.','Uređujemo dogovoreni prostor, pripremamo posteljinu i postavljamo sto sa vašim posuđem i dekoracijom, uz pažnju prema završnim detaljima.','/images/kitchen.jpg',26),
 ('ca5a0000-0000-4000-8000-000000000100','moja-casa','Moja Casa','Briga o domu, po vašoj meri.','Sastavite svoj izbor usluga i učestalost dolazaka. Naš tim potvrđuje obim, dostupnost i konačnu ponudu pre početka saradnje.','/images/hero.jpg',100)
 on conflict do nothing;
+
+-- Add grouped home-care services without changing existing services or requests.
+insert into public.services(id,slug,name,tagline,description,image,sort_order) values
+('ca5a0000-0000-4000-8000-000000000201','ventilatori-i-ventilacija','Ventilatori i ventilacija','Svetlo, sigurnost i pouzdane instalacije.','Zamena kupatilskog ventilatora i montaža plafonskog ventilatora. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/lamp.jpg',27),
+('ca5a0000-0000-4000-8000-000000000202','detektori-dima','Održavanje detektora dima','Svetlo, sigurnost i pouzdane instalacije.','Zamena baterija i provera detektora dima. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/lamp.jpg',28),
+('ca5a0000-0000-4000-8000-000000000203','elektroinstalacije','Pregled i obnova elektroinstalacija','Svetlo, sigurnost i pouzdane instalacije.','Zamena razvodne table i pregled elektroinstalacija. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/lamp.jpg',29),
+('ca5a0000-0000-4000-8000-000000000204','odgusenje-odvoda','Odgušenje odvoda','Od slavine koja kaplje do novih sanitarija.','Odgušenje odvoda tuša i čišćenje dostupnih sifona. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/kitchen.jpg',30),
+('ca5a0000-0000-4000-8000-000000000205','mlin-za-otpatke','Ugradnja mlina za kuhinjski otpad','Od slavine koja kaplje do novih sanitarija.','Montaža i povezivanje mlina za otpatke ispod sudopere. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/kitchen.jpg',31),
+('ca5a0000-0000-4000-8000-000000000206','bojleri-pumpe-i-cevi','Bojleri, pumpe i zamena cevi','Od slavine koja kaplje do novih sanitarija.','Zamena bojlera i drenažne pumpe. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/kitchen.jpg',32),
+('ca5a0000-0000-4000-8000-000000000207','odrzavanje-kucnih-aparata','Manje održavanje kućnih aparata','Redovna briga, u kući i oko nje.','Čišćenje i manje održavanje kućnih aparata prema uputstvu proizvođača. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/air.jpg',33),
+('ca5a0000-0000-4000-8000-000000000208','terase-i-spoljne-povrsine','Održavanje terasa i spoljnih površina','Redovna briga, u kući i oko nje.','Održavanje drvenih terasa i popločanih dvorišnih površina. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/air.jpg',34),
+('ca5a0000-0000-4000-8000-000000000209','preventivni-pregled-doma','Preventivni pregled doma','Redovna briga, u kući i oko nje.','Provera bezbednosti doma za decu i kućne ljubimce. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/air.jpg',35),
+('ca5a0000-0000-4000-8000-000000000210','krov-temelji-i-dimnjak','Pregled krova, temelja i čišćenje dimnjaka','Redovna briga, u kući i oko nje.','Pregled krova i provera temelja. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/air.jpg',36),
+('ca5a0000-0000-4000-8000-000000000211','montaza-i-servis-roletni','Montaža i održavanje roletni i žaluzina','Lepše svetlo. Više privatnosti.','Montaža, prilagođavanje i podešavanje žaluzina i roletni. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/living.jpg',37),
+('ca5a0000-0000-4000-8000-000000000212','zavese-i-roletne-po-meri','Zavese i roletne po meri','Lepše svetlo. Više privatnosti.','Izrada žaluzina po meri i ugradnja motorizovanih roletni. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/living.jpg',38),
+('ca5a0000-0000-4000-8000-000000000213','popravka-vrata-i-prozora','Popravka vrata, prozora i okova','Otvaranje sa lakoćom, zatvaranje bez brige.','Popravka okvira vrata i prozora i podmazivanje šarki. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/living.jpg',39),
+('ca5a0000-0000-4000-8000-000000000214','zaptivanje-i-komarnici','Zaptivanje i komarnici','Otvaranje sa lakoćom, zatvaranje bez brige.','Zamena zaptivnih traka i zaptivanje vrata i prozora. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/living.jpg',40),
+('ca5a0000-0000-4000-8000-000000000215','ugradnja-i-obnova-prozora','Ugradnja i obnova prozora i stakala','Otvaranje sa lakoćom, zatvaranje bez brige.','Ugradnja novih prozora, obnova postojećih i zamena stakala. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/living.jpg',41),
+('ca5a0000-0000-4000-8000-000000000216','gipsani-radovi-i-sanacija','Veći gipsani radovi i sanacija','Uredne površine, do poslednjeg detalja.','Montaža većih površina gipsanih ploča i uklanjanje zidnih obloga. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/living.jpg',42),
+('ca5a0000-0000-4000-8000-000000000217','nosaci-i-organizacija-garaze','Nosači i organizacija garaže','TV, slike, ogledala i police na svom mestu.','Montaža nosača za bicikle, kuka i sistema za organizaciju garaže. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/living.jpg',43),
+('ca5a0000-0000-4000-8000-000000000218','ugradnja-zvucnih-sistema','Ugradnja zvučnih sistema','Pametni uređaji, Wi-Fi i povezan dom.','Ugradnja i povezivanje zvučnih sistema. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/lamp.jpg',44),
+('ca5a0000-0000-4000-8000-000000000219','vertikalne-baste','Postavljanje vertikalnih bašti','Redovna briga, u kući i oko nje.','Postavljanje sistema za vertikalne bašte. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/air.jpg',45),
+('ca5a0000-0000-4000-8000-000000000220','popravka-i-ucvrscivanje-namestaja','Popravka i učvršćivanje nameštaja','Stabilno, funkcionalno i spremno za korišćenje.','Popravka labavih spojeva i nestabilnih stolica i stolova. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/living.jpg',46),
+('ca5a0000-0000-4000-8000-000000000221','tapaciranje-i-mehanizmi','Tapaciranje i popravka mehanizama','Stabilno, funkcionalno i spremno za korišćenje.','Popravka i zamena jastuka, popravka kože i vinila. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/living.jpg',47),
+('ca5a0000-0000-4000-8000-000000000222','pametna-zvona-kamere-i-brave','Pametna zvona, kamere i brave','Pametni uređaji, Wi-Fi i povezan dom.','Montaža i podešavanje pametnog zvona i sigurnosnih kamera. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/lamp.jpg',48),
+('ca5a0000-0000-4000-8000-000000000223','mrezna-dijagnostika-i-bezbednost','Mrežna dijagnostika i bezbednost','Pametni uređaji, Wi-Fi i povezan dom.','Dijagnostika problema sa Wi-Fi vezom i podešavanje mrežne bezbednosti. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/lamp.jpg',49),
+('ca5a0000-0000-4000-8000-000000000224','punjaci-za-elektricna-vozila','Priprema instalacije za EV punjač','Pametni uređaji, Wi-Fi i povezan dom.','Prilagođavanje elektroinstalacije za punjač električnog vozila. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/lamp.jpg',50),
+('ca5a0000-0000-4000-8000-000000000225','ciscenje-oluka','Čišćenje oluka i odvodnih cevi','Čisti oluci i kišnica na pravom putu.','Čišćenje oluka i vertikalnih odvodnih cevi. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/hero.jpg',51),
+('ca5a0000-0000-4000-8000-000000000226','popravka-i-podesavanje-oluka','Popravka i podešavanje oluka','Čisti oluci i kišnica na pravom putu.','Popravka oluka i spojeva, ponovno pričvršćivanje i podešavanje nagiba. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/hero.jpg',52),
+('ca5a0000-0000-4000-8000-000000000227','usmeravanje-i-sakupljanje-kisnice','Usmeravanje i sakupljanje kišnice','Čisti oluci i kišnica na pravom putu.','Ugradnja produžetaka odvodnih cevi i podložaka za odvod vode. Obim posla, materijal i termin dogovaramo pre dolaska.','/images/hero.jpg',53),
+('ca5a0000-0000-4000-8000-000000000228','zamena-i-zastita-oluka','Zamena i zaštita oluka','Čisti oluci i kišnica na pravom putu.','Zamena oluka, ugradnja zaštitnih mrežica i farbanje oluka. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.','/images/hero.jpg',54)
+on conflict do nothing;
+
+-- Indicative prices for standard jobs; fill only previously unpriced services.
+-- Existing admin prices, quotes and payments remain intact.
+update public.services as service
+set price = proposed.price
+from (values
+('pranje-tepiha',94667),
+('ugradnja-tv-a',1100000),
+('servis-klime',833333),
+('kacenje-slika-i-ogledala',800000),
+('montaza-polica',1160000),
+('postavljanje-garnisni',1000000),
+('sklapanje-namestaja',1300000),
+('podesavanje-vrata-i-fioka',600000),
+('obnova-silikona',700000),
+('vodoinstalaterske-intervencije',970000),
+('elektricarske-intervencije',873333),
+('odrzavanje-filtera',1000000),
+('podesavanje-wifi-mreze',300000),
+('pametni-uredjaji',880000),
+('nega-garderobe',86667),
+('pakovanje-i-raspakivanje',1600000),
+('elektroinstalacije',2040000),
+('odgusenje-odvoda',1000000),
+('bojleri-pumpe-i-cevi',1350000),
+('montaza-i-servis-roletni',1120000),
+('popravka-vrata-i-prozora',950000),
+('zaptivanje-i-komarnici',1000000),
+('pametna-zvona-kamere-i-brave',1840000),
+('ciscenje-oluka',4000000)
+) as proposed(slug,price)
+where service.slug = proposed.slug and service.price is null;

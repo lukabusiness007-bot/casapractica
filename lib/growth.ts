@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { findSubscription } from "./subscriptions";
 import type { Service } from "./catalog";
 
 export const collections = [
@@ -95,6 +96,7 @@ export const commerceSchema = z
     intent: z
       .enum(["service", "visit", "managed", "plan-change"])
       .default("service"),
+    subscription_id: z.enum(["garderoba", "ritam", "na-cuvanju", "family"]).optional(),
     tier: z.enum(["once", "signature", "private"]).optional(),
     collection_id: z
       .enum([
@@ -125,6 +127,8 @@ export const commerceSchema = z
   })
   .strict()
   .superRefine((value, context) => {
+    if (value.subscription_id && (value.tier || !["managed", "plan-change"].includes(value.intent)))
+      context.addIssue({ code: "custom", message: "Proverite izbor plana." });
     if ((value.intent === "plan-change") !== Boolean(value.plan_change))
       context.addIssue({ code: "custom", message: "Proverite izbor plana." });
   });
@@ -136,6 +140,15 @@ export function commerceNote(
   available: Service[],
 ) {
   const lines: string[] = [];
+  if (commerce.subscription_id) {
+    if (primary.slug !== "moja-casa") throw new Error("Proverite izbor plana.");
+    const subscription = findSubscription(commerce.subscription_id)!;
+    lines.push(`Mesečni paket: ${subscription.name}`);
+    lines.push(`Informativna mesečna cena: ${(subscription.price / 100).toFixed(2)} RSD`);
+    lines.push(...subscription.includes.map((item) => `• ${item}`));
+    lines.push(`Posebno: ${subscription.excludes}`);
+    lines.push("Početak i naplata nakon potvrde ponude; ovaj zahtev ne aktivira automatsku pretplatu.");
+  }
   for (const id of commerce.additional_service_ids) {
     const service = available.find(
       (service) => service.id === id && service.active,

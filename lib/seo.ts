@@ -101,9 +101,9 @@ export function publicPageMetadata(locale: Locale, path: string) {
     return pageMetadata(
       locale,
       path,
-      t("Redovna pomoć"),
+      t("Mesečne pretplate za vaš dom"),
       t(
-        "Izaberite jedan dolazak ili redovnu pomoć. Recite nam koje poslove imate, a mi pripremamo ponudu sa cenom i terminima.",
+        "Izaberite obaveze koje želite da prepustite nama. Jedna mesečna cena, dogovoreni dolasci i vaš Casa koordinator.",
       ),
     );
   if (path === "/" || path === "/usluge")

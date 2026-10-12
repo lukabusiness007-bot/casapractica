@@ -263,7 +263,7 @@ export function RequestForm({
         </details>
         <label>
           {t("Kako da vas kontaktiramo?")}
-          <select name="contact_preference" defaultValue="phone">
+          <select name="contact_preference" defaultValue={commerce.contact_preference || "phone"}>
             <option value="phone">{t("Telefonski poziv")}</option>
             <option value="whatsapp">WhatsApp</option>
           </select>

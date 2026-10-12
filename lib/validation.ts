@@ -34,6 +34,8 @@ export const requestSchema = z
     analytics_session_id: z.string().uuid().optional(),
   })
   .superRefine((input, context) => {
+    if (input.commerce?.subscription_id && input.service_id !== packageServiceId)
+      context.addIssue({ code: "custom", path: ["service_id"], message: "Proverite izbor plana." });
     if (
       (input.service_id === packageServiceId &&
         (!input.commerce || input.commerce.intent === "service")) !==

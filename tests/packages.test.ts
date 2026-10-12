@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readFile } from "node:fs/promises";
 import { PGlite } from "@electric-sql/pglite";
+import { servicePricing } from "../lib/service-pricing";
+import { additionalServices } from "../lib/catalog-additions";
 import { packageServiceId, services } from "../lib/catalog";
 import { packageSchema, packageRequestNote } from "../lib/packages";
 import { requestSchema } from "../lib/validation";
@@ -111,7 +113,7 @@ test("package summaries use current server catalog names and reject unavailable 
   );
 });
 
-test("premium catalog migration preserves existing requests, prices and admin edits and is repeatable", async () => {
+test("catalog migrations preserve existing requests, prices and admin edits and are repeatable", async () => {
   const db = new PGlite();
   try {
     await db.exec(
@@ -144,6 +146,24 @@ test("premium catalog migration preserves existing requests, prices and admin ed
     );
     await db.exec(migration);
     await db.exec(migration);
+    const additions = await readFile("supabase/migrations/004_home_services.sql", "utf8");
+    await db.exec(additions);
+    await db.exec(additions);
+    for (const service of additionalServices) {
+      const stored = (await db.query<{ slug: string; description: string }>(
+        "select slug,description from public.services where id=$1", [service.id],
+      )).rows[0];
+      assert.equal(stored.slug, service.slug);
+      assert.equal(stored.description, service.description);
+    }
+    const prices = await readFile("supabase/migrations/005_service_prices.sql", "utf8");
+    await db.exec(prices);
+    await db.exec(prices);
+    for (const [slug, pricing] of Object.entries(servicePricing)) {
+      if (["pranje-tepiha", "ugradnja-tv-a"].includes(slug)) continue;
+      const stored = (await db.query<{ price: string }>("select price from public.services where slug=$1", [slug])).rows[0];
+      assert.equal(Number(stored.price), pricing.price);
+    }
     const existing = (
       await db.query<{ name: string; price: number; active: boolean }>(
         "select name,price,active from public.services where id=$1",

@@ -9,7 +9,9 @@ import { getServices, growthReady } from "@/lib/data";
 import { relatedServices } from "@/lib/growth";
 import { ViewEvent } from "@/components/analytics-consent";
 import { RequestForm } from "@/components/request-form";
-import { money, packageServiceId } from "@/lib/catalog";
+import { servicePricing } from "@/lib/service-pricing";
+import { serviceScopes } from "@/lib/catalog-additions";
+import { servicePriceLabel, packageServiceId } from "@/lib/catalog";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
@@ -39,6 +41,7 @@ export default async function ServiceDetail({
   const { slug } = await params;
   const service = (await getServices()).find((s) => s.slug === slug);
   if (!service) notFound();
+  const scope = serviceScopes[service.slug];
   const locale = await getLocale();
   const url = absoluteUrl(`/usluge/${slug}`, locale);
   return (
@@ -121,9 +124,17 @@ export default async function ServiceDetail({
           </h1>
           <p className="lead">{t(service.tagline)}</p>
           <p>{t(service.description)}</p>
+          {scope && (
+            <div className="detail-service-scope">
+              <h2>{t("Šta obuhvata usluga")}</h2>
+              <ul>{scope.tasks.map((task) => <li key={task}><Check size={16} aria-hidden="true" /><span>{t(task)}</span></li>)}</ul>
+              {scope.specialist && <p className="detail-specialist-note">{t("Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.")}</p>}
+            </div>
+          )}
+          {servicePricing[service.slug] && <p className="service-price-scope">{t("Cena za standardni obim:")} <strong>{t(servicePricing[service.slug].scope)}</strong><small>{t("Konačnu cenu, dolazak, materijal i dodatne radove potvrđujete pre realizacije.")}</small></p>}
           <div className="price-line">
             {service.price
-              ? `${t("Od")} ${money(service.price, locale)}`
+              ? servicePriceLabel(service, locale, t)
               : t("Cena na upit")}
             <span>{t("Bez plaćanja prilikom slanja zahteva")}</span>
           </div>
