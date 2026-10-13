@@ -75,6 +75,7 @@ export function ServiceWheel({ services }: { services: Service[] }) {
         <div
           ref={windowRef}
           className="task-wheel-window"
+          data-lenis-prevent
           role="region"
           aria-label={t("Naše usluge")}
           tabIndex={0}

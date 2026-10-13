@@ -6,7 +6,9 @@ import { publicPageMetadata } from "@/lib/seo";
 import { LocaleProvider } from "@/components/locale-provider";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import "lenis/dist/lenis.css";
 import "./globals.css";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { AnalyticsConsent } from "@/components/analytics-consent";
 import { growthReady } from "@/lib/data";
 export async function generateMetadata() {
@@ -23,9 +25,10 @@ export default async function RootLayout({
   const locale = await getLocale();
   const t = await getTranslator();
   return (
-    <html lang={languageTags[locale]}>
+    <html lang={languageTags[locale]} data-scroll-behavior="smooth">
       <body>
         <LocaleProvider locale={locale} messages={dictionary(locale)}>
+          <SmoothScroll />
           <a href="#main" className="skip-link">
             {t("Pređi na sadržaj")}
           </a>
