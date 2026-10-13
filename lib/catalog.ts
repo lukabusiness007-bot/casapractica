@@ -1,6 +1,7 @@
 import { servicePricing } from "./service-pricing";
 import { additionalServices } from "./catalog-additions";
 import { serviceImage } from "./service-images";
+import { retiredServiceSlugs } from "./service-availability";
 export type Service = {
   id: string;
   slug: string;
@@ -16,14 +17,14 @@ export const serviceCategories = [
   {
     id: "everyday",
     title: "Čišćenje i nega doma",
-    tagline: "Tepisi, garderoba i posteljina. Svežina u svakom kutku.",
-    description: "Tepisi, garderoba i posteljina. Svežina u svakom kutku.",
+    tagline: "Pranje tepiha i čišćenje doma. Svežina u svakom kutku.",
+    description: "Pranje tepiha i čišćenje doma. Svežina u svakom kutku.",
   },
   {
     id: "organization",
-    title: "Svakodnevna pomoć i organizacija",
-    tagline: "Nabavka, selidba i briga o domu dok ste odsutni.",
-    description: "Nabavka, selidba i briga o domu dok ste odsutni.",
+    title: "Iznošenje i dostava",
+    tagline: "Iznošenje smeća, šuta i nameštaja, preuzimanje paketa i hemijsko čišćenje.",
+    description: "Iznošenje smeća, šuta i nameštaja, preuzimanje paketa i hemijsko čišćenje.",
   },
   {
     id: "mounting",
@@ -70,8 +71,10 @@ export const serviceCategories = [
 ] as const;
 export type ServiceCategory = (typeof serviceCategories)[number]["id"];
 const categoriesBySlug: Record<string, ServiceCategory> = {
+  "ciscenje-doma": "everyday",
+  "krecenje": "doors-windows",
   "pranje-tepiha": "everyday",
-  "iznosenje-smeca": "everyday",
+  "iznosenje-smeca": "organization",
   "ugradnja-tv-a": "mounting",
   "zamena-sijalica": "electrical",
   "servis-klime": "maintenance",
@@ -132,7 +135,7 @@ export function serviceCategory(
   return categoriesBySlug[service.slug] || "everyday";
 }
 export function isIndividualService(service: Pick<Service, "id" | "slug">) {
-  return service.id !== packageServiceId && service.slug !== "moja-casa";
+  return service.id !== packageServiceId && service.slug !== "moja-casa" && !retiredServiceSlugs.has(service.slug);
 }
 export const services: Service[] = [
   {
@@ -150,10 +153,10 @@ export const services: Service[] = [
   {
     id: "22222222-2222-4222-8222-222222222222",
     slug: "iznosenje-smeca",
-    name: "Iznošenje smeća",
-    tagline: "Jedna obaveza manje. Svakog dana.",
+    name: "Iznošenje smeća, šuta i nameštaja",
+    tagline: "Oslobodite prostor. Mi nosimo teret.",
     description:
-      "Diskretno preuzimanje kućnog smeća i reciklaže u dogovorenom terminu, zamena kese i uredan prostor oko kante. Navedite količinu, sprat i lift; redovne dolaske planiramo prema vašoj adresi.",
+      "Iznosimo smeće, šut u vrećama i stari nameštaj iz stana ili kuće. Navedite količinu, dimenzije većih predmeta, sprat i dostupnost lifta. Iznošenje, odvoz i odgovarajuće zbrinjavanje dogovaramo pre dolaska.",
     image: "/images/kitchen.jpg",
     price: null,
     active: true,
@@ -360,7 +363,7 @@ export const services: Service[] = [
       "Peglamo i slažemo odeću prema uputstvima za negu, pripremamo veš za pranje i odlažemo stvari prema vašim navikama.",
     image: "/images/club.jpg",
     price: null,
-    active: true,
+    active: false,
     sort_order: 19,
   },
   {
@@ -372,7 +375,7 @@ export const services: Service[] = [
       "Menjamo vašu pripremljenu posteljinu, pažljivo nameštamo krevet i pripremamo korišćenu posteljinu za pranje.",
     image: "/images/hero.jpg",
     price: null,
-    active: true,
+    active: false,
     sort_order: 20,
   },
   {
@@ -384,7 +387,7 @@ export const services: Service[] = [
       "Sređujemo garderober, ostavu i kuhinjske elemente sa vama, organizujemo sezonske stvari i pripremamo dogovorene predmete za donaciju.",
     image: "/images/kitchen.jpg",
     price: null,
-    active: true,
+    active: false,
     sort_order: 21,
   },
   {
@@ -396,7 +399,7 @@ export const services: Service[] = [
       "Kupujemo prema vašoj listi, dogovaramo zamene proizvoda i raspoređujemo namirnice po dolasku. Proizvode i uslugu iskazujemo odvojeno.",
     image: "/images/kitchen.jpg",
     price: null,
-    active: true,
+    active: false,
     sort_order: 22,
   },
   {
@@ -420,7 +423,7 @@ export const services: Service[] = [
       "Tokom vašeg odsustva zalivamo biljke, obilazimo stan i šaljemo kratak izveštaj. Pristup i listu zadataka dogovaramo pre putovanja.",
     image: "/images/hero.jpg",
     price: null,
-    active: true,
+    active: false,
     sort_order: 24,
   },
   {
@@ -432,7 +435,7 @@ export const services: Service[] = [
       "Pomažemo da pažljivo spakujete stvari ili uredite novi dom nakon selidbe. Ambalažu, obim i eventualno pomeranje težih predmeta dogovaramo posebno.",
     image: "/images/living.jpg",
     price: null,
-    active: true,
+    active: false,
     sort_order: 25,
   },
   {
@@ -444,10 +447,32 @@ export const services: Service[] = [
       "Uređujemo dogovoreni prostor, pripremamo posteljinu i postavljamo sto sa vašim posuđem i dekoracijom, uz pažnju prema završnim detaljima.",
     image: "/images/kitchen.jpg",
     price: null,
-    active: true,
+    active: false,
     sort_order: 26,
   },
   ...additionalServices,
+  {
+    id: "ca5a0000-0000-4000-8000-000000000301",
+    slug: "ciscenje-doma",
+    name: "Čišćenje doma",
+    tagline: "Čist prostor. Lakša svakodnevica.",
+    description: "Čistimo podove, dostupne površine, kuhinju i kupatilo u vašem stanu ili kući. Redovno ili detaljno čišćenje, pranje prozora i obim posla dogovaramo prema površini i stanju prostora, pre dolaska.",
+    image: "/images/services/ciscenje-doma.webp",
+    price: null,
+    active: true,
+    sort_order: 19,
+  },
+  {
+    id: "ca5a0000-0000-4000-8000-000000000302",
+    slug: "krecenje",
+    name: "Krečenje",
+    tagline: "Sveži zidovi. Novi osećaj doma.",
+    description: "Pripremamo zidove i plafone, štitimo podove i nameštaj i krečimo dogovorene površine. Kvadraturu, stanje zidova, nijansu, broj slojeva i materijal potvrđujemo pre rada, uz sređivanje prostora nakon završetka.",
+    image: "/images/services/krecenje.webp",
+    price: null,
+    active: true,
+    sort_order: 20,
+  },
   {
     id: "ca5a0000-0000-4000-8000-000000000100",
     slug: "moja-casa",
@@ -465,6 +490,19 @@ export const services: Service[] = [
   image: serviceImage(service),
   price: servicePricing[service.slug]?.price ?? service.price,
 }));
+export function isRetiredServiceId(id: string) {
+  return services.some((service) => service.id === id && retiredServiceSlugs.has(service.slug));
+}
+
+export function publicService(service: Service): Service {
+  const renamed = service.slug === "iznosenje-smeca" ? services.find((item) => item.slug === service.slug) : undefined;
+  return {
+    ...service,
+    ...(renamed ? { name: renamed.name, tagline: renamed.tagline, description: renamed.description } : {}),
+    image: serviceImage(service),
+  };
+}
+
 export const statusLabels: Record<string, string> = {
   received: "Primljen zahtev",
   discussing: "U dogovoru",

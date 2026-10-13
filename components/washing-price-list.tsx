@@ -1,4 +1,5 @@
-import { money } from "@/lib/catalog";
+import { ClubPrice } from "./club-price";
+import Link from "./localized-link";
 import { washingPriceList } from "@/lib/washing-pricing";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 
@@ -11,6 +12,7 @@ export async function WashingPriceList() {
         <span className="eyebrow">{t("Cenovnik")}</span>
         <h2 id="washing-price-heading">{t("Pranje i nega, po vašoj meri.")}</h2>
         <p>{t("Izaberite vrstu pranja i dodatne usluge. Transport je iskazan posebno.")}</p>
+        <Link className="text-link" href="/klub#pristupi">{t("Besplatno članstvo donosi 5% popusta na ceo cenovnik")}</Link>
       </div>
       <div className="washing-price-grid">
         {washingPriceList.map((group) => (
@@ -22,10 +24,7 @@ export async function WashingPriceList() {
                 {group.items.map((item) => (
                   <tr key={item.name}>
                     <th scope="row">{t(item.name)}{item.detail && <small>{t(item.detail)}</small>}</th>
-                    <td>{item.price === null ? <span>{t("Procena na licu mesta")}</span> : <>
-                      <strong>{item.maxPrice ? `${money(item.price, locale)} – ${money(item.maxPrice, locale)}` : money(item.price, locale)}</strong>
-                      {item.unit && <small>{t(item.unit)}</small>}
-                    </>}</td>
+                    <td>{item.price === null ? <span>{t("Procena na licu mesta")}<small>{t("Članovi kluba: 5% popusta na dogovorenu cenu")}</small></span> : <ClubPrice price={item.price} maxPrice={item.maxPrice} unit={item.unit} locale={locale} t={t} />}</td>
                   </tr>
                 ))}
               </tbody>

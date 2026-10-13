@@ -1,12 +1,17 @@
 "use client";
 import { useLocale, useTranslation } from "@/components/locale-provider";
 import Link from "./localized-link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, MessageCircle } from "lucide-react";
 import type { Service } from "@/lib/catalog";
 import type { PackageSelection } from "@/lib/packages";
 import { upgrades, type CommerceInput } from "@/lib/growth";
 import { analyticsSession, track } from "@/lib/analytics-client";
+import { ClubPrice } from "./club-price";
+import { servicePricing } from "@/lib/service-pricing";
+import { WashingEstimate } from "./washing-estimate";
+import type { WashingSelection, WashingExtra } from "@/lib/club";
+import { WashingExtras } from "./washing-extras";
 export function RequestForm({
   service,
   ready,
@@ -26,6 +31,11 @@ export function RequestForm({
 }) {
   const t = useTranslation();
   const locale = useLocale();
+  const leadStarted = useRef(false);
+  const [washing, setWashing] = useState<WashingSelection>();
+  const [washingExtras, setWashingExtras] = useState<WashingExtra[]>([]);
+  const [scope, setScope] = useState("full");
+  const [cadence, setCadence] = useState("once");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [additional, setAdditional] = useState<string[]>([]);
@@ -40,6 +50,11 @@ export function RequestForm({
   useEffect(() => {
     setAdditional([]);
     setUpgradeIds([]);
+    setWashing(undefined);
+    setWashingExtras([]);
+    setScope("full");
+    setCadence("once");
+    leadStarted.current = false;
   }, [service.id]);
   const context =
     commerce.intent && commerce.intent !== "service"
@@ -68,6 +83,12 @@ export function RequestForm({
           ...(packageSelection ? { package: packageSelection } : {}),
           commerce: {
             ...commerce,
+            ...(washing ? { washing } : {}),
+            ...(washingExtras.length ? { washing_extras: washingExtras } : {}),
+            ...(["ciscenje-doma", "krecenje"].includes(service.slug)
+              ? { service_scope: scope }
+              : {}),
+            ...(service.slug === "ciscenje-doma" ? { cadence } : {}),
             additional_service_ids: additional,
             upgrade_ids: upgradeIds,
             booked_for: formData.has("assistant") ? "assistant" : "self",
@@ -80,6 +101,7 @@ export function RequestForm({
       const body = await response.json();
       if (!response.ok) throw Error(body.error);
       setResult(body);
+      track("lead_submit", context);
     } catch (error) {
       setError(
         error instanceof Error ? t(error.message) : t("Pokušajte ponovo."),
@@ -115,6 +137,17 @@ export function RequestForm({
           </a>
         )}
         <div className="success-next">
+          <div className="request-club-invite">
+            <strong>{t("Sledeća poseta uz 5% popusta")}</strong>
+            <p>
+              {t(
+                "Pristupite besplatnom klubu pre početka plaćanja. Zahtev možete povezati sa nalogom nakon potvrde iste email adrese.",
+              )}
+            </p>
+            <Link className="button button-light" href="/registracija?club=yes">
+              {t("Pristupite besplatnom klubu")}
+            </Link>
+          </div>
           <p>{t("Za sledeću posetu, plan možemo pripremiti zajedno.")}</p>
           <Link className="text-link" href="/paketi">
             {t("Upoznajte Casa planove")}
@@ -130,7 +163,12 @@ export function RequestForm({
   return (
     <form
       onSubmit={submit}
-      onFocus={() => track("lead_start", context)}
+      onFocus={() => {
+        if (!leadStarted.current) {
+          leadStarted.current = true;
+          track("lead_start", context);
+        }
+      }}
       className="form request-form"
       id={formId}
     >
@@ -142,50 +180,57 @@ export function RequestForm({
         </p>
       )}
       <fieldset disabled={busy} className="request-fields">
-        {(recommendations.length > 0 || options.length > 0) && (
-          <div className="visit-extras">
-            <h3>{t("Zaokružite svoju posetu.")}</h3>
-            <p>
+        {service.slug === "pranje-tepiha" && (
+          <WashingEstimate id={formId} onChange={setWashing} />
+        )}
+        {["ciscenje-doma", "krecenje"].includes(service.slug) && (
+          <div className="scope-choice">
+            <label>
+              {t("Izaberite obim")}
+              <select
+                value={scope}
+                onChange={(event) => setScope(event.target.value)}
+              >
+                <option value="full">
+                  {service.slug === "krecenje"
+                    ? t("Više prostorija")
+                    : t("Ceo dom")}
+                </option>
+                <option value="priority">
+                  {service.slug === "krecenje"
+                    ? t("Samo odabrani zidovi")
+                    : t("Kuhinja i kupatilo")}
+                </option>
+                {service.slug === "krecenje" && (
+                  <option value="single-room">{t("Jedna soba")}</option>
+                )}
+              </select>
+            </label>
+            <p className="fine-print">
               {t(
-                "Dok smo kod vas, možemo preuzeti i ove detalje. Obim i doplata u konačnoj ponudi.",
+                "Manji obim je opcija kada želite da ostanete u okviru budžeta. Cenu potvrđujemo nakon procene.",
               )}
             </p>
-            {options.map((item) => (
-              <label className="inline-check" key={item.id}>
-                <input
-                  type="checkbox"
-                  checked={upgradeIds.includes(item.id)}
-                  onChange={(event) => {
-                    setUpgradeIds(event.target.checked ? [item.id] : []);
-                    if (event.target.checked)
-                      track("addon_select", `upgrade:${item.id}`);
-                  }}
-                />
-                <span>
-                  {t(item.name)}
-                  <small>{t(item.description)}</small>
-                </span>
-              </label>
-            ))}
-            {recommendations.map((item) => (
-              <label className="inline-check" key={item.id}>
-                <input
-                  type="checkbox"
-                  checked={additional.includes(item.id)}
-                  onChange={(event) => {
-                    setAdditional((previous) =>
-                      event.target.checked
-                        ? [...previous, item.id]
-                        : previous.filter((id) => id !== item.id),
-                    );
-                    if (event.target.checked)
-                      track("addon_select", `service:${item.id}`);
-                  }}
-                />
-                <span>{t(item.name)}</span>
-              </label>
-            ))}
           </div>
+        )}
+        {service.slug === "ciscenje-doma" && (
+          <label>
+            {t("Koliko često vam treba pomoć?")}
+            <select
+              value={cadence}
+              onChange={(event) => setCadence(event.target.value)}
+            >
+              <option value="once">{t("Jednokratno")}</option>
+              <option value="weekly">{t("Svake nedelje")}</option>
+              <option value="fortnightly">{t("Na dve nedelje")}</option>
+              <option value="monthly">{t("Jednom mesečno")}</option>
+            </select>
+            <small>
+              {t(
+                "Redovne dolaske i cenu dogovaramo pre početka. Zahtev ne aktivira automatsku pretplatu.",
+              )}
+            </small>
+          </label>
         )}
         <div className="form-row">
           <label>
@@ -231,9 +276,78 @@ export function RequestForm({
             aria-describedby={`${formId}-building-details`}
           />
           <small id={`${formId}-building-details`}>
-            {t("Navedite sprat, dostupnost lifta i pravila zgrade za bučne radove. Termin i pristup dogovaramo pre dolaska.")}
+            {t(
+              "Navedite sprat, dostupnost lifta i pravila zgrade za bučne radove. Termin i pristup dogovaramo pre dolaska.",
+            )}
           </small>
         </label>
+        {service.slug === "pranje-tepiha" && (
+          <WashingExtras
+            selected={washingExtras}
+            onChange={setWashingExtras}
+            context={context}
+            limit={2 - additional.length}
+          />
+        )}
+        {(recommendations.length > 0 || options.length > 0) && (
+          <details className="visit-extras">
+            <summary>{t("Dodajte još nešto ovoj poseti")}</summary>
+
+            <p>
+              {t(
+                "Izaberite samo ono što vam treba. Dostupnost, redosled radova i svaku doplatu potvrđujemo u ponudi.",
+              )}
+            </p>
+            {options.map((item) => (
+              <label className="inline-check" key={item.id}>
+                <input
+                  type="checkbox"
+                  checked={upgradeIds.includes(item.id)}
+                  onChange={(event) => {
+                    setUpgradeIds(event.target.checked ? [item.id] : []);
+                    if (event.target.checked)
+                      track("addon_select", `upgrade:${item.id}`);
+                  }}
+                />
+                <span>
+                  {t(item.name)}
+                  <small>{t(item.description)}</small>
+                </span>
+              </label>
+            ))}
+            {recommendations.map((item) => (
+              <label className="inline-check" key={item.id}>
+                <input
+                  type="checkbox"
+                  checked={additional.includes(item.id)}
+                  disabled={
+                    !additional.includes(item.id) &&
+                    additional.length + washingExtras.length >= 2
+                  }
+                  onChange={(event) => {
+                    setAdditional((previous) =>
+                      event.target.checked
+                        ? [...previous, item.id]
+                        : previous.filter((id) => id !== item.id),
+                    );
+                    if (event.target.checked)
+                      track("addon_select", `service:${item.id}`);
+                  }}
+                />
+                <span>
+                  {t(item.name)}
+                  <ClubPrice
+                    price={item.price}
+                    from
+                    unit={servicePricing[item.slug]?.unit}
+                    locale={locale}
+                    t={t}
+                  />
+                </span>
+              </label>
+            ))}
+          </details>
+        )}
         <details className="contact-details">
           <summary>{t("Dodajte detalje, ako želite")}</summary>
           <div className="form">
@@ -267,7 +381,10 @@ export function RequestForm({
         </details>
         <label>
           {t("Kako da vas kontaktiramo?")}
-          <select name="contact_preference" defaultValue={commerce.contact_preference || "phone"}>
+          <select
+            name="contact_preference"
+            defaultValue={commerce.contact_preference || "phone"}
+          >
             <option value="phone">{t("Telefonski poziv")}</option>
             <option value="whatsapp">WhatsApp</option>
           </select>

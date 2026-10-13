@@ -11,8 +11,9 @@ import { ViewEvent } from "@/components/analytics-consent";
 import { RequestForm } from "@/components/request-form";
 import { servicePricing } from "@/lib/service-pricing";
 import { serviceScopes } from "@/lib/catalog-additions";
-import { servicePriceLabel, packageServiceId } from "@/lib/catalog";
+import { packageServiceId } from "@/lib/catalog";
 import { WashingPriceList } from "@/components/washing-price-list";
+import { ClubPrice } from "@/components/club-price";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
@@ -134,11 +135,10 @@ export default async function ServiceDetail({
           )}
           {servicePricing[service.slug] && <p className="service-price-scope">{t("Cena za standardni obim:")} <strong>{t(servicePricing[service.slug].scope)}</strong><small>{t("Konačnu cenu, dolazak, materijal i dodatne radove potvrđujete pre realizacije.")}</small></p>}
           <div className="price-line">
-            {service.price
-              ? servicePriceLabel(service, locale, t)
-              : t("Cena na upit")}
+            <ClubPrice price={service.price} from unit={servicePricing[service.slug]?.unit} locale={locale} t={t} />
             <span>{t("Bez plaćanja prilikom slanja zahteva")}</span>
           </div>
+          <p className="detail-club-link"><Link className="text-link" href="/klub#pristupi">{t("Učlanite se besplatno za klupsku cenu")}</Link></p>
           {service.slug === "pranje-tepiha" && <a className="text-link washing-price-jump" href="#cenovnik">{t("Pogledajte ceo cenovnik")}<ArrowLeft size={15} aria-hidden="true" /></a>}
           {service.id === packageServiceId ? (
             <Link className="button button-dark" href="/paketi#moj-paket">
@@ -160,6 +160,7 @@ export default async function ServiceDetail({
         </div>
       </div>
       {service.slug === "pranje-tepiha" && <WashingPriceList />}
+      {service.id !== packageServiceId && <a className="mobile-request-cta button button-dark" href="#zahtev">{t("Pošaljite zahtev")}</a>}
     </div>
   );
 }

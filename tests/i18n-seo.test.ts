@@ -9,6 +9,7 @@ import { collections, upgrades } from "../lib/growth";
 import { casaPlans } from "../lib/packages";
 import { serviceScopes } from "../lib/catalog-additions";
 import { services } from "../lib/catalog";
+import { washingPriceList } from "../lib/washing-pricing";
 import messages from "../lib/i18n/messages.json";
 
 test("localized URLs preserve service, query and anchor without touching external or API links", () => {
@@ -58,6 +59,12 @@ test("all supported languages include public copy and catalog translations", () 
     assert.ok(
       Object.values(dictionary).every((value) => value.trim().length > 0),
     );
+    for (const group of washingPriceList) {
+      assert.ok(group.title in dictionary, `${locale}: missing washing category: ${group.title}`);
+      for (const item of group.items)
+        for (const copy of [item.name, item.detail, item.unit].filter(Boolean) as string[])
+          assert.ok(copy in dictionary, `${locale}: missing washing copy: ${copy}`);
+    }
     for (const scope of Object.values(serviceScopes))
       for (const task of scope.tasks)
         assert.ok(task in dictionary, `${locale}: missing task translation: ${task}`);

@@ -1,3 +1,4 @@
+import { washingEstimate, washingExtras } from "./club";
 import { z } from "zod";
 import { findSubscription } from "./subscriptions";
 import type { Service } from "./catalog";
@@ -7,41 +8,41 @@ export const collections = [
     id: "filmsko-vece",
     name: "Filmsko veče, spremno",
     description: "Televizor, povezivanje zvuka i polica za vaš omiljeni kutak.",
-    image: "/images/hero.jpg",
+    image: "/images/services/ugradnja-tv-a.webp",
     slugs: ["ugradnja-tv-a", "podesavanje-tv-a", "montaza-polica"],
   },
   {
     id: "povratak-kuci",
     name: "Povratak kući",
     description:
-      "Briga tokom odsustva, sveža posteljina i namirnice za vaš povratak.",
-    image: "/images/hero.jpg",
-    slugs: ["dom-na-cuvanju", "sveza-posteljina", "licna-nabavka"],
+      "Čist dom i osveženi tepisi za vaš povratak.",
+    image: "/images/services/ciscenje-doma.webp",
+    slugs: ["ciscenje-doma", "pranje-tepiha"],
   },
   {
     id: "gosti-stizu",
     name: "Gosti stižu",
     description:
-      "Pripremljen prostor, gostinska posteljina i nabavka prema vašoj listi.",
-    image: "/images/kitchen.jpg",
-    slugs: ["dom-spreman-za-goste", "sveza-posteljina", "licna-nabavka"],
+      "Čišćenje doma i pranje tepiha pre dolaska gostiju.",
+    image: "/images/services/pranje-tepiha.webp",
+    slugs: ["ciscenje-doma", "pranje-tepiha"],
   },
   {
     id: "nova-sezona",
     name: "Nova sezona",
     description:
-      "Organizovan garderober, negovana odeća i sezonsko održavanje.",
-    image: "/images/club.jpg",
-    slugs: ["organizacija-doma", "nega-garderobe", "servis-klime"],
+      "Servis klime, dostupni filteri i svežina doma za novu sezonu.",
+    image: "/images/services/servis-klime.webp",
+    slugs: ["servis-klime", "odrzavanje-filtera", "ciscenje-doma"],
   },
   {
     id: "useljenje",
     name: "Useljenje sa lakoćom",
     description:
-      "Raspakivanje, sklapanje nameštaja i pažljivo postavljene slike i ogledala.",
-    image: "/images/hero.jpg",
+      "Čišćenje, sklapanje nameštaja i postavljanje slika nakon useljenja.",
+    image: "/images/services/sklapanje-namestaja.webp",
     slugs: [
-      "pakovanje-i-raspakivanje",
+      "ciscenje-doma",
       "sklapanje-namestaja",
       "kacenje-slika-i-ogledala",
     ],
@@ -55,31 +56,16 @@ export const upgrades = [
     description:
       "Dodatni rad nakon provere zida; obim i doplatu potvrđujete pre dolaska.",
   },
-  {
-    id: "all-bedrooms",
-    slug: "sveza-posteljina",
-    name: "Sve spavaće sobe",
-    description:
-      "Priprema više kreveta i gostinske sobe, prema dogovorenom broju.",
-  },
-  {
-    id: "seasonal-wardrobe",
-    slug: "organizacija-doma",
-    name: "Sezonska reorganizacija",
-    description:
-      "Dodatno sortiranje i pakovanje sezonske odeće u dogovorenom obimu.",
-  },
 ] as const;
 const related: Record<string, string[]> = {
   "ugradnja-tv-a": ["podesavanje-tv-a", "montaza-polica"],
   "podesavanje-tv-a": ["ugradnja-tv-a", "podesavanje-wifi-mreze"],
-  "organizacija-doma": ["nega-garderobe", "paketi-i-hemijsko-ciscenje"],
-  "nega-garderobe": ["sveza-posteljina", "organizacija-doma"],
-  "sveza-posteljina": ["nega-garderobe", "dom-spreman-za-goste"],
-  "dom-na-cuvanju": ["sveza-posteljina", "licna-nabavka"],
-  "servis-klime": ["odrzavanje-filtera", "zamena-sijalica"],
+  "servis-klime": ["ciscenje-doma"],
   "sklapanje-namestaja": ["kacenje-slika-i-ogledala", "montaza-polica"],
-  "dom-spreman-za-goste": ["sveza-posteljina", "licna-nabavka"],
+  "ciscenje-doma": ["pranje-tepiha", "iznosenje-smeca"],
+  "krecenje": ["ciscenje-doma", "iznosenje-smeca"],
+  "iznosenje-smeca": ["ciscenje-doma", "krecenje"],
+  "pranje-tepiha": ["ciscenje-doma"],
 };
 export function relatedServices(
   service: Pick<Service, "slug">,
@@ -93,6 +79,10 @@ export function relatedServices(
 }
 export const commerceSchema = z
   .object({
+    washing: z.object({ area: z.number().positive().max(1000), method: z.enum(["wet", "semi-dry"]), transport: z.boolean() }).strict().optional(),
+    washing_extras: z.array(z.object({ key: z.enum(["upholstery", "single-mattress", "double-mattress"]), count: z.number().int().min(1).max(100) }).strict()).max(2).refine((items) => new Set(items.map((item) => item.key)).size === items.length).optional(),
+    service_scope: z.enum(["full", "priority", "single-room"]).optional(),
+    cadence: z.enum(["once", "weekly", "fortnightly", "monthly"]).optional(),
     intent: z
       .enum(["service", "visit", "managed", "plan-change"])
       .default("service"),
@@ -127,6 +117,10 @@ export const commerceSchema = z
   })
   .strict()
   .superRefine((value, context) => {
+    if (value.additional_service_ids.length + (value.washing_extras?.length || 0) > 2)
+      context.addIssue({ code: "custom", message: "Izaberite najviše dve dodatne usluge." });
+    if (value.subscription_id && !findSubscription(value.subscription_id, value.intent === "plan-change"))
+      context.addIssue({ code: "custom", message: "Proverite izbor plana." });
     if (value.subscription_id && (value.tier || !["managed", "plan-change"].includes(value.intent)))
       context.addIssue({ code: "custom", message: "Proverite izbor plana." });
     if ((value.intent === "plan-change") !== Boolean(value.plan_change))
@@ -140,9 +134,30 @@ export function commerceNote(
   available: Service[],
 ) {
   const lines: string[] = [];
+  if (commerce.washing_extras?.length) {
+    if (primary.slug !== "pranje-tepiha") throw new Error("Proverite izbor pranja.");
+    for (const selection of commerce.washing_extras) {
+      const extra = washingExtras.find((item) => item.key === selection.key)!;
+      lines.push(`Dodatna usluga: ${extra.name}; količina: ${selection.count}; okvirna redovna cena: ${extra.price! * selection.count / 100} RSD. Konačan obim potvrđuje tim.`);
+    }
+  }
+  if (commerce.washing) {
+    if (primary.slug !== "pranje-tepiha") throw new Error("Proverite izbor pranja.");
+    lines.push(`Pranje: ${commerce.washing.method === "wet" ? "dubinsko, mokro" : "polusuvo"}; površina: ${commerce.washing.area} m²; transport: ${commerce.washing.transport ? "da" : "ne"}.`);
+    lines.push(`Okvirna redovna cena iz cenovnika: ${washingEstimate(commerce.washing) / 100} RSD. Obim i cenu potvrđuje tim.`);
+  }
+  if (commerce.service_scope) {
+    if (!["ciscenje-doma", "krecenje"].includes(primary.slug) || (primary.slug === "ciscenje-doma" && commerce.service_scope === "single-room")) throw new Error("Proverite izbor obima.");
+    lines.push(`Željeni obim: ${commerce.service_scope === "full" ? "pun obim" : commerce.service_scope === "single-room" ? "jedna soba" : primary.slug === "ciscenje-doma" ? "kuhinja i kupatilo" : "odabrani zidovi"}.`);
+  }
+  if (commerce.cadence) {
+    if (primary.slug !== "ciscenje-doma") throw new Error("Proverite ritam dolazaka.");
+    lines.push(`Ritam čišćenja: ${commerce.cadence === "weekly" ? "svake nedelje" : commerce.cadence === "fortnightly" ? "na dve nedelje" : commerce.cadence === "monthly" ? "jednom mesečno" : "jednokratno"}. Termin i cena potvrđuju se sa timom.`);
+  }
   if (commerce.subscription_id) {
     if (primary.slug !== "moja-casa") throw new Error("Proverite izbor plana.");
-    const subscription = findSubscription(commerce.subscription_id)!;
+    const subscription = findSubscription(commerce.subscription_id, commerce.intent === "plan-change");
+    if (!subscription) throw new Error("Proverite izbor plana.");
     lines.push(`Mesečni paket: ${subscription.name}`);
     lines.push(`Informativna mesečna cena: ${(subscription.price / 100).toFixed(2)} RSD`);
     lines.push(...subscription.includes.map((item) => `• ${item}`));
@@ -186,6 +201,9 @@ export function commerceNote(
 export const eventNames = [
   "page_view",
   "lead_start",
+  "lead_submit",
+  "club_popup_view",
+  "club_cta_click",
   "addon_select",
   "collection_select",
   "plan_select",

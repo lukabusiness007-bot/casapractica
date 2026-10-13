@@ -5,8 +5,10 @@ import { configured } from "@/lib/supabase";
 import { ActionForm } from "./action-form";
 export async function AuthPage({
   mode,
+  clubRequested = false,
 }: {
   mode: "login" | "register" | "reset" | "update";
+  clubRequested?: boolean;
 }) {
   const t = await getTranslator();
 
@@ -71,6 +73,7 @@ export async function AuthPage({
             </Link>
           </div>
         )}
+        {mode === "register" && <div className="auth-club-benefits"><strong>{t("Casa Practica Club · besplatno")}</strong><p>{t("5% popusta, jednostavno ponavljanje usluge i kredit za preporuke.")}</p><Link className="text-link" href="/klub">{t("Pogledajte benefite kluba")}</Link></div>}
         <ActionForm
           endpoint="/api/auth"
           payload={{ mode }}
@@ -123,8 +126,8 @@ export async function AuthPage({
           {mode === "register" && (
             <>
               <label className="check-label">
-                <input type="checkbox" name="club" value="yes" />
-                {t("Želim besplatno članstvo u casa practica klubu.")}
+                <input type="checkbox" name="club" value="yes" defaultChecked={clubRequested} />
+                {t("Želim besplatno članstvo i 5% popusta na usluge.")}
               </label>
               <p className="fine-print">
                 {t("Pravljenjem naloga prihvatate")}{" "}

@@ -1,4 +1,4 @@
-export const subscriptions = [
+export const retiredSubscriptions = [
   {
     "id": "garderoba",
     "name": "Casa Garderoba",
@@ -48,5 +48,11 @@ export const subscriptions = [
     "excludes": "Namirnice i roba plaćaju se po računu. Majstorski radovi imaju zasebnu ponudu."
   }
 ] as const;
-export type SubscriptionId = (typeof subscriptions)[number]["id"];
-export function findSubscription(id?: string) { return subscriptions.find((plan) => plan.id === id); }
+// Previous plans contain services retired from the current public offer.
+// Keep their definitions for account history and pause/change requests.
+export type Subscription = (typeof retiredSubscriptions)[number];
+export const subscriptions: Subscription[] = [];
+export type SubscriptionId = Subscription["id"];
+export function findSubscription(id?: string, includeRetired = false) {
+  return (includeRetired ? [...subscriptions, ...retiredSubscriptions] : subscriptions).find((plan) => plan.id === id);
+}

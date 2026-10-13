@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { packageServiceId, services } from "../lib/catalog";
-import { subscriptions } from "../lib/subscriptions";
+import { subscriptions, retiredSubscriptions } from "../lib/subscriptions";
 import { commerceNote, commerceSchema } from "../lib/growth";
 import { requestSchema } from "../lib/validation";
 import { translator } from "../lib/i18n";
@@ -19,6 +19,12 @@ test("monthly requests validate plan IDs and cannot supply their own price or at
     assert.ok(!requestSchema.safeParse({ ...contact, service_id: services[2].id, commerce }).success);
     assert.throws(() => commerceNote(commerce, services[2], services));
     assert.ok(!commerceSchema.safeParse({ intent: "managed", subscription_id: plan.id, price: 1 }).success);
+  }
+  assert.equal(subscriptions.length, 0);
+  for (const archived of retiredSubscriptions) {
+    assert.ok(!commerceSchema.safeParse({ intent: "managed", subscription_id: archived.id }).success);
+    const pause = commerceSchema.parse({ intent: "plan-change", subscription_id: archived.id, plan_change: "pause" });
+    assert.ok(commerceNote(pause, primary, services).includes(archived.name));
   }
   assert.ok(!commerceSchema.safeParse({ intent: "managed", subscription_id: "invented" }).success);
   assert.ok(!commerceSchema.safeParse({ intent: "service", subscription_id: "ritam" }).success);

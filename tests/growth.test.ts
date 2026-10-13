@@ -213,6 +213,7 @@ test("realized value, refunds, cost coverage and mature repeat cohorts use paid 
       [1, 1],
       [1, 1],
       [1, 1],
+      [1, 1],
     ],
   );
   assert.equal(customerMetrics([], [], []).averageOrder, null);

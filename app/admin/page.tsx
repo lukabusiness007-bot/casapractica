@@ -12,6 +12,9 @@ import {
 import { ActionForm } from "@/components/action-form";
 import { GrowthDashboard } from "@/components/admin-growth";
 import { money, paymentLabels } from "@/lib/catalog";
+import { QuoteEditor } from "@/components/quote-editor";
+import { ClubOperations } from "@/components/club-operations";
+import { clubReady } from "@/lib/club-server";
 export const metadata = {
   title: "Administracija",
   robots: { index: false, follow: false },
@@ -54,6 +57,7 @@ export default async function Admin({
         {[
           ["zahtevi", "Zahtevi i ponude"],
           ["rast", "Prodaja i praćenje"],
+          ["klub", "Krediti i promene poseta"],
           ["domovi", "Profili domova"],
           ["dokazi", "Tim i radovi"],
           ["usluge", "Usluge"],
@@ -77,6 +81,7 @@ export default async function Admin({
             </p>
           );
         if (tab === "rast") return <GrowthDashboard />;
+        if (tab === "klub") return <ClubOperations />;
         if (tab === "domovi") {
           const { data, error } = await c
             .from("home_profiles")
@@ -199,6 +204,11 @@ export default async function Admin({
           .select("*,services(name),quotes(*,payments(*))")
           .order("created_at", { ascending: false });
         if (error) throw error;
+        const ownerIds = [...new Set((data || []).map((request) => request.user_id).filter(Boolean))];
+        const memberResult = ownerIds.length ? await c.from("memberships").select("user_id").in("user_id", ownerIds) : { data: [], error: null };
+        if (memberResult.error) throw memberResult.error;
+        const members = new Set(memberResult.data?.map((member) => member.user_id));
+        const clubEnabled = await clubReady();
         return (
           <div className="admin-grid">
             {!data?.length && (
@@ -213,7 +223,7 @@ export default async function Admin({
             {data?.map((r) => {
               const q = r.quotes?.[0];
               return (
-                <article className="panel" key={r.id}>
+                <article className="panel" key={r.id} id={`request-${r.id}`}>
                   <span className="eyebrow">{r.reference}</span>
                   <h2 style={{ marginTop: 12 }}>{r.services?.name}</h2>
                   <p>
@@ -272,50 +282,7 @@ export default async function Admin({
                       </p>
                     </div>
                   ) : (
-                    <ActionForm
-                      endpoint="/api/admin"
-                      payload={{ action: "quote", request_id: r.id }}
-                      label="Sačuvajte ponudu"
-                    >
-                      <label>
-                        Opis dogovorene usluge
-                        <textarea
-                          name="description"
-                          required
-                          minLength={5}
-                          defaultValue={q?.description || r.services?.name}
-                        />
-                      </label>
-                      <div className="form-row">
-                        <label>
-                          Osnovni iznos (RSD)
-                          <input
-                            name="base_amount"
-                            type="number"
-                            min="0.01"
-                            step="0.01"
-                            required
-                            defaultValue={q ? q.base_amount / 100 : ""}
-                          />
-                        </label>
-                        <label>
-                          Članski popust (RSD)
-                          <input
-                            name="discount_amount"
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            required
-                            defaultValue={q ? q.discount_amount / 100 : 0}
-                          />
-                        </label>
-                      </div>
-                      <p className="fine-print">
-                        Korisnica vidi ponudu kada potvrdi isti email u svom
-                        nalogu. Link do naloga možete poslati u WhatsApp
-                        razgovoru. Članski popust dozvoljen je samo članicama.
-                      </p>
-                    </ActionForm>
+                    clubEnabled ? <QuoteEditor requestId={r.id} name={r.services?.name || "Dogovorena usluga"} description={q?.description} items={q?.items} base={q?.base_amount} member={members.has(r.user_id)} /> : <p className="notice">Za ponude sa klupskim cenama primenite migraciju 009_club_conversion.sql.</p>
                   )}
                 </article>
               );

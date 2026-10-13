@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { assertOrigin, requireUser, failure, HttpError } from "@/lib/http";
 import { db } from "@/lib/supabase";
-import { finalAmount } from "@/lib/validation";
+import { clubReady } from "@/lib/club-server";
 const nullableMoney = z.preprocess(
   (v) => (v === "" || v == null ? null : Math.round(Number(v) * 100)),
   z.number().int().positive().nullable(),
@@ -18,7 +18,7 @@ const service = z.object({
   description: z.string().trim().min(10).max(3000),
   image: z
     .string()
-    .regex(/^(\/images\/[a-zA-Z0-9._-]+|https:\/\/[^\s]+)$/)
+    .regex(/^(\/images\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9]+)?|https:\/\/[^\s]+)$/)
     .max(1000),
   price: nullableMoney,
   active: z.enum(["true", "false"]).transform((v) => v === "true"),
@@ -176,7 +176,7 @@ export async function POST(req: Request) {
             (v) => (v === "" || v == null ? null : v),
             z
               .string()
-              .regex(/^(\/images\/[a-zA-Z0-9._-]+|https:\/\/[^\s]+)$/)
+              .regex(/^(\/images\/(?:[a-zA-Z0-9_-]+\/)*[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9]+)?|https:\/\/[^\s]+)$/)
               .max(1000)
               .nullable(),
           ),
@@ -188,35 +188,23 @@ export async function POST(req: Request) {
       const { error } = await c.from("showcase").upsert(input.data);
       if (error) throw error;
     } else if (body.action === "quote") {
-      const parsed = z
-        .object({
-          request_id: z.string().uuid(),
-          base_amount: z.coerce.number().positive().max(10000000),
-          discount_amount: z.coerce.number().min(0).max(10000000),
-          description: z.string().trim().min(5).max(1000),
-        })
-        .safeParse(body);
-      if (!parsed.success)
-        throw new HttpError(400, "Proverite iznose i opis ponude.");
-      const d = parsed.data;
-      const base = Math.round(d.base_amount * 100),
-        discount = Math.round(d.discount_amount * 100);
-      try {
-        finalAmount(base, discount);
-      } catch {
-        throw new HttpError(400, "Popust mora biti manji od osnovnog iznosa.");
-      }
-      const { error } = await c.rpc("save_quote", {
-        p_request_id: d.request_id,
-        p_base: base,
-        p_discount: discount,
-        p_description: d.description,
-      });
-      if (error)
-        throw new HttpError(
-          409,
-          "Ponuda je zaključana, zahtev je zatvoren ili korisnica nema članstvo za navedeni popust.",
-        );
+      if (!(await clubReady())) throw new HttpError(503, "Za klupske cene primenite migraciju 009_club_conversion.sql.");
+      const parsed = z.object({ request_id: z.string().uuid(), description: z.string().trim().min(5).max(1000), items: z.array(z.object({ label: z.string().trim().min(2).max(200), amount: z.coerce.number().positive().max(10000000), kind: z.enum(["primary", "addon", "upgrade", "travel", "material"]) }).strict()).min(1).max(12) }).safeParse(body);
+      if (!parsed.success) throw new HttpError(400, "Proverite stavke, iznose i opis ponude.");
+      const items = parsed.data.items.map((item) => ({ ...item, amount: Math.round(item.amount * 100) }));
+      if (items.some((item) => item.amount <= 0) || items.reduce((sum, item) => sum + item.amount, 0) > 1000000000) throw new HttpError(400, "Proverite iznose stavki.");
+      const { error } = await c.rpc("save_itemized_quote", { p_request_id: parsed.data.request_id, p_items: items, p_description: parsed.data.description });
+      if (error) throw new HttpError(409, "Ponuda je zaključana ili je zahtev zatvoren. Klupski popust i kredit obračunavaju se automatski.");
+    } else if (body.action === "approve-referral") {
+      const parsed = z.object({ request_id: z.string().uuid() }).safeParse(body);
+      if (!parsed.success) throw new HttpError(400, "Proverite preporuku.");
+      const { error } = await c.rpc("approve_referral", { p_request_id: parsed.data.request_id });
+      if (error) throw new HttpError(409, "Proverite prvi izvršen i neto plaćen posao od 10.000 RSD, članstvo obe osobe i mesečni limit kredita.");
+    } else if (body.action === "resolve-change") {
+      const parsed = z.object({ id: z.string().uuid() }).safeParse(body);
+      if (!parsed.success) throw new HttpError(400, "Proverite zahtev za promenu.");
+      const { error } = await c.from("visit_changes").update({ status: "resolved" }).eq("id", parsed.data.id);
+      if (error) throw error;
     } else throw new HttpError(400, "Nepoznata radnja.");
     return NextResponse.json({ message: "Izmene su sačuvane." });
   } catch (e) {

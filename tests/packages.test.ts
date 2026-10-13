@@ -13,7 +13,7 @@ const selection = {
   items: [
     { service_id: services[2].id, frequency: "once" as const },
     {
-      service_id: services.find((service) => service.slug === "nega-garderobe")!
+      service_id: services.find((service) => service.slug === "ciscenje-doma")!
         .id,
       frequency: "weekly" as const,
     },
@@ -88,12 +88,12 @@ test("package summaries use current server catalog names and reject unavailable 
   const summary = packageRequestNote(
     selection,
     services,
-    "Dve košulje i TV od 55 inča.",
+    "Čišćenje kupatila i TV od 55 inča.",
   );
   assert.match(summary, /Casa plan: Moja Casa/);
   assert.match(summary, /Montaža TV-a — Jednokratno/);
-  assert.match(summary, /Nega garderobe — Svake nedelje/);
-  assert.match(summary, /Dve košulje/);
+  assert.match(summary, /Čišćenje doma — Svake nedelje/);
+  assert.match(summary, /Čišćenje kupatila/);
   assert.throws(() =>
     packageRequestNote(
       selection,
@@ -113,7 +113,7 @@ test("package summaries use current server catalog names and reject unavailable 
   );
 });
 
-test("catalog migrations preserve existing requests, prices and admin edits and are repeatable", async () => {
+test("catalog migrations preserve requests and admin content while applying the explicit washing tariff", async () => {
   const db = new PGlite();
   try {
     await db.exec(
@@ -162,8 +162,14 @@ test("catalog migrations preserve existing requests, prices and admin edits and 
     const roundedPrices = await readFile("supabase/migrations/006_rounded_service_prices.sql", "utf8");
     await db.exec(roundedPrices);
     await db.exec(roundedPrices);
+    const washingPrices = await readFile("supabase/migrations/007_washing_prices.sql", "utf8");
+    await db.exec(washingPrices);
+    await db.exec(washingPrices);
+    const offerMigration = await readFile("supabase/migrations/008_service_offer.sql", "utf8");
+    await db.exec(offerMigration);
+    await db.exec(offerMigration);
     for (const [slug, pricing] of Object.entries(servicePricing)) {
-      if (["pranje-tepiha", "ugradnja-tv-a"].includes(slug)) continue;
+      if (slug === "ugradnja-tv-a") continue;
       const stored = (await db.query<{ price: string }>("select price from public.services where slug=$1", [slug])).rows[0];
       assert.equal(Number(stored.price), pricing.price);
     }
@@ -174,8 +180,15 @@ test("catalog migrations preserve existing requests, prices and admin edits and 
       )
     ).rows[0];
     assert.equal(existing.name, "Admin name");
-    assert.equal(Number(existing.price), 450000);
+    assert.equal(Number(existing.price), 98000);
     assert.equal(existing.active, false);
+    for (const [before, expected] of [[90000, 98000], [94667, 98000], [null, 98000], [450000, 98000]]) {
+      await db.query("update public.services set price=$1 where slug='pranje-tepiha'", [before]);
+      await db.exec(washingPrices);
+      await db.exec(washingPrices);
+      const updated = (await db.query<{ price: string }>("select price from public.services where slug='pranje-tepiha'")).rows[0];
+      assert.equal(Number(updated.price), expected);
+    }
     const tv = (
       await db.query<{ name: string; description: string; price: number }>(
         "select name,description,price from public.services where id=$1",

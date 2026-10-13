@@ -7,7 +7,7 @@ import { ViewEvent } from "@/components/analytics-consent";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 export const dynamic = "force-dynamic";
-export default async function Services() {
+export default async function Services({ searchParams }: { searchParams: Promise<{ potreba?: string }> }) {
   const t = await getTranslator();
 
   const services = await getServices();
@@ -42,7 +42,7 @@ export default async function Services() {
           <span>{t("Beograd, sa pažnjom.")}</span>
         </div>
       </div>
-      <ServiceCatalog services={services} />
+      <ServiceCatalog services={services} initialRepair={(await searchParams).potreba === "popravke"} />
       <section className="premium-standard">
         <div>
           <h2>{t("Više zadataka. Jedan Casa plan.")}</h2>

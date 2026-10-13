@@ -10,9 +10,9 @@
     },
     {
       "slug": "iznosenje-smeca",
-      "scene": "A uniform-free home helper lifting one tied dark household rubbish bag out of a small kitchen waste bin. Separate recycling bin beside it, tidy ordinary apartment. Real everyday waste removal, no spilling rubbish.",
-      "file": "/images/services/iznosenje-smeca.webp",
-      "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: A uniform-free home helper lifting one tied dark household rubbish bag out of a small kitchen waste bin. Separate recycling bin beside it, tidy ordinary apartment. Real everyday waste removal, no spilling rubbish."
+      "scene": "Two adult moving workers wearing work gloves safely carrying a worn small upholstered armchair through an apartment entrance toward the corridor. On the floor beside the doorway are two modest sealed construction rubble sacks containing small plaster and brick pieces, and a tied household trash bag, neatly prepared for collection. The chair is clearly held by both people with realistic posture and load. This is removal of rubbish, construction debris and old furniture, not daily kitchen bin emptying. No logos, text or branded uniforms.",
+      "file": "/images/services/iznosenje-smeca-v2.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape 3:2 website service photograph. Believable documentary photograph of the actual task in progress. Anatomically correct people and hands, technically realistic tools. Keep main action near the center so it remains visible at card size. Scene: Two adult moving workers wearing work gloves safely carrying a worn small upholstered armchair through an apartment entrance toward the corridor. On the floor beside the doorway are two modest sealed construction rubble sacks containing small plaster and brick pieces, and a tied household trash bag, neatly prepared for collection. The chair is clearly held by both people with realistic posture and load. This is removal of rubbish, construction debris and old furniture, not daily kitchen bin emptying. No logos, text or branded uniforms."
     },
     {
       "slug": "ugradnja-tv-a",
@@ -326,6 +326,18 @@
       "scene": "Gloved hands clipping a perforated leaf-guard mesh section onto a clean metal gutter along a low house roof edge. Genuine gutter and fitted metal mesh, safe working platform, natural daylight.",
       "file": "/images/services/zamena-i-zastita-oluka.webp",
       "prompt": "Use case: photorealistic-natural. Asset type: website service card photograph, landscape 3:2 composition. Photograph a believable real domestic service, documentary detail and natural window light, warm European home, muted wood, cream and gentle green tones. Clear realistic task and anatomically correct hands with realistic tools. Frame the action in the middle of the image so a 16:9 card crop retains the important details. No text, no logos, no watermark, no dramatic advertising pose, no generic empty interior. Scene: Gloved hands clipping a perforated leaf-guard mesh section onto a clean metal gutter along a low house roof edge. Genuine gutter and fitted metal mesh, safe working platform, natural daylight."
+    },
+    {
+      "slug": "ciscenje-doma",
+      "scene": "An adult home cleaning professional mopping the wooden floor of a bright ordinary European apartment living room. A compact vacuum cleaner and a small bucket with cleaning cloths nearby. Realistic mop held in both hands, floor-level cleaning action clearly visible, soft natural window light, warm cream and wood colors, no logos or text.",
+      "file": "/images/services/ciscenje-doma.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape 3:2 website service photograph. Believable documentary photograph of the actual task in progress. Anatomically correct people and hands, technically realistic tools. Keep main action near the center so it remains visible at card size. Scene: An adult home cleaning professional mopping the wooden floor of a bright ordinary European apartment living room. A compact vacuum cleaner and a small bucket with cleaning cloths nearby. Realistic mop held in both hands, floor-level cleaning action clearly visible, soft natural window light, warm cream and wood colors, no logos or text."
+    },
+    {
+      "slug": "krecenje",
+      "scene": "An adult painter applying a fresh warm ivory paint coat to a plaster living room wall using a real paint roller on a short extension pole. A paint tray is on a protective floor sheet and the adjacent wall edges are masked with painter's tape. The roller touches the wall naturally and there is a subtly visible fresh painted strip. Furniture protected with dust sheets, ordinary European apartment, natural daylight, no text or logos.",
+      "file": "/images/services/krecenje.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: landscape 3:2 website service photograph. Believable documentary photograph of the actual task in progress. Anatomically correct people and hands, technically realistic tools. Keep main action near the center so it remains visible at card size. Scene: An adult painter applying a fresh warm ivory paint coat to a plaster living room wall using a real paint roller on a short extension pole. A paint tray is on a protective floor sheet and the adjacent wall edges are masked with painter's tape. The roller touches the wall naturally and there is a subtly visible fresh painted strip. Furniture protected with dust sheets, ordinary European apartment, natural daylight, no text or logos."
     }
   ]
 }

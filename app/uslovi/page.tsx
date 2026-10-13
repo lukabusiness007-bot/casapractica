@@ -28,7 +28,7 @@ export default async function Terms() {
         <h2>{t("casa practica klub")}</h2>
         <p>
           {t(
-            "Članstvo je besplatno. Popusti i raniji pristup važe prema uslovima konkretne objavljene pogodnosti. Samo članstvo ne garantuje popust na svaku uslugu.",
+            "Članstvo je besplatno. Članovi ostvaruju 5% popusta na redovnu cenu usluga, uključujući transport iz cenovnika. Za usluge na upit popust se obračunava na dogovorenu osnovnu cenu. Članstvo mora biti potvrđeno pre početka plaćanja. Popust i kredit za preporuku ne sabiraju se; bira se povoljnija pogodnost. Već zaključane ili plaćene ponude ne menjaju se naknadno.",
           )}
         </p>
         <h2>{t("Casa planovi")}</h2>

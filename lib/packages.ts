@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { packageServiceId, type Service } from "./catalog";
+import { isRetiredServiceId, packageServiceId, type Service } from "./catalog";
 
 export const casaPlans = [
   {
@@ -7,21 +7,21 @@ export const casaPlans = [
     name: "Casa poseta",
     rhythm: "Jedna pažljivo planirana poseta.",
     description:
-      "Montaža, priprema za goste, organizacija ili više malih zadataka u jednom dolasku.",
+      "Čišćenje, montaža, popravke ili više zadataka u jednom dolasku.",
   },
   {
     id: "monthly",
     name: "Casa Signature",
     rhythm: "Dve posete mesečno.",
     description:
-      "Redovna pomoć oko garderobe, posteljine i kućnih obaveza, u ritmu koji vam odgovara.",
+      "Redovno čišćenje i održavanje doma, u ritmu koji vam odgovara.",
   },
   {
     id: "weekly",
     name: "Casa Private",
     rhythm: "Jedna poseta svake nedelje.",
     description:
-      "Lični koordinator, proaktivno planiranje i briga o jednoj ili više nekretnina u dogovorenom obimu.",
+      "Čišćenje i održavanje jedne ili više nekretnina u dogovorenom obimu.",
   },
   {
     id: "maintenance",
@@ -35,7 +35,7 @@ export const casaPlans = [
     name: "Moja Casa",
     rhythm: "Vaše usluge. Vaš ritam.",
     description:
-      "Kombinujte svakodnevnu pomoć, majstorske poslove i tehnologiju u jednom ličnom planu.",
+      "Kombinujte čišćenje, majstorske poslove i tehnologiju u jednom ličnom planu.",
   },
 ] as const;
 export type PlanId = (typeof casaPlans)[number]["id"];
@@ -56,7 +56,7 @@ export const packageSchema = z
             service_id: z
               .string()
               .uuid()
-              .refine((id) => id !== packageServiceId),
+              .refine((id) => id !== packageServiceId && !isRetiredServiceId(id)),
             frequency: z.enum([
               "once",
               "monthly",
@@ -91,7 +91,7 @@ export function packageRequestNote(
     const frequency = frequencies.find(
       (frequency) => frequency.id === item.frequency,
     );
-    if (!service || service.id === packageServiceId || !frequency)
+    if (!service || service.id === packageServiceId || isRetiredServiceId(service.id) || !frequency)
       throw new Error("Proverite izbor usluga u paketu.");
     return `• ${service.name} — ${frequency.label}`;
   });

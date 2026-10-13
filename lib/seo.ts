@@ -76,7 +76,7 @@ export function pageMetadata(
 }
 export const homeTitle = "Usluge za stan u Beogradu";
 export const homeDescription =
-  "Usluge za stan u Beogradu: montaža TV-a i polica, popravke, servis klime, organizacija garderobera i redovna pomoć uz Casa planove.";
+  "Usluge za stan u Beogradu: čišćenje doma, krečenje, iznošenje smeća i šuta, montaža TV-a i polica, popravke i servis klime.";
 export function publicPageMetadata(locale: Locale, path: string) {
   const t = translator(locale);
   if (path === "/kolekcije")

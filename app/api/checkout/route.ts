@@ -5,10 +5,12 @@ import { z } from "zod";
 import { assertOrigin, requireUser, failure, HttpError } from "@/lib/http";
 import { db } from "@/lib/supabase";
 import { stripeClient } from "@/lib/stripe";
+import { clubReady } from "@/lib/club-server";
 export async function POST(req: Request) {
   try {
     assertOrigin(req);
     const u = await requireUser();
+    if (!(await clubReady())) throw new HttpError(503, "Klupske cene i plaćanje trenutno nisu dostupni. Tim će potvrditi ponudu.");
     const parsed = z
       .object({
         quote_id: z.string().uuid(),

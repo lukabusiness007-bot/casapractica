@@ -1,3 +1,5 @@
+import { clubReady } from "@/lib/club-server";
+import { normalizePhone } from "@/lib/club";
 import { db } from "@/lib/supabase";
 import { money } from "@/lib/catalog";
 import { customerMetrics } from "@/lib/customer-metrics";
@@ -29,10 +31,11 @@ async function allRows(
   return rows;
 }
 export async function GrowthDashboard() {
+  const club = await clubReady();
   const since = new Date(Date.now() - 30 * 86400000).toISOString();
   const [requests, quotes, payments, events] = await Promise.all([
     allRows("requests", "*"),
-    allRows("quotes", "id,request_id"),
+    allRows("quotes", club ? "id,request_id,items" : "id,request_id"),
     allRows("payments", "quote_id,amount,refunded_amount,created_at"),
     allRows(
       "analytics_events",
@@ -41,6 +44,7 @@ export async function GrowthDashboard() {
       since,
     ),
   ]);
+  const business = club ? await allRows("business_events", "event_name,request_id,user_id,created_at", "event_key", since) : [];
   const metrics = customerMetrics(
     requests as unknown as SalesRequest[],
     quotes as unknown as SalesQuote[],
@@ -83,13 +87,15 @@ export async function GrowthDashboard() {
         <h2>Prihod i ponovna kupovina</h2>
         <p className="fine-print">
           Ostvareni podaci od početka. Prihod je umanjen za povraćaje. Kontakti
-          se grupišu po broju telefona bez razmaka i znakova; ovo nije
+          se grupišu po normalizovanom međunarodnom broju telefona; ovo nije
           predviđanje budućeg LTV-a.
         </p>
         <div className="metrics-grid">
           {[
             ["Neto prihod", money(metrics.revenue)],
             ["Plaćene porudžbine", metrics.orders],
+            ["Plaćeni i izvršeni poslovi", metrics.fulfilled.length],
+            ["Plaćeni poslovi sa potvrđenim dopunama", metrics.addonOrders.length],
             [
               "Prosečna porudžbina",
               metrics.averageOrder == null
@@ -174,6 +180,7 @@ export async function GrowthDashboard() {
           . Izbor dopune nije potvrda njene realizacije.
         </p>
       </section>
+      {club && <section className="panel"><h2>Poslovni događaji — poslednjih 30 dana</h2><p className="fine-print">Serverski događaji uključuju sve evidentirane poslove. Brojevi su aktivnosti u periodu, ne konverzija jedne kohorte. Potvrda ponude znači da je klijent pokrenuo plaćanje. Pretplatnički churn se ne računa dok nema aktivnih pretplata.</p><div className="metrics-grid">{[["lead_submitted", "Sačuvani zahtevi"], ["quote_sent", "Pripremljene ponude"], ["quote_accepted", "Ponude potvrđene za naplatu"], ["paid", "Uplate"], ["completed", "Završene posete"], ["club_joined", "Učlanjenja u Club"], ["repeat_requested", "Ponovljeni zahtevi"], ["credit_redeemed", "Iskorišćeni krediti"]].map(([event, label]) => <article key={event}><small>{label}</small><strong>{business.filter((item) => item.event_name === event).length}</strong></article>)}</div></section>}
       <section className="panel">
         <h2>Naredni kontakti ({due.length})</h2>
         <p>
@@ -248,7 +255,7 @@ export async function GrowthDashboard() {
           for (const order of [...metrics.paid].sort(
             (a, b) => a.at.getTime() - b.at.getTime(),
           )) {
-            const key = order.request.phone.replace(/\D/g, "");
+            const key = normalizePhone(order.request.phone);
             if (!firstByContact.has(key)) firstByContact.set(key, order);
           }
           return [...firstByContact.values()]

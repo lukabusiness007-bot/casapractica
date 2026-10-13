@@ -3198,3 +3198,109 @@ p {
   .washing-price-group th, .washing-price-group td { font-size: 13px; }
   .washing-price-group tbody th { padding-right: 12px; }
 }
+
+/* Club and conversion surfaces, outside the preserved hero. */
+.club-price-pair { display: inline-flex; flex-wrap: wrap; gap: 12px 22px; align-items: flex-start; text-align: left; }
+.club-price-pair > span { display: flex; flex-direction: column; gap: 2px; max-width: none; text-align: left; }
+.club-price-pair small, .catalog-service-price .club-price-pair small { display: block; font-size: 11px; margin: 0; line-height: 1.5; white-space: normal; }
+.club-price-pair strong { display: block; font-weight: 500; font-size: 17px; color: var(--ink); white-space: nowrap; }
+.club-price-pair .member-price strong, .club-price-pair .member-price > small:first-child { color: var(--accent); }
+.club-price-pair .regular-price > strong { font-size: 15px; font-weight: 400; color: #626457; }
+.club-price-on-request { display: block; font-size: 15px; }
+.club-price-on-request > small { display: block; font-size: 11px; color: var(--accent); margin-top: 4px; }
+.catalog-service-price > .club-price-pair { display: flex; }
+.catalog-service-price .club-price-pair strong { font-size: 17px; }
+.catalog-service-price .club-price-pair .regular-price strong { font-size: 15px; }
+.price-line > .club-price-pair { max-width: none; flex: 1; }
+.price-line .club-price-pair small { font-size: 11px; }
+.price-line .club-price-pair strong { font-size: 21px; }
+.price-line .club-price-pair .regular-price strong { font-size: 17px; }
+.detail-club-link { margin: -12px 0 25px; font-size: 12px; }
+.home-price { margin: 10px 0 14px; }
+.washing-price-group td { width: 55%; }
+.washing-price-group td .club-price-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.washing-price-group td .club-price-pair strong { font-size: 14px; }
+.washing-price-group td .club-price-pair small { font-size: 10px; margin: 0; }
+.club-value { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; padding-block: 48px; margin-block: 64px; border-block: 1px solid var(--line); }
+.club-value-intro h2 { font-size: clamp(30px, 3.6vw, 46px); line-height: 1.15; margin: 18px 0; max-width: 450px; }
+.club-value-intro > p { color: var(--muted); margin-bottom: 26px; max-width: 380px; }
+.club-value-benefits { display: grid; gap: 22px; }
+.club-value-benefits article { display: flex; gap: 16px; }
+.club-value-benefits article > svg { flex-shrink: 0; color: var(--accent); margin-top: 4px; }
+.club-value-benefits h3 { margin: 0 0 6px; font-size: 18px; }
+.club-value-benefits article p { font-size: 13px; line-height: 1.7; color: var(--muted); margin: 0; }
+.service-needs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-block: 28px 64px; }
+.service-needs > a { padding: 22px 16px; display: flex; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 12px; background: var(--cream); transition: border-color .2s; }
+.service-needs > a:hover { border-color: var(--accent); }
+.service-needs > a > svg { flex-shrink: 0; color: var(--accent); }
+.service-needs > a > svg:last-child { margin-left: auto; }
+.service-needs strong { display: block; font-size: 14px; font-weight: 500; }
+.service-needs small { display: block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.club-dialog { border: 0; border-radius: 24px; background: var(--cream); color: var(--ink); padding: 34px; width: min(500px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow: auto; margin: auto; box-shadow: 0 24px 100px #0003; }
+.club-dialog::backdrop { background: #181d1966; backdrop-filter: blur(4px); }
+.club-dialog-close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; background: transparent; cursor: pointer; }
+.club-dialog-discount { font-size: 76px; line-height: 1; letter-spacing: -4px; color: var(--accent); margin: 20px 0 18px; }
+.club-dialog-discount > span { font-size: 44px; letter-spacing: -2px; }
+.club-dialog h2 { font-size: 30px; line-height: 1.15; letter-spacing: -1px; margin: 0 0 12px; padding-right: 8px; }
+.club-dialog > p { color: var(--muted); font-size: 14px; }
+.club-invitation-benefits { list-style: none; padding: 0; display: grid; gap: 16px; margin: 24px 0; }
+.club-invitation-benefits li { display: flex; gap: 12px; align-items: flex-start; }
+.club-invitation-benefits svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+.club-invitation-benefits strong { font-size: 13px; font-weight: 500; }
+.club-invitation-benefits small { display: block; font-size: 11px; line-height: 1.6; color: var(--muted); margin-top: 4px; }
+.club-dialog-later { width: 100%; border: 0; background: none; text-decoration: underline; font-size: 12px; padding: 18px 0 6px; cursor: pointer; }
+.club-dialog > .fine-print { font-size: 10px; text-align: center; line-height: 1.6; margin-bottom: 0; }
+.auth-club-benefits, .request-club-invite { padding: 18px; background: var(--cream); border: 1px solid var(--line); border-radius: 12px; }
+.auth-club-benefits { margin-bottom: 24px; }
+.auth-club-benefits p, .request-club-invite p { font-size: 12px; margin: 8px 0 14px; }
+.washing-estimate { border: 1px solid var(--line); background: var(--cream); padding: 20px; border-radius: 14px; display: grid; gap: 14px; }
+.washing-estimate h3 { font-size: 18px; margin: 0; }
+.washing-estimate .fine-print { margin: 0; }
+.washing-estimate .form-row { gap: 12px; }
+.washing-estimate-result { padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.washing-estimate-result > small { color: var(--muted); font-size: 11px; }
+.visit-extras > summary { cursor: pointer; font-size: 14px; font-weight: 500; }
+.visit-extras > p { margin-top: 12px; }
+.visit-extras .inline-check { margin-top: 15px; }
+.visit-extras .club-price-pair { margin-top: 8px; gap: 12px; }
+.visit-extras .club-price-pair strong { font-size: 13px; }
+.visit-extras .club-price-pair .regular-price strong { font-size: 12px; }
+.mobile-request-cta { display: none; }
+.club-wallet { background: var(--cream); }
+.club-wallet-balance { font-size: 34px; color: var(--accent); }
+.club-wallet ul { list-style: none; padding: 0; }
+.club-wallet li { padding: 12px 0; border-top: 1px solid var(--line); }
+.club-wallet li small { display: block; color: var(--muted); font-size: 11px; }
+.visit-action-form { margin-block: 14px; }
+.visit-action-form .form-row { align-items: end; }
+@media (max-width: 1000px) {
+  .service-needs { grid-template-columns: repeat(2, 1fr); }
+  .club-value { gap: 30px; }
+}
+@media (max-width: 760px) {
+  .club-value { grid-template-columns: 1fr; gap: 28px; margin-block: 40px; padding-block: 32px; }
+  .service-needs { gap: 8px; margin-bottom: 40px; }
+  .service-needs > a { padding: 16px 12px; gap: 8px; }
+  .service-needs > a > svg:first-child { width: 18px; }
+  .service-needs > a > svg:last-child { display: none; }
+  .service-needs strong { font-size: 12px; }
+  .service-needs small { font-size: 10px; }
+  .home-price .club-price-pair { gap: 7px 12px; }
+  .home-price .club-price-pair strong { font-size: 13px; }
+  .home-price .club-price-pair small { font-size: 9px; }
+  .washing-price-group { padding-inline: 14px; }
+  .washing-price-group tbody th { padding-right: 10px; font-size: 12px; }
+  .washing-price-group td { width: 58%; }
+  .washing-price-group td .club-price-pair strong { font-size: 11px; white-space: normal; }
+  .washing-price-group td .club-price-pair small { font-size: 9px; }
+  .price-line { flex-wrap: wrap; gap: 12px; }
+  .mobile-request-cta { display: flex; position: sticky; bottom: 14px; margin: 30px auto 0; max-width: 360px; z-index: 20; box-shadow: 0 4px 20px #0002; }
+  .club-dialog { padding: 28px 24px 22px; }
+  .club-dialog h2 { font-size: 27px; }
+  .club-dialog-discount { font-size: 64px; }
+}
+.visit-extras .inline-check > span { display: block; flex: 1; min-width: 0; }
+.visit-extras .inline-check > span > .club-price-pair { display: flex; }
+@media (min-width: 761px) {
+  .detail-grid > div:first-child:has(.detail-image-service) { position: sticky; top: 96px; align-self: start; }
+}

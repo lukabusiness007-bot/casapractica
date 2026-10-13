@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { currentUser, configured, db, authClient } from "@/lib/supabase";
 import { ActionForm } from "@/components/action-form";
+import { ClubBenefits } from "@/components/club-benefits";
 export const dynamic = "force-dynamic";
 export default async function Club() {
   const t = await getTranslator();
@@ -63,6 +64,7 @@ export default async function Club() {
           {t("Vaš mali svakodnevni luksuz. Članstvo je besplatno.")}
         </span>
       </section>
+      <ClubBenefits />
       <section className="club-benefits container">
         {[
           { Icon: House, title: "Vaš profil doma", text: "Uređaji, želje i prethodni zahtevi na jednom mestu. Pri sledećoj poseti nastavljamo od dogovorene liste." },
@@ -156,7 +158,7 @@ export default async function Club() {
           {member
             ? t("Vaše dostupne pogodnosti čekaju vas u nalogu.")
             : t(
-                "Pristupite besplatno. Konkretne ponude objavljujemo u klubu kada postanu dostupne.",
+                "Pristupite besplatno i ostvarite 5% popusta. Vaše prethodne usluge i klupski kredit pregledajte u nalogu.",
               )}
         </p>
         {member ? (
@@ -171,7 +173,7 @@ export default async function Club() {
             payload={{ join: true }}
           />
         ) : (
-          <Link className="button button-dark" href="/registracija">
+          <Link className="button button-dark" href="/registracija?club=yes">
             {t("Postanite deo kluba")}
             <ArrowUpRight size={17} />
           </Link>

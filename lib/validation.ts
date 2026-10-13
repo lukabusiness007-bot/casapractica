@@ -1,7 +1,7 @@
 import { translator } from "./i18n";
 import type { Locale } from "./i18n/routing";
 import { z } from "zod";
-import { packageServiceId } from "./catalog";
+import { isRetiredServiceId, packageServiceId } from "./catalog";
 import { packageSchema } from "./packages";
 import { commerceSchema } from "./growth";
 export const requestSchema = z
@@ -34,6 +34,8 @@ export const requestSchema = z
     analytics_session_id: z.string().uuid().optional(),
   })
   .superRefine((input, context) => {
+    if (isRetiredServiceId(input.service_id))
+      context.addIssue({ code: "custom", path: ["service_id"], message: "Usluga nije dostupna." });
     if (input.commerce?.subscription_id && input.service_id !== packageServiceId)
       context.addIssue({ code: "custom", path: ["service_id"], message: "Proverite izbor plana." });
     if (

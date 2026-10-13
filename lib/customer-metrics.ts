@@ -1,8 +1,12 @@
+import { normalizePhone } from "./club";
 export type SalesRequest = {
   id: string;
   phone: string;
   name: string;
   created_at: string;
+  status?: string;
+  service_id?: string;
+  user_id?: string | null;
   completed_at?: string | null;
   direct_cost?: number | null;
   analytics_session_id?: string | null;
@@ -19,7 +23,7 @@ export type SalesPayment = {
   refunded_amount: number;
   created_at: string;
 };
-export type SalesQuote = { id: string; request_id: string };
+export type SalesQuote = { id: string; request_id: string; items?: { kind: string; amount: number }[] };
 export function customerMetrics(
   requests: SalesRequest[],
   quotes: SalesQuote[],
@@ -39,7 +43,7 @@ export function customerMetrics(
   const paid = allOrders.filter((order) => order.net > 0);
   const contacts = new Map<string, typeof paid>();
   for (const order of paid) {
-    const key = order.request.phone.replace(/\D/g, "");
+    const key = normalizePhone(order.request.phone);
     contacts.set(key, [...(contacts.get(key) || []), order]);
   }
   let costedRevenue = 0,
@@ -52,7 +56,7 @@ export function customerMetrics(
       costCoverage++;
     }
   }
-  const cohort = [30, 60, 90].map((days) => {
+  const cohort = [30, 60, 90, 180].map((days) => {
     let eligible = 0,
       repeated = 0;
     for (const orders of contacts.values()) {
@@ -77,6 +81,8 @@ export function customerMetrics(
       rate: eligible ? repeated / eligible : null,
     };
   });
+  const fulfilled = paid.filter((order) => order.request.status === "completed");
+  const addonOrders = paid.filter((order) => quotes.find((quote) => quote.request_id === order.request.id)?.items?.some((item) => ["addon", "upgrade"].includes(item.kind)));
   const revenue = paid.reduce((sum, order) => sum + order.net, 0);
   return {
     revenue,
@@ -91,5 +97,7 @@ export function customerMetrics(
     costableOrders: allOrders.length,
     cohort,
     paid,
+    fulfilled,
+    addonOrders,
   };
 }

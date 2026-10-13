@@ -31,7 +31,7 @@ export const additionalServices: Service[] = [
     "description": "Zamena razvodne table i pregled elektroinstalacija. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.",
     "image": "/images/lamp.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 29
   },
   {
@@ -53,7 +53,7 @@ export const additionalServices: Service[] = [
     "description": "Montaža i povezivanje mlina za otpatke ispod sudopere. Obim posla, materijal i termin dogovaramo pre dolaska.",
     "image": "/images/kitchen.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 31
   },
   {
@@ -196,7 +196,7 @@ export const additionalServices: Service[] = [
     "description": "Ugradnja i povezivanje zvučnih sistema. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.",
     "image": "/images/lamp.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 44
   },
   {
@@ -207,7 +207,7 @@ export const additionalServices: Service[] = [
     "description": "Postavljanje sistema za vertikalne bašte. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.",
     "image": "/images/air.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 45
   },
   {
@@ -251,7 +251,7 @@ export const additionalServices: Service[] = [
     "description": "Dijagnostika problema sa Wi-Fi vezom i podešavanje mrežne bezbednosti. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.",
     "image": "/images/lamp.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 49
   },
   {
@@ -262,7 +262,7 @@ export const additionalServices: Service[] = [
     "description": "Prilagođavanje elektroinstalacije za punjač električnog vozila. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.",
     "image": "/images/lamp.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 50
   },
   {
@@ -284,7 +284,7 @@ export const additionalServices: Service[] = [
     "description": "Popravka oluka i spojeva, ponovno pričvršćivanje i podešavanje nagiba. Obim posla, materijal i termin dogovaramo pre dolaska.",
     "image": "/images/hero.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 52
   },
   {
@@ -295,7 +295,7 @@ export const additionalServices: Service[] = [
     "description": "Ugradnja produžetaka odvodnih cevi i podložaka za odvod vode. Obim posla, materijal i termin dogovaramo pre dolaska.",
     "image": "/images/hero.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 53
   },
   {
@@ -306,13 +306,25 @@ export const additionalServices: Service[] = [
     "description": "Zamena oluka, ugradnja zaštitnih mrežica i farbanje oluka. Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.",
     "image": "/images/hero.jpg",
     "price": null,
-    "active": true,
+    "active": false,
     "sort_order": 54
   }
 ];
 
 export type ServiceScope = { tasks: string[]; specialist: boolean };
 export const serviceScopes: Record<string, ServiceScope> = {
+  "iznosenje-smeca": {
+    tasks: ["Iznošenje smeća i šuta u vrećama", "Iznošenje starog nameštaja", "Odvoz i zbrinjavanje po dogovoru"],
+    specialist: false,
+  },
+  "ciscenje-doma": {
+    tasks: ["Usisavanje i brisanje podova", "Čišćenje kuhinje i kupatila", "Brisanje prašine i dostupnih površina", "Pranje prozora po dogovoru"],
+    specialist: false,
+  },
+  "krecenje": {
+    tasks: ["Zaštita podova i nameštaja", "Priprema zidova i manje popravke", "Krečenje zidova i plafona", "Sređivanje prostora nakon radova"],
+    specialist: false,
+  },
   "elektricarske-intervencije": {
     "tasks": [
       "Zamena svetiljki, prekidača, neispravnih utičnica i utikača",

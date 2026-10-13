@@ -12,7 +12,7 @@ const publicPaths = [
   "/konsultacije",
   "/kolekcije",
   ...collections.map((item) => `/kolekcije/${item.id}`),
-  ...services.map((service) => `/usluge/${service.slug}`),
+  ...services.filter((service) => service.active).map((service) => `/usluge/${service.slug}`),
 ];
 const paths = [
   ...publicPaths,

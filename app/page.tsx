@@ -17,20 +17,28 @@ import {
 import { ServiceWheel } from "@/components/service-wheel";
 import { TrustStandard } from "@/components/trust-standard";
 import { ViewEvent } from "@/components/analytics-consent";
-import { isIndividualService, servicePriceLabel, serviceCategories, serviceCategory } from "@/lib/catalog";
+import { isIndividualService, serviceCategories, serviceCategory } from "@/lib/catalog";
+import { ClubPrice } from "@/components/club-price";
+import { ClubInvitation } from "@/components/club-invitation";
+import { ClubBenefits } from "@/components/club-benefits";
+import { ServiceNeeds } from "@/components/service-needs";
+import { CollectionCards } from "@/components/collection-cards";
+import { clubStatus } from "@/lib/club-server";
+import { servicePricing } from "@/lib/service-pricing";
 export const dynamic = "force-dynamic";
 export default async function Home() {
   const t = await getTranslator();
 
   const services = await getServices();
+  const club = await clubStatus();
   const individualServices = services.filter(isIndividualService);
   const featuredSlugs = [
     "ugradnja-tv-a",
     "servis-klime",
     "kacenje-slika-i-ogledala",
     "pranje-tepiha",
-    "nega-garderobe",
-    "organizacija-doma",
+    "ciscenje-doma",
+    "krecenje",
   ];
   const featured = featuredSlugs.flatMap((slug) =>
     individualServices.filter((service) => service.slug === slug),
@@ -39,6 +47,7 @@ export default async function Home() {
   return (
     <>
       <ViewEvent context="home" />
+      <ClubInvitation {...club} />
       <StructuredData
         data={{
           "@context": "https://schema.org",
@@ -92,7 +101,7 @@ export default async function Home() {
           <h1>{t("Šta je potrebno vašem stanu?")}</h1>
           <p>
             {t(
-              "Popravke, montaža, održavanje i svakodnevna pomoć za vaš stan. Od slavine koja kaplje do urednog garderobera — više vremena za vas.",
+              "Čišćenje, krečenje, montaža i popravke za vaš stan. Od slavine koja kaplje do svežih zidova — više vremena za vas.",
             )}
           </p>
         </div>
@@ -158,13 +167,14 @@ export default async function Home() {
             ))}
           </div>
         </section>
+        <ServiceNeeds />
         <section className="casa-tasks">
           <div className="casa-section-heading container">
             <span className="eyebrow eyebrow-peach">{t("USLUGE ZA DOM")}</span>
             <h2>{t("Vaša lista obaveza. Rešena.")}</h2>
             <p>
               {t(
-                "TV na zidu, police na svom mestu, sveža posteljina i organizovan garderober. Pažljiva briga o svakom kutku vašeg stana.",
+                "TV na zidu, police na svom mestu, čist prostor i sveže okrečeni zidovi. Pažljiva briga o svakom kutku vašeg stana.",
               )}
             </p>
           </div>
@@ -219,11 +229,7 @@ export default async function Home() {
                   </div>
                   <div className="home-service-copy">
                     <h3>{t(service.name)}</h3>
-                    <p>
-                      {service.price
-                        ? servicePriceLabel(service, locale, t)
-                        : t("Cena prema obimu posla")}
-                    </p>
+                    <div className="home-price"><ClubPrice price={service.price} from unit={servicePricing[service.slug]?.unit} locale={locale} t={t} /></div>
                     <span>
                       {t("Detalji i zahtev")}
                       <ArrowRight size={18} />
@@ -258,7 +264,7 @@ export default async function Home() {
             <h2>{t("Treba vam pomoć redovno?")}</h2>
             <p>
               {t(
-                "Peglanje, kućne rutine i briga tokom odsustva. Izaberite svoj mesečni paket.",
+                "Čišćenje, održavanje i popravke. Sastavite svoj izbor usluga i učestalost dolazaka.",
               )}
             </p>
             <Link className="text-link" href="/paketi">
@@ -267,6 +273,8 @@ export default async function Home() {
             </Link>
           </article>
         </section>
+        <ClubBenefits />
+        <section className="home-collections container"><div className="casa-section-heading"><span className="eyebrow">{t("VIŠE POSLOVA, JEDAN DOGOVOR")}</span><h2>{t("Sastavite posetu prema svom domu.")}</h2><p>{t("Izaberite povezane usluge. Svaku stavku i eventualnu uštedu na dolasku potvrđujemo u ponudi.")}</p></div><CollectionCards /></section>
         <TrustStandard />
         <Faq />
         <section className="home-final-cta container">

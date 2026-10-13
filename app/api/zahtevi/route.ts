@@ -7,6 +7,8 @@ import { requestSchema, whatsappLink } from "@/lib/validation";
 import { packageRequestNote } from "@/lib/packages";
 import { growthReady } from "@/lib/data";
 import { commerceNote } from "@/lib/growth";
+import { publicService } from "@/lib/catalog";
+import { isPublishedService } from "@/lib/service-availability";
 export async function POST(req: Request) {
   try {
     assertOrigin(req);
@@ -28,13 +30,14 @@ export async function POST(req: Request) {
     )
       throw new HttpError(400, "Izaberite današnji ili budući datum.");
     const client = db();
-    const { data: service } = await client
+    const { data: storedService } = await client
       .from("services")
-      .select("id,name,slug")
+      .select("*")
       .eq("id", input.service_id)
       .eq("active", true)
       .single();
-    if (!service) throw new HttpError(404, "Usluga nije dostupna.");
+    if (!storedService || !isPublishedService(storedService)) throw new HttpError(404, "Usluga nije dostupna.");
+    const service = publicService(storedService);
     const ip =
       req.headers.get("x-vercel-forwarded-for") ||
       req.headers.get("x-forwarded-for")?.split(",")[0] ||
@@ -83,7 +86,7 @@ export async function POST(req: Request) {
         .eq("active", true);
       if (catalogError) throw catalogError;
       try {
-        const summary = commerceNote(input.commerce, service, available || []);
+        const summary = commerceNote(input.commerce, service, (available || []).filter(isPublishedService).map(publicService));
         record.note = [summary, record.note].filter(Boolean).join("\n\n");
       } catch {
         throw new HttpError(400, "Proverite izbor dopuna.");
@@ -92,7 +95,7 @@ export async function POST(req: Request) {
     if (selection) {
       const { data: selectedServices, error: selectionError } = await client
         .from("services")
-        .select("id,name")
+        .select("id,name,slug,active")
         .in(
           "id",
           selection.items.map((item) => item.service_id),
@@ -102,7 +105,7 @@ export async function POST(req: Request) {
       try {
         record.note = packageRequestNote(
           selection,
-          selectedServices || [],
+          (selectedServices || []).filter(isPublishedService),
           record.note,
         );
       } catch {

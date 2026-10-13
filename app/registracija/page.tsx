@@ -2,10 +2,10 @@ import { publicPageMetadata } from "@/lib/seo";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 export const dynamic = "force-dynamic";
 import { AuthPage } from "@/components/auth-page";
-export default async function Register() {
+export default async function Register({ searchParams }: { searchParams: Promise<{ club?: string }> }) {
   const t = await getTranslator();
 
-  return <AuthPage mode="register" />;
+  return <AuthPage mode="register" clubRequested={(await searchParams).club === "yes"} />;
 }
 
 export async function generateMetadata() {

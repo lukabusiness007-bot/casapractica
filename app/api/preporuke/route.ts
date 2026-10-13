@@ -10,6 +10,9 @@ export async function POST(req: Request) {
     if (!(await growthReady()))
       throw new HttpError(503, "Dodatne mogućnosti trenutno nisu dostupne.");
     const client = db();
+    const { data: member, error: memberError } = await client.from("memberships").select("user_id").eq("user_id", user.id).maybeSingle();
+    if (memberError) throw memberError;
+    if (!member) throw new HttpError(403, "Pristupite besplatnom klubu pre pravljenja linka za preporuku.");
     const { error } = await client
       .from("referral_codes")
       .upsert(

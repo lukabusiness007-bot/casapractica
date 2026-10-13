@@ -5,36 +5,44 @@ import Image from "next/image";
 import { ArrowUpRight, Search, Plus, X, Sparkles, HandHeart, Armchair, Droplets, Lightbulb, Wind, PanelsTopLeft, Wifi, Leaf } from "lucide-react";
 import {
   isIndividualService,
-  money,
   serviceCategories,
   serviceCategory,
   type Service,
 } from "@/lib/catalog";
 import { servicePricing } from "@/lib/service-pricing";
+import { washingPriceList } from "@/lib/washing-pricing";
 import { serviceScopes } from "@/lib/catalog-additions";
 import { useLocale, useTranslation } from "./locale-provider";
 import Link from "./localized-link";
+
+import { ClubPrice } from "./club-price";
 
 const icons = { everyday: Sparkles, organization: HandHeart, mounting: Armchair, plumbing: Droplets, electrical: Lightbulb, maintenance: Wind, "doors-windows": PanelsTopLeft, technology: Wifi, gutters: Leaf };
 const legacyAnchors: Record<string, string[]> = { mounting: ["furniture"], "doors-windows": ["window-treatments", "walls"] };
 const normalize = (value: string) =>
   value.toLocaleLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/đ/g, "dj");
 
-export function ServiceCatalog({ services }: { services: Service[] }) {
+export function ServiceCatalog({ services, initialRepair = false }: { services: Service[]; initialRepair?: boolean }) {
   const t = useTranslation();
   const locale = useLocale();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<string>("");
+  const [repair, setRepair] = useState(initialRepair);
+  useEffect(() => setRepair(initialRepair), [initialRepair]);
   const search = normalize(query.trim());
   const available = services.filter((service) => service.active && isIndividualService(service));
   const groups = serviceCategories.map((category) => ({
     ...category,
     services: available.filter((service) => {
+      if (repair && (!(["mounting", "plumbing", "electrical", "maintenance", "doors-windows", "technology"].includes(serviceCategory(service))) || service.slug === "krecenje")) return false;
       if (serviceCategory(service) !== category.id) return false;
       const tasks = serviceScopes[service.slug]?.tasks ?? [];
+      const washingTerms = service.slug === "pranje-tepiha"
+        ? washingPriceList.flatMap((group) => [group.title, ...group.items.flatMap((item) => [item.name, item.detail ?? ""])])
+        : [];
       return !search || normalize([
         t(category.title), t(service.name), t(service.description),
-        ...tasks.map(t), service.name, ...tasks,
+        ...tasks.map(t), ...washingTerms.map(t), service.name, ...tasks, ...washingTerms,
       ].join(" ")).includes(search);
     }),
   })).filter((group) => group.services.length);
@@ -49,11 +57,12 @@ export function ServiceCatalog({ services }: { services: Service[] }) {
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
-  }, [search, services]);
+  }, [search, services, repair]);
 
   return (
     <div id="katalog" className="catalog-browser">
       <div className="catalog-toolbar">
+        {repair && <button type="button" className="button button-light" onClick={() => setRepair(false)}>{t("Pogledajte sve usluge")}</button>}
         <div className="catalog-search">
           <Search size={20} aria-hidden="true" />
           <label className="sr-only" htmlFor="service-search">{t("Pretraga usluga")}</label>
@@ -84,7 +93,7 @@ export function ServiceCatalog({ services }: { services: Service[] }) {
           </div>
         </aside>
         <div className="catalog-results">
-          {!groups.length && <div className="catalog-empty"><Search size={28} strokeWidth={1.4} aria-hidden="true" /><h2>{t("Nema usluga za ovu pretragu.")}</h2><p>{t("Pokušajte sa drugim nazivom ili pogledajte sve usluge.")}</p><button className="button button-dark" type="button" onClick={() => setQuery("")}>{t("Pogledajte sve usluge")}</button></div>}
+          {!groups.length && <div className="catalog-empty"><Search size={28} strokeWidth={1.4} aria-hidden="true" /><h2>{t("Nema usluga za ovu pretragu.")}</h2><p>{t("Pokušajte sa drugim nazivom ili pogledajte sve usluge.")}</p><button className="button button-dark" type="button" onClick={() => { setQuery(""); setRepair(false); }}>{t("Pogledajte sve usluge")}</button></div>}
           {groups.map((category) => {
             const Icon = icons[category.id];
             return (
@@ -116,7 +125,7 @@ export function ServiceCatalog({ services }: { services: Service[] }) {
                           <p className="catalog-service-description">{t(service.tagline)}</p>
                           {scope?.specialist && <span className="catalog-specialist-label">{t("Organizacija specijaliste")}</span>}
                           <div className="catalog-service-price">
-                            <span>{service.price === null ? t("Cena na upit") : <>{t("Od")} <strong>{money(service.price, locale)}</strong>{pricing && <small>{t(pricing.unit)}</small>}</>}</span>
+                            <ClubPrice price={service.price} from unit={pricing?.unit} locale={locale} t={t} />
                             {service.price !== null && pricing && <p>{t(pricing.scope)}</p>}
                         </div>
                         <details className="catalog-service-scope" open={search ? true : undefined}>

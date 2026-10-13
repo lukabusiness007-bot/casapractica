@@ -4,6 +4,7 @@ import type { Service } from "./catalog";
 const genericInteriors = new Set([
   "/images/carpet.jpg", "/images/kitchen.jpg", "/images/living.jpg",
   "/images/lamp.jpg", "/images/air.jpg", "/images/club.jpg", "/images/hero.jpg",
+  "/images/services/iznosenje-smeca.webp",
 ]);
 const illustratedServices = new Set([
   "pranje-tepiha",
@@ -64,6 +65,6 @@ const illustratedServices = new Set([
 
 export function serviceImage(service: Pick<Service, "slug" | "image">): string {
   return illustratedServices.has(service.slug) && genericInteriors.has(service.image)
-    ? `/images/services/${service.slug}${service.slug === "elektricarske-intervencije" ? "-v2" : ""}.webp`
+    ? `/images/services/${service.slug}${["elektricarske-intervencije", "iznosenje-smeca"].includes(service.slug) ? "-v2" : ""}.webp`
     : service.image;
 }

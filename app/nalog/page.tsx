@@ -22,6 +22,11 @@ import { HomeProfileEditor } from "@/components/home-profile-editor";
 import { ReferralCard } from "@/components/referral-card";
 import { siteUrl } from "@/lib/seo";
 import { ActionForm } from "@/components/action-form";
+import { ClubWallet } from "@/components/club-wallet";
+import { VisitActions } from "@/components/visit-actions";
+import { clubReady } from "@/lib/club-server";
+import type { QuoteItem } from "@/components/quote-editor";
+import { isPublishedService } from "@/lib/service-availability";
 export const dynamic = "force-dynamic";
 export default async function Account({
   searchParams,
@@ -70,7 +75,12 @@ export default async function Account({
   const auth = await authClient();
   await auth.rpc("claim_my_requests");
   const growth = await growthReady();
+  const club = await clubReady();
   const c = db();
+  if (club) {
+    const { error } = await c.rpc("expire_club_reservations", { p_user_id: user.id });
+    if (error) throw error;
+  }
   const [
     { data: requests, error },
     { data: membership },
@@ -79,10 +89,11 @@ export default async function Account({
     admin,
     { data: homes, error: homeError },
     { data: referral, error: referralError },
+    { data: changes, error: changeError },
   ] = await Promise.all([
     c
       .from("requests")
-      .select("*,services(name,slug),quotes(*,payments(*))")
+      .select("*,services(name,slug,active),quotes(*,payments(*))")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false }),
     c.from("memberships").select("*").eq("user_id", user.id).maybeSingle(),
@@ -103,9 +114,10 @@ export default async function Account({
           .eq("user_id", user.id)
           .maybeSingle()
       : Promise.resolve({ data: null, error: null }),
+    club ? auth.from("visit_changes").select("request_id,status").eq("user_id", user.id).eq("status", "pending") : Promise.resolve({ data: [], error: null }),
   ]);
-  if (error || homeError || referralError)
-    throw error || homeError || referralError;
+  if (error || homeError || referralError || changeError)
+    throw error || homeError || referralError || changeError;
   const q = await searchParams;
   return (
     <div className="container page-section">
@@ -203,6 +215,8 @@ export default async function Account({
                     )}
                   </p>
                 )}
+                {club && r.status !== "cancelled" && (r.status !== "completed" || (r.services?.active && isPublishedService(r.services))) && <VisitActions requestId={r.id} completed={r.status === "completed"} />}
+                {club && changes?.some((change) => change.request_id === r.id) && <p className="notice">{t("Tim proverava vaš zahtev za promenu. Postojeći termin važi do potvrde.")}</p>}
                 {growth && r.status === "completed" && (
                   <div className="completed-next">
                     <ActionForm
@@ -233,7 +247,7 @@ export default async function Account({
                       href={
                         r.service_id === packageServiceId
                           ? "/konsultacije"
-                          : "/usluge/" + r.services?.slug
+                          : r.services?.active && isPublishedService(r.services) ? "/usluge/" + r.services.slug : "/usluge"
                       }
                     >
                       {t("Dogovorite narednu posetu")}
@@ -255,6 +269,8 @@ export default async function Account({
                     discount_amount: number;
                     total_amount: number;
                     description: string;
+                    discount_kind?: string;
+                    items?: QuoteItem[];
                     payments: { status: string; refunded_amount: number }[];
                   }) => (
                     <div
@@ -263,13 +279,14 @@ export default async function Account({
                       key={offer.id}
                     >
                       <p>{offer.description}</p>
+                      {offer.items?.map((item, index) => <div className="offer-line" key={index}><span>{item.label}</span><span>{money(item.amount, locale)}</span></div>)}
                       <div className="offer-line">
                         <span>{t("Osnovni iznos")}</span>
                         <span>{money(offer.base_amount, locale)}</span>
                       </div>
                       {offer.discount_amount > 0 && (
                         <div className="offer-line">
-                          <span>{t("Članski popust")}</span>
+                          <span>{offer.discount_kind === "referral" ? t("Kredit za preporuku") : offer.discount_kind === "club" ? t("Klupski popust · 5%") : t("Članski popust")}</span>
                           <span>− {money(offer.discount_amount, locale)}</span>
                         </div>
                       )}
@@ -301,7 +318,8 @@ export default async function Account({
           )}
         </div>
         <aside>
-          {growth && <ReferralCard code={referral?.code} origin={siteUrl} />}
+          {membership && <ClubWallet userId={user.id} />}
+          {growth && membership && <ReferralCard code={referral?.code} origin={siteUrl} />}
           <div className="panel">
             <h3>{t("Ritam koji se menja sa vama.")}</h3>
             <p>
@@ -334,9 +352,9 @@ export default async function Account({
             <p>
               {membership
                 ? t(
-                    "Deo ste casa practica kluba. Vaše pogodnosti nalaze se ispod.",
+                    "Deo ste Casa Practica Cluba. Imate 5% popusta i lakše ponavljanje usluga.",
                   )
-                : t("Jedno članstvo. Još malo lepših mogućnosti.")}
+                : t("Besplatno članstvo donosi 5% popusta, ponavljanje usluge i kredit za preporuke.")}
             </p>
             {!membership && (
               <ActionForm
@@ -383,7 +401,7 @@ export default async function Account({
           ) : (
             <p>
               {t(
-                "Pripremamo prve pogodnosti. Ovde ćete ih pronaći čim budu dostupne.",
+                "Vaš stalni klupski popust je 5%. Dodatne objavljene pogodnosti prikazujemo ovde.",
               )}
             </p>
           )}

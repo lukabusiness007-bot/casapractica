@@ -2,7 +2,9 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 import Link from "@/components/localized-link";
-import { servicePriceLabel, type Service } from "@/lib/catalog";
+import { type Service } from "@/lib/catalog";
+import { ClubPrice } from "./club-price";
+import { servicePricing } from "@/lib/service-pricing";
 export async function ServiceCard({
   service,
 }: {
@@ -30,9 +32,7 @@ export async function ServiceCard({
         <p>{t(service.tagline)}</p>
         <div className="service-card-bottom">
           <span className="service-price">
-            {service.price
-              ? servicePriceLabel(service, locale, t)
-              : t("Cena na upit")}
+            <ClubPrice price={service.price} from unit={servicePricing[service.slug]?.unit} locale={locale} t={t} />
           </span>
           <span className="service-card-action">
             {t("Pogledajte uslugu")}

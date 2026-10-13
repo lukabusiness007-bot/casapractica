@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { getServices, growthReady } from "@/lib/data";
 import { findSubscription } from "@/lib/subscriptions";
 import { money, packageServiceId } from "@/lib/catalog";
@@ -20,7 +21,8 @@ export default async function Consultation({
 }) {
   const t = await getTranslator();
   const query = await searchParams;
-  const subscription = findSubscription(query.subscription);
+  const subscription = findSubscription(query.subscription, query.intent === "plan-change");
+  if (query.subscription && !subscription) notFound();
   const locale = await getLocale();
   const tier =
     query.tier === "signature" || query.tier === "private"
