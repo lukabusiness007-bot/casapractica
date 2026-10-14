@@ -1,5 +1,6 @@
 import type { Service } from "./catalog";
 import { pestContent } from "./pest-services";
+import { homeServiceDetails } from "./home-service-additions";
 
 export const additionalServices: Service[] = [
   {
@@ -314,6 +315,7 @@ export const additionalServices: Service[] = [
 
 export type ServiceScope = { tasks: string[]; specialist: boolean };
 export const serviceScopes: Record<string, ServiceScope> = {
+  ...Object.fromEntries(Object.entries(homeServiceDetails).map(([slug, details]) => [slug, { tasks: details.tasks, specialist: details.specialist }])),
   ...Object.fromEntries(Object.entries(pestContent).map(([slug, content]) => [slug, { tasks: content.tasks, specialist: true }])),
   "iznosenje-smeca": {
     tasks: ["Iznošenje smeća i šuta u vrećama", "Iznošenje starog nameštaja", "Odvoz i zbrinjavanje po dogovoru"],

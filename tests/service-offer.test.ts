@@ -4,6 +4,9 @@ import { isIndividualService, publicService, services } from "../lib/catalog";
 import { isPublishedService, retiredServiceSlugs } from "../lib/service-availability";
 import { requestSchema } from "../lib/validation";
 import { packageSchema } from "../lib/packages";
+import { homeServiceAdditions, homeServiceCategories } from "../lib/home-service-additions";
+import { servicePricing } from "../lib/service-pricing";
+import { washingPriceList } from "../lib/washing-pricing";
 import { collections } from "../lib/growth";
 
 const contact = { name: "Ana", phone: "+381641234567", location: "Beograd" };
@@ -22,7 +25,7 @@ test("retired offers stay unbookable even when a connected database has not been
 });
 
 test("new cleaning and painting offers, collections and waste-removal copy agree", () => {
-  assert.equal(services.filter(isPublishedService).filter(isIndividualService).length, 49);
+  assert.equal(services.filter(isPublishedService).filter(isIndividualService).length, 54);
   for (const slug of ["ciscenje-doma", "krecenje"]) {
     const service = services.find((item) => item.slug === slug)!;
     assert.equal(isPublishedService(service), true);
@@ -35,4 +38,21 @@ test("new cleaning and painting offers, collections and waste-removal copy agree
   const waste = services.find((service) => service.slug === "iznosenje-smeca")!;
   const oldDatabaseRow = { ...waste, name: "Iznošenje smeća", tagline: "Jedna obaveza manje. Svakog dana.", image: "/images/services/iznosenje-smeca.webp" };
   assert.equal(publicService(oldDatabaseRow).name, "Iznošenje smeća, šuta i nameštaja");
+});
+
+
+test("new home services support individual and package requests with the existing upholstery tariff", () => {
+  assert.equal(homeServiceAdditions.length, 5);
+  for (const service of homeServiceAdditions) {
+    assert.ok(services.some(item => item.id === service.id && item.slug === service.slug));
+    assert.ok(homeServiceCategories[service.slug]);
+    assert.ok(isIndividualService(service));
+    assert.ok(requestSchema.safeParse({ ...contact, service_id: service.id }).success);
+    assert.ok(packageSchema.safeParse({ plan_id: "custom", items: [{ service_id: service.id, frequency: "once" }] }).success);
+    if (service.slug !== "dubinsko-pranje-duseka-sofa-i-fotelja") assert.equal(service.price, null);
+  }
+  const upholstery = homeServiceAdditions[0];
+  const tariff = washingPriceList.find(group => group.title === "Pranje nameštaja")!.items[0];
+  assert.equal(upholstery.price, tariff.price);
+  assert.equal(servicePricing[upholstery.slug].unit, tariff.unit);
 });

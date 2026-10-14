@@ -3,6 +3,7 @@ import { additionalServices } from "./catalog-additions";
 import { serviceImage } from "./service-images";
 import { retiredServiceSlugs } from "./service-availability";
 import { pestServices, isPestService } from "./pest-services";
+import { homeServiceAdditions, homeServiceCategories, homeServiceDetails } from "./home-service-additions";
 export type Service = {
   id: string;
   slug: string;
@@ -71,13 +72,14 @@ export const serviceCategories = [
   },
   {
     id: "gutters",
-    title: "Balkoni, terase i spoljni radovi",
-    tagline: "Balkoni i terase, uz dodatne usluge za kuće i spoljne površine.",
-    description: "Balkoni i terase, uz dodatne usluge za kuće i spoljne površine.",
+    title: "Balkoni, terase, dvorišta i bazeni",
+    tagline: "Uredne spoljne površine, negovan travnjak i pažljivo održavan bazen.",
+    description: "Uredne spoljne površine, negovan travnjak i pažljivo održavan bazen.",
   },
 ] as const;
 export type ServiceCategory = (typeof serviceCategories)[number]["id"];
 const categoriesBySlug: Record<string, ServiceCategory> = {
+  ...homeServiceCategories,
   ...Object.fromEntries(pestServices.map((service) => [service.slug, "pest-control" as const])),
   "ciscenje-doma": "everyday",
   "krecenje": "doors-windows",
@@ -460,6 +462,7 @@ export const services: Service[] = [
   },
   ...additionalServices,
   ...pestServices,
+  ...homeServiceAdditions,
   {
     id: "ca5a0000-0000-4000-8000-000000000301",
     slug: "ciscenje-doma",
@@ -536,7 +539,7 @@ export const money = (minor: number, locale = "sr-Latn-RS") =>
   }).format(minor / 100);
 
 export function servicePriceLabel(service: Pick<Service, "slug" | "price">, locale: string, t: (value: string) => string) {
-  if (service.price === null) return t(isPestService(service.slug) ? "Cena po proceni" : "Cena na upit");
+  if (service.price === null) return t(isPestService(service.slug) || homeServiceDetails[service.slug] ? "Cena po proceni" : "Cena na upit");
   const unit = servicePricing[service.slug]?.unit;
   const amount = money(service.price, locale);
   return `${locale.startsWith("zh") ? `${amount}${t("Od")}` : `${t("Od")} ${amount}`}${unit ? ` · ${t(unit)}` : ""}`;

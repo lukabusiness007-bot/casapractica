@@ -219,7 +219,6 @@ export default async function Home() {
             {serviceCategories
               .filter(
                 (category) =>
-                  category.id !== "gutters" &&
                   individualServices.some(
                     (service) => serviceCategory(service) === category.id,
                   ),

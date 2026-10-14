@@ -3,19 +3,19 @@ import Link from "./localized-link";
 import { washingPriceList } from "@/lib/washing-pricing";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 
-export async function WashingPriceList() {
+export async function WashingPriceList({ upholsteryOnly = false }: { upholsteryOnly?: boolean } = {}) {
   const locale = await getLocale();
   const t = await getTranslator();
   return (
     <section className="washing-prices" id="cenovnik" aria-labelledby="washing-price-heading">
       <div className="washing-price-heading">
         <span className="eyebrow">{t("Cenovnik")}</span>
-        <h2 id="washing-price-heading">{t("Pranje i nega, po vašoj meri.")}</h2>
-        <p>{t("Izaberite vrstu pranja i dodatne usluge. Transport je iskazan posebno.")}</p>
+        <h2 id="washing-price-heading">{t(upholsteryOnly ? "Pranje sofa, fotelja i dušeka" : "Pranje i nega, po vašoj meri.")}</h2>
+        <p>{t(upholsteryOnly ? "Cena zavisi od broja sedećih mesta ili tipa dušeka. Materijal, obim i konačan iznos potvrđujemo pre dolaska." : "Izaberite vrstu pranja i dodatne usluge. Transport je iskazan posebno.")}</p>
         <Link className="text-link" href="/klub#pristupi">{t("Besplatno članstvo donosi 5% popusta na ceo cenovnik")}</Link>
       </div>
       <div className="washing-price-grid">
-        {washingPriceList.map((group) => (
+        {(upholsteryOnly ? washingPriceList.filter(group => group.title === "Pranje nameštaja") : washingPriceList).map((group) => (
           <div className="washing-price-group" key={group.title}>
             <table>
               <caption>{t(group.title)}</caption>

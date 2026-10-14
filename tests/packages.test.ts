@@ -171,6 +171,9 @@ test("catalog migrations preserve requests and admin content while applying the 
     const pestMigration = await readFile("supabase/migrations/011_ddd_services.sql", "utf8");
     await db.exec(pestMigration);
     await db.exec(pestMigration);
+    const homeMigration = await readFile("supabase/migrations/012_home_service_expansion.sql", "utf8");
+    await db.exec(homeMigration);
+    await db.exec(homeMigration);
     for (const [slug, pricing] of Object.entries(servicePricing)) {
       if (slug === "ugradnja-tv-a") continue;
       const stored = (await db.query<{ price: string }>("select price from public.services where slug=$1", [slug])).rows[0];

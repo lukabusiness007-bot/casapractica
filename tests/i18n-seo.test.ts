@@ -10,6 +10,7 @@ import { casaPlans } from "../lib/packages";
 import { serviceScopes } from "../lib/catalog-additions";
 import { services } from "../lib/catalog";
 import { washingPriceList } from "../lib/washing-pricing";
+import { homeServiceDetails, homeServiceSearchTerms } from "../lib/home-service-additions";
 import messages from "../lib/i18n/messages.json";
 import { seoCopy } from "../lib/seo-copy";
 import { guides } from "../lib/guides";
@@ -72,6 +73,11 @@ test("all supported languages include public copy and catalog translations", () 
     for (const scope of Object.values(serviceScopes))
       for (const task of scope.tasks)
         assert.ok(task in dictionary, `${locale}: missing task translation: ${task}`);
+    for (const detail of Object.values(homeServiceDetails))
+      for (const copy of [detail.title, detail.preparation, detail.requestHint, ...detail.faq])
+        assert.ok(copy in dictionary, `${locale}: missing home service copy: ${copy}`);
+    for (const copy of Object.values(homeServiceSearchTerms).flat())
+      assert.ok(copy in dictionary, `${locale}: missing search term: ${copy}`);
     for (const service of services)
       for (const field of ["name", "tagline", "description"] as const) {
         assert.notEqual(

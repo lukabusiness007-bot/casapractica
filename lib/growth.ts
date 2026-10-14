@@ -82,6 +82,11 @@ export const upgrades = [
   },
 ] as const;
 const related: Record<string, string[]> = {
+  "dubinsko-pranje-duseka-sofa-i-fotelja": ["pranje-tepiha", "ciscenje-doma"],
+  "skidanje-i-postavljanje-tapeta": ["krecenje", "ciscenje-doma"],
+  "praznjenje-podruma-tavana-i-garaza": ["ciscenje-doma"],
+  "kosenje-trave-i-sisanje-zive-ograde": ["terase-i-spoljne-povrsine"],
+  "ciscenje-i-odrzavanje-bazena": ["terase-i-spoljne-povrsine"],
   "ugradnja-tv-a": ["podesavanje-tv-a", "montaza-polica"],
   "podesavanje-tv-a": ["ugradnja-tv-a", "podesavanje-wifi-mreze"],
   "servis-klime": ["ciscenje-doma"],

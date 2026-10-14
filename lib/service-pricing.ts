@@ -5,6 +5,11 @@ import { washingPriceList } from "./washing-pricing";
 // Rounded to the nearest 500 RSD, or 100 RSD for prices below 1,000 RSD.
 // Washing follows the user's exact doubled price list instead of rounding.
 export const servicePricing: Record<string, ServicePricing> = {
+  "dubinsko-pranje-duseka-sofa-i-fotelja": {
+    price: washingPriceList[6].items[0].price!,
+    scope: "Pranje sofe ili fotelje",
+    unit: "po sedećem mestu",
+  },
   "pranje-tepiha": {
     "price": washingPriceList[0].items[0].price!,
     "scope": "Dubinsko, mokro pranje",

@@ -17,6 +17,7 @@ import { WashingExtras } from "./washing-extras";
 import { isPestService } from "@/lib/pest-services";
 import { pestAssessmentFromForm } from "@/lib/pest-assessment";
 import { PestAssessmentFields } from "./pest-assessment-fields";
+import { homeServiceDetails } from "@/lib/home-service-additions";
 export function RequestForm({
   service,
   ready,
@@ -37,6 +38,7 @@ export function RequestForm({
   const t = useTranslation();
   const locale = useLocale();
   const pestRequest = isPestService(service.slug) || !!commerce.collection_id?.startsWith("zastita-");
+  const serviceHint = homeServiceDetails[service.slug]?.requestHint;
   const leadStarted = useRef(false);
   const [washing, setWashing] = useState<WashingSelection>();
   const [washingExtras, setWashingExtras] = useState<WashingExtra[]>([]);
@@ -282,14 +284,14 @@ export function RequestForm({
             name="note"
             rows={3}
             maxLength={2000}
-            placeholder={pestRequest ? undefined : t("Zadaci, količine, sprat, lift i vaše želje…")}
+            placeholder={serviceHint ? t(serviceHint) : pestRequest ? undefined : t("Zadaci, količine, sprat, lift i vaše želje…")}
             aria-describedby={`${formId}-building-details`}
           />
           <small id={`${formId}-building-details`}>
             {t(
-              pestRequest
+              serviceHint || (pestRequest
                 ? "Navedite zahvaćene prostorije, položaj gnezda ili površine, pristup i dostupnost uputstva prethodnog izvođača."
-                : "Navedite sprat, dostupnost lifta i pravila zgrade za bučne radove. Termin i pristup dogovaramo pre dolaska.",
+                : "Navedite sprat, dostupnost lifta i pravila zgrade za bučne radove. Termin i pristup dogovaramo pre dolaska."),
             )}
           </small>
         </label>

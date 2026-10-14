@@ -17,6 +17,7 @@ import Link from "./localized-link";
 
 import { ClubPrice } from "./club-price";
 import { isPestService, pestSearchTerms } from "@/lib/pest-services";
+import { homeServiceDetails, homeServiceSearchTerms } from "@/lib/home-service-additions";
 
 const icons = { "pest-control": ShieldCheck, everyday: Sparkles, organization: HandHeart, mounting: Armchair, plumbing: Droplets, electrical: Lightbulb, maintenance: Wind, "doors-windows": PanelsTopLeft, technology: Wifi, gutters: Leaf };
 const legacyAnchors: Record<string, string[]> = { mounting: ["furniture"], "doors-windows": ["window-treatments", "walls"] };
@@ -39,12 +40,13 @@ export function ServiceCatalog({ services, initialRepair = false }: { services: 
       if (serviceCategory(service) !== category.id) return false;
       const tasks = serviceScopes[service.slug]?.tasks ?? [];
       const pestTerms = pestSearchTerms[service.slug] ?? [];
+      const homeTerms = homeServiceSearchTerms[service.slug] ?? [];
       const washingTerms = service.slug === "pranje-tepiha"
         ? washingPriceList.flatMap((group) => [group.title, ...group.items.flatMap((item) => [item.name, item.detail ?? ""])])
         : [];
       return !search || normalize([
         t(category.title), t(service.name), t(service.description),
-        ...tasks.map(t), ...washingTerms.map(t), ...pestTerms.map(t), service.name, ...tasks, ...washingTerms, ...pestTerms,
+        ...tasks.map(t), ...washingTerms.map(t), ...pestTerms.map(t), ...homeTerms.map(t), service.name, ...tasks, ...washingTerms, ...pestTerms, ...homeTerms,
       ].join(" ")).includes(search);
     }),
   })).filter((group) => group.services.length);
@@ -128,7 +130,7 @@ export function ServiceCatalog({ services, initialRepair = false }: { services: 
                           {scope?.specialist && <span className="catalog-specialist-label">{t("Organizacija specijaliste")}</span>}
                           <div className="catalog-service-price">
                             <ClubPrice price={service.price}
-                          quoteLabel={isPestService(service.slug) ? "Cena po proceni" : undefined} from unit={pricing?.unit} locale={locale} t={t} />
+                          quoteLabel={isPestService(service.slug) || homeServiceDetails[service.slug] ? "Cena po proceni" : undefined} from unit={pricing?.unit} locale={locale} t={t} />
                             {service.price !== null && pricing && <p>{t(pricing.scope)}</p>}
                         </div>
                         <details className="catalog-service-scope" open={search ? true : undefined}>

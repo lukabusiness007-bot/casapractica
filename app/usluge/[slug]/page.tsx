@@ -20,6 +20,8 @@ import { ClubPrice } from "@/components/club-price";
 import { isPestService, pestContent } from "@/lib/pest-services";
 import { PestServiceContent } from "@/components/pest-service-content";
 import { PremiumServiceNote } from "@/components/premium-service-note";
+import { homeServiceDetails } from "@/lib/home-service-additions";
+import { HomeServiceContent } from "@/components/home-service-content";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
@@ -35,7 +37,9 @@ export async function generateMetadata({
   return pageMetadata(
     locale,
     `/usluge/${slug}`,
-    pestContent[slug]
+    homeServiceDetails[slug]
+      ? t(homeServiceDetails[slug].title)
+      : pestContent[slug]
       ? t(pestContent[slug].title)
       : slug === "ciscenje-doma"
       ? seoCopy(locale).cleaningTitle
@@ -53,6 +57,7 @@ export default async function ServiceDetail({
 
   const { slug } = await params;
   const pestRequest = isPestService(slug);
+  const extraDetails = homeServiceDetails[slug];
   const service = (await getServices()).find((s) => s.slug === slug);
   if (!service) notFound();
   const scope = serviceScopes[service.slug];
@@ -141,8 +146,8 @@ export default async function ServiceDetail({
         <div className="detail-content">
           <span className="eyebrow">{t("JEDNA OBAVEZA MANJE")}</span>
           <h1>
-            {pestRequest ? t(pestContent[slug].title) : slug === "ciscenje-doma" ? copy.cleaningHeading : t(service.name)}
-            {!pestRequest && <span className="service-location">{t("BEOGRAD")}</span>}
+            {extraDetails ? t(extraDetails.title) : pestRequest ? t(pestContent[slug].title) : slug === "ciscenje-doma" ? copy.cleaningHeading : t(service.name)}
+            {!pestRequest && !extraDetails && <span className="service-location">{t("BEOGRAD")}</span>}
           </h1>
           <p className="lead">{t(service.tagline)}</p>
           <p>{t(service.description)}</p>
@@ -181,7 +186,7 @@ export default async function ServiceDetail({
           <div className="price-line">
             <ClubPrice
               price={service.price}
-              quoteLabel={pestRequest ? "Cena po proceni" : undefined}
+              quoteLabel={pestRequest || extraDetails ? "Cena po proceni" : undefined}
               from
               unit={servicePricing[service.slug]?.unit}
               locale={locale}
@@ -194,7 +199,7 @@ export default async function ServiceDetail({
               {t("Učlanite se besplatno za klupsku cenu")}
             </Link>
           </p>
-          {service.slug === "pranje-tepiha" && (
+          {["pranje-tepiha", "dubinsko-pranje-duseka-sofa-i-fotelja"].includes(service.slug) && (
             <a className="text-link washing-price-jump" href="#cenovnik">
               {t("Pogledajte ceo cenovnik")}
               <ArrowLeft size={15} aria-hidden="true" />
@@ -219,8 +224,9 @@ export default async function ServiceDetail({
           </div>
         </div>
       </div>
-      {pestRequest ? <PestServiceContent slug={service.slug} available={await getServices()} /> : <ServiceAdvice slug={service.slug} />}
+      {extraDetails ? <HomeServiceContent service={service} available={await getServices()} /> : pestRequest ? <PestServiceContent slug={service.slug} available={await getServices()} /> : <ServiceAdvice slug={service.slug} />}
       {service.slug === "pranje-tepiha" && <WashingPriceList />}
+      {service.slug === "dubinsko-pranje-duseka-sofa-i-fotelja" && <WashingPriceList upholsteryOnly />}
       {service.id !== packageServiceId && (
         <a className="mobile-request-cta button button-dark" href="#zahtev">
           {t(pestRequest ? "Zatražite procenu" : "Pošaljite zahtev")}

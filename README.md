@@ -243,3 +243,24 @@ Sajt podržava pojednostavljeni kineski kroz `/zh`, izbor „中文（简体）�
 Premijum karakter se vidi kroz pažljivo planiranu posetu, jasnu ponudu, poštovanje vremena i uredan završetak. Diskretne poruke dodate su na početnu, katalog, stranice usluga, kolekcije, DDD pregled, kontakt, konsultacije, klub i zajednički footer. Mesečni planovi i opis pristupa nose isti ton na svim jezicima. Nazivi usluga i glavne SEO ključne reči ostaju konkretni; tvrdnje o sertifikatima, garancijama ili izmišljenim izvođačima nisu dodate.
 
 Provera: svih 40 testova, TypeScript i produkcijski build; 462 renderovane stranice i 432 javna sitemap URL-a. Mobilna provera na 390 px obuhvata kinesku početnu i DDD obrazac bez horizontalnog prelivanja. Supabase i naplata ostaju u ranije dogovorenom režimu do povezivanja.
+
+
+## Dodatne usluge za dom i dvorište (012)
+
+Dodato je pet samostalnih usluga: dubinsko pranje dušeka, sofa i fotelja; skidanje i postavljanje tapeta; pražnjenje podruma, tavana i garaža; košenje trave i šišanje žive ograde; čišćenje i održavanje bazena. Svaka ima zasebnu stranicu, obim, pripremu, pitanje i odgovor, povezane usluge i napomenu za procenu u formularu. Usluge su dostupne u katalogu i izboru Casa paketa na svih šest jezika. Spoljna kategorija na početnoj sada uključuje dvorišta i bazene. Opisi zadržavaju diskretan premijum ton kroz jasno dogovoren obim i brigu o detaljima.
+
+Pranje sofa i fotelja koristi postojeću cenu od 2.400 RSD po sedećem mestu i isti klupski popust. Poseban cenovnik nameštaja prikazuje postojeće cene dušeka i stolica; nijedan prethodni iznos nije promenjen. Ostale četiri usluge imaju cenu po proceni. Canonical, hreflang, Service/BreadcrumbList i sitemap prate postojeći SEO sistem; naslovi i opisi ističu konkretne usluge u Beogradu.
+
+Za kasniju aktivaciju baze, nakon migracije 011 primeniti `supabase/migrations/012_home_service_expansion.sql`. Migracija može da se ponovi i čuva postojeće ID-eve, prilagođeni sadržaj i istoriju zahteva. Supabase povezivanje ostaje odloženo prema dogovoru; dodavanje usluga ne uključuje prijem upita.
+
+Pet ilustrativnih fotografija generisano je ugrađenim imagegen alatom i sačuvano kao WEBP (1.200 × 800) u `public/images/services/`. Fotografije ne predstavljaju dokumentovane radove stvarnog tima. Za svaki konačni prompt sledeći zajednički tekst spojen je sa pripadajućom scenom:
+
+> Use case: photorealistic-natural. Asset type: landscape 3:2 photograph for a premium Belgrade home-service catalogue. Editorial lifestyle photography, realistic anatomy and materials, soft natural daylight, refined warm neutral palette, tidy residential setting. One adult professional in unbranded charcoal workwear. No text, logos, watermarks, children, before-and-after layout or dramatic mess.
+
+- `public/images/services/dubinsko-pranje-duseka-sofa-i-fotelja.webp`: A professional carefully using an upholstery extraction cleaning wand on a light beige fabric sofa in a bright apartment with oak floor, a compact extraction machine nearby, realistic hose, no excessive foam. Medium-wide view showing the sofa and technician.
+- `public/images/services/skidanje-i-postavljanje-tapeta.webp`: A professional installing a subtle warm ivory textured wallpaper strip on a living-room wall using a smoothing tool. A wallpaper roll and tidy work table nearby, covered floor and orderly workspace. Medium-wide view; careful wall-finishing work, natural hands.
+- `public/images/services/praznjenje-podruma-tavana-i-garaza.webp`: A professional carrying a closed cardboard box out of an orderly residential basement storage room, shelves with neatly grouped boxes, several larger items prepared for removal, clear walking route and a small trolley. Warm practical lighting supplemented by daylight near the open doorway. No hazardous rubbish.
+- `public/images/services/kosenje-trave-i-sisanje-zive-ograde.webp`: A gardener wearing gloves and ear protection pushing a compact lawn mower across a residential lawn. A neatly trimmed hedge, subtle garden plantings and pale stone terrace in the background. Natural afternoon light, medium-wide view, no branding.
+- `public/images/services/ciscenje-i-odrzavanje-bazena.webp`: A pool-care professional using a telescopic pool skimmer beside a small residential swimming pool. Pale stone paving, modest landscaped garden and clean blue water, realistic pool edges and tool proportions. Medium-wide view, relaxed natural light. No chemical handling.
+
+Provera: 41 test, TypeScript i produkcijski build; HTTP provera 492 jezičke stranice i 462 javna sitemap URL-a. Mobilni pregled na 390 px obuhvata pranje, njegov cenovnik i kinesku stranicu za bazene, bez horizontalnog prelivanja. Pretraga „duseci“ i „tapete“ vraća odgovarajuće nove usluge. Migracije su proverene u lokalnom PGlite-u.
