@@ -32,7 +32,7 @@ test("monthly requests validate plan IDs and cannot supply their own price or at
 });
 
 test("monthly offer and price-scope copy is translated in every supported language", () => {
-  for (const locale of ["en", "ru", "de", "tr"] as const) {
+  for (const locale of ["en", "ru", "de", "tr", "zh"] as const) {
     const t = translator(locale);
     for (const plan of subscriptions)
       for (const copy of [plan.name, plan.description, plan.excludes, ...plan.includes])

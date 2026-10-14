@@ -9,6 +9,7 @@ import { PestServiceContent } from "@/components/pest-service-content";
 import { StructuredData } from "@/components/structured-data";
 import { ViewEvent } from "@/components/analytics-consent";
 import Link from "@/components/localized-link";
+import { PremiumServiceNote } from "@/components/premium-service-note";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata() {
@@ -46,6 +47,7 @@ export default async function DddServices() {
           <h1>{title}</h1>
           <p>{t("DDD znači deratizacija, dezinsekcija i dezinfekcija. Izaberite uslugu prema problemu ili zatražite preventivni plan za stan, kuću, stambenu zgradu ili poslovni prostor. Obim, cenu i termin potvrđujemo nakon procene.")}</p>
           <a className="button button-dark" href="#katalog">{t("Zatražite procenu")} →</a>
+          <PremiumServiceNote />
         </div>
         <div className="catalog-hero-image"><Image src="/images/services/ddd-zastita.webp" alt={t("Pregled prostora i plan zaštite")} width={1200} height={800} sizes="(max-width: 760px) 100vw, 540px" preload /><span>{t("Beograd, sa pažnjom.")}</span></div>
       </div>

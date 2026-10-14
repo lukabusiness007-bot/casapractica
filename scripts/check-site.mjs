@@ -4,8 +4,8 @@ import { guideSlugs } from "../lib/guide-routing.ts";
 import { isPublishedService } from "../lib/service-availability.ts";
 import { services } from "../lib/catalog.ts";
 import { collections } from "../lib/growth.ts";
+import { locales, languageTags } from "../lib/i18n/routing.ts";
 const base = process.env.TEST_SITE_URL || "http://localhost:3100";
-const locales = ["sr", "en", "ru", "de", "tr"];
 const publicPaths = [
   "/",
   "/usluge",
@@ -43,7 +43,7 @@ for (const locale of locales)
       assert.equal(response.status, 200, route);
       const html = await response.text();
       assert.ok(
-        html.includes(`lang="${locale === "sr" ? "sr-Latn" : locale}"`),
+        html.includes(`lang="${languageTags[locale]}"`),
         route + " lang",
       );
       const canonical = html.match(/<link rel="canonical" href="([^"]+)"/);
@@ -60,7 +60,7 @@ for (const locale of locales)
       if (publicPaths.includes(path))
         assert.equal(
           (html.match(/rel="alternate" hrefLang=/g) || []).length,
-          6,
+          locales.length + 1,
           route + " hreflang",
         );
       else assert.ok(html.includes("noindex"), route + " private noindex");
@@ -88,7 +88,6 @@ assert.equal(redirect.status, 308);
 assert.equal(
   new URL(redirect.headers.get("location"), base).pathname,
   "/usluge",
-  "/ddd",
 );
 for (const locale of locales) {
   for (const subscription of ["ritam", "garderoba", "family", "na-cuvanju"]) {

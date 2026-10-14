@@ -538,5 +538,6 @@ export const money = (minor: number, locale = "sr-Latn-RS") =>
 export function servicePriceLabel(service: Pick<Service, "slug" | "price">, locale: string, t: (value: string) => string) {
   if (service.price === null) return t(isPestService(service.slug) ? "Cena po proceni" : "Cena na upit");
   const unit = servicePricing[service.slug]?.unit;
-  return `${t("Od")} ${money(service.price, locale)}${unit ? ` · ${t(unit)}` : ""}`;
+  const amount = money(service.price, locale);
+  return `${locale.startsWith("zh") ? `${amount}${t("Od")}` : `${t("Od")} ${amount}`}${unit ? ` · ${t(unit)}` : ""}`;
 }

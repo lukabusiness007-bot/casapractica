@@ -1,8 +1,7 @@
 "use client";
 import { createContext, useContext } from "react";
 import type { BusinessDetails } from "@/lib/business";
-import { useLocale } from "./locale-provider";
-import { seoCopy } from "@/lib/seo-copy";
+import { useTranslation } from "./locale-provider";
 
 const ContactContext = createContext<BusinessDetails | null>(null);
 export function BusinessProvider({
@@ -22,7 +21,7 @@ export function BusinessContact({
   placeholder?: boolean;
 }) {
   const contact = useContext(ContactContext);
-  const copy = seoCopy(useLocale());
+  const t = useTranslation();
   if (!contact) return null;
   const available = contact.phoneHref || contact.email || contact.whatsappHref;
   if (!available && !placeholder) return null;
@@ -37,7 +36,7 @@ export function BusinessContact({
       )}
       {!available && (
         <p className="fine-print">
-          {copy.contactPlaceholder} <span>+381 6X XXX XXXX</span>
+          {t("Privremeni kontakt — primer broja, nije za pozive:")} <span>+381 6X XXX XXXX</span>
         </p>
       )}
     </div>

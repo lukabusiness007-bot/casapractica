@@ -4,14 +4,17 @@ import Link from "@/components/localized-link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { splitLocale } from "@/lib/i18n/routing";
-import { seoCopy } from "@/lib/seo-copy";
-import { useLocale } from "./locale-provider";
 import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
 import { LanguageSwitcher } from "./language-switcher";
 import { Brand } from "./brand";
 export function Header() {
   const t = useTranslation();
-  const copy = seoCopy(useLocale());
+  const copy = {
+    mobilePlans: t("Mesečni planovi"),
+    guidesTitle: t("Saveti za čist i održavan dom"),
+    aboutTitle: t("O nama"),
+    contactTitle: t("Kontakt"),
+  };
 
   const dialog = useRef<HTMLDialogElement>(null);
   const home = splitLocale(usePathname()).path === "/";

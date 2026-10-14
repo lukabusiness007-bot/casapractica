@@ -19,6 +19,7 @@ import { WashingPriceList } from "@/components/washing-price-list";
 import { ClubPrice } from "@/components/club-price";
 import { isPestService, pestContent } from "@/lib/pest-services";
 import { PestServiceContent } from "@/components/pest-service-content";
+import { PremiumServiceNote } from "@/components/premium-service-note";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
@@ -145,6 +146,7 @@ export default async function ServiceDetail({
           </h1>
           <p className="lead">{t(service.tagline)}</p>
           <p>{t(service.description)}</p>
+          <PremiumServiceNote />
           {scope && (
             <div className="detail-service-scope">
               <h2>{t("Šta obuhvata usluga")}</h2>

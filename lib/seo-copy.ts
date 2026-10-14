@@ -1,6 +1,9 @@
 import { locales, type Locale } from "./i18n/routing";
+import { translator } from "./i18n";
 type Text = readonly [string, string, string, string, string];
 export function localized(locale: Locale, values: Text) {
+  // Keep the original editorial tuples; Chinese shares the central dictionary.
+  if (locale === "zh") return translator(locale)(values[0]);
   return values[locales.indexOf(locale)];
 }
 export function seoCopy(locale: Locale) {
@@ -21,11 +24,11 @@ export function seoCopy(locale: Locale) {
       "Belgrad’da ev temizliği ve bakımı",
     ]),
     homeDescription: l([
-      "Redovno čišćenje i održavanje doma u Beogradu. Dogovoreni dolasci, jedan koordinator i ponuda prema vašem stanu. Izaberite mesečni plan.",
-      "Regular home cleaning and maintenance in Belgrade. Agreed visits, one coordinator and a quote tailored to your home. Explore monthly plans.",
-      "Регулярная уборка и обслуживание дома в Белграде. Согласованный график, один координатор и индивидуальное предложение. Выберите месячный план.",
-      "Regelmäßige Reinigung und Hausservice in Belgrad. Vereinbarte Besuche, ein Ansprechpartner und ein Angebot für Ihr Zuhause. Monatliche Pläne entdecken.",
-      "Belgrad’da düzenli ev temizliği ve bakım. Planlı ziyaretler, tek koordinatör ve evinize uygun teklif. Aylık planları keşfedin.",
+      "Premijum čišćenje i održavanje doma u Beogradu. Pažljivo planirani dolasci, jedan koordinator i ponuda po meri vašeg stana.",
+      "Premium cleaning and home maintenance in Belgrade. Carefully planned visits, one coordinator and a quote tailored to your home.",
+      "Премиальная уборка и обслуживание дома в Белграде. Продуманные визиты, один координатор и предложение для вашей квартиры.",
+      "Premium-Reinigung und Hausservice in Belgrad. Sorgfältig geplante Besuche, ein Ansprechpartner und ein Angebot für Ihr Zuhause.",
+      "Belgrad’da premium temizlik ve ev bakımı. Özenle planlanmış ziyaretler, tek koordinatör ve evinize uygun teklif.",
     ]),
     catalogTitle: l([
       "Čišćenje, održavanje i DDD usluge Beograd",
@@ -70,11 +73,11 @@ export function seoCopy(locale: Locale) {
       "Düzenli temizlik ve aylık ev bakımı",
     ]),
     plansDescription: l([
-      "Dve posete mesečno, nedeljno čišćenje ili plan po meri u Beogradu. Jedan koordinator; obim, opremu, mesečnu cenu i doplate dogovaramo unapred.",
-      "Two visits a month, weekly cleaning or a custom plan in Belgrade. One coordinator; scope, equipment, monthly price and extras agreed in advance.",
-      "Два визита в месяц, еженедельная уборка или индивидуальный план в Белграде. Один координатор; объем, оборудование, цену и доплаты согласуем заранее.",
-      "Zwei Besuche im Monat, wöchentliche Reinigung oder ein individueller Plan in Belgrad. Umfang, Ausstattung, Preis und Extras werden vorab vereinbart.",
-      "Belgrad’da ayda iki ziyaret, haftalık temizlik veya özel plan. Tek koordinatör; kapsam, ekipman, aylık ücret ve ek işler önceden kararlaştırılır.",
+      "Premijum briga u ritmu vašeg doma: dve posete mesečno, nedeljno čišćenje ili plan po meri u Beogradu. Obim, opremu i cenu dogovaramo unapred.",
+      "Premium care at your home’s pace: two monthly visits, weekly cleaning or a custom plan in Belgrade. Scope, equipment and price agreed in advance.",
+      "Премиальная забота в ритме вашего дома: два визита в месяц, еженедельная уборка или индивидуальный план в Белграде. Объем, оборудование и цену согласуем заранее.",
+      "Premium-Service im Rhythmus Ihres Zuhauses: zwei monatliche Besuche, wöchentliche Reinigung oder ein individueller Plan in Belgrad. Umfang, Ausstattung und Preis vorab vereinbaren.",
+      "Evinizin ritmine uygun premium bakım: Belgrad’da ayda iki ziyaret, haftalık temizlik veya özel plan. Kapsam, ekipman ve ücret önceden belirlenir.",
     ]),
     consultationTitle: l([
       "Zatražite ponudu za održavanje doma",
@@ -306,11 +309,11 @@ export function seoCopy(locale: Locale) {
       "Tek koordinatör. Kararlaştırılmış iş listesi.",
     ]),
     approachText: l([
-      "Casa Practica povezuje čišćenje, održavanje i poslove u domu kroz jedan dogovor. Prvo upoznajemo vaše potrebe, zatim potvrđujemo ko dolazi, šta radi i kako se obračunava posao.",
-      "Casa Practica brings cleaning, maintenance and household tasks into one agreement. We first understand your needs, then confirm who visits, what they do and how work is priced.",
-      "Casa Practica объединяет уборку, обслуживание и домашние задачи в одном договоренном плане. Сначала узнаем потребности, затем уточняем исполнителя, объем и расчет.",
-      "Casa Practica verbindet Reinigung, Wartung und Haushaltsaufgaben in einer Absprache. Wir klären Bedürfnisse, ausführende Personen, Aufgaben und Abrechnung.",
-      "Casa Practica temizlik, bakım ve ev işlerini tek anlaşmada birleştirir. Önce ihtiyaçları öğrenir, ardından gelen kişiyi, işi ve ücreti belirleriz.",
+      "Casa Practica povezuje čišćenje, održavanje i poslove u domu kroz jedan dogovor. Naš premijum pristup počinje razumevanjem vaših potreba: potvrđujemo ko dolazi, šta radi i kako se obračunava posao, uz pažnju prema prostoru i vašem vremenu.",
+      "Casa Practica brings cleaning, maintenance and household tasks into one agreement. Our premium approach starts with understanding your needs: we confirm who visits, what they do and how work is priced, with care for your home and your time.",
+      "Casa Practica объединяет уборку, обслуживание и домашние задачи в одном плане. Премиальный подход начинается с понимания ваших потребностей: согласуем исполнителя, объем и расчет, с заботой о доме и вашем времени.",
+      "Casa Practica verbindet Reinigung, Wartung und Haushaltsaufgaben in einer Absprache. Unser Premium-Anspruch beginnt bei Ihren Bedürfnissen: Personen, Aufgaben und Preis werden bestätigt, mit Sorgfalt für Ihr Zuhause und Ihre Zeit.",
+      "Casa Practica temizlik, bakım ve ev işlerini tek anlaşmada birleştirir. Premium yaklaşımımız ihtiyaçlarınızı anlamakla başlar: gelen kişiyi, işi ve ücreti evinize ve zamanınıza özen göstererek belirleriz.",
     ]),
     accessTitle: l([
       "Pristup domu i kontrola rada",

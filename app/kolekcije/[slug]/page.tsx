@@ -1,4 +1,5 @@
 import { pestCollectionTitles } from "@/lib/pest-services";
+import { PremiumServiceNote } from "@/components/premium-service-note";
 import { collectionHeading } from "@/lib/service-advice";
 import { StructuredData } from "@/components/structured-data";
 import { absoluteUrl } from "@/lib/seo";
@@ -83,6 +84,7 @@ export default async function Collection({
           <h1>{heading}</h1>
           <p className="eyebrow">{t(item.name)}</p>
           <p className="lead">{t(item.description)}</p>
+          <PremiumServiceNote />
           {protection && <p>{t("DDD znači deratizacija, dezinsekcija i dezinfekcija. Izaberite uslugu prema problemu ili zatražite preventivni plan za stan, kuću, stambenu zgradu ili poslovni prostor. Obim, cenu i termin potvrđujemo nakon procene.")}</p>}
           <ul className="collection-includes">
             {choices.map((service) => (

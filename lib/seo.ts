@@ -11,6 +11,7 @@ const ogLocales = {
   ru: "ru_RU",
   de: "de_DE",
   tr: "tr_TR",
+  zh: "zh_CN",
 };
 export function absoluteUrl(path: string, locale: Locale = "sr") {
   return new URL(localePath(path, locale), siteUrl).href;
@@ -32,7 +33,7 @@ export function pageMetadata(
   options: { noindex?: boolean; image?: string } = {},
 ): Metadata {
   const fullTitle = `${title} | casa practica`;
-  const image = options.image || "/opengraph-image";
+  const image = options.image || (locale === "zh" ? "/images/hero.jpg" : "/opengraph-image");
   return {
     metadataBase: new URL(siteUrl),
     title: { absolute: fullTitle },

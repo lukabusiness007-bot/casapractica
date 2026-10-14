@@ -18,7 +18,7 @@ export async function Footer() {
               "Pažljivo odabrane usluge za vaš stan i jednostavniji život u gradu.",
             )}
           </h2>
-          <p>{t("Posebne ponude i male privilegije.")}</p>
+          <p>{t("Premijum briga o domu, sa pažnjom prema vašem vremenu.")}</p>
           <Link href="/klub" className="button">
             {t("Pridružite se klubu")}
             <ArrowRight size={16} />

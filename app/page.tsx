@@ -115,7 +115,7 @@ export default async function Home() {
           <h1>{copy.homeHeading}</h1>
           <p>
             {t(
-              "Čišćenje, krečenje, montaža i popravke za vaš stan. Od slavine koja kaplje do svežih zidova — više vremena za vas.",
+              "Premijum briga o domu, od čišćenja do pažljivo izvedenih popravki. Dogovoreni detalji i više vremena za ono što volite.",
             )}
           </p>
         </div>

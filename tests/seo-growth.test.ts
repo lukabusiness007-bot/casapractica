@@ -225,7 +225,7 @@ test("guides have distinct localized titles, public canonicals and a path to the
     for (const guide of entries) {
       assert.equal(guide.sections.length, 3);
       assert.ok(
-        guide.sections.every(([heading, text]) => heading && text.length > 100),
+        guide.sections.every(([heading, text]) => heading && text.length > (locale === "zh" ? 30 : 100)),
       );
       if (locale !== "sr")
         assert.notEqual(

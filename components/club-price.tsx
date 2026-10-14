@@ -41,16 +41,18 @@ export function ClubPrice({
       <span className="regular-price">
         <small>{t("Redovna cena")}</small>
         <strong>
-          {from && `${t("Od")} `}
+          {from && locale !== "zh" && `${t("Od")} `}
           {format(price, maxPrice)}
+          {from && locale === "zh" && t("Od")}
         </strong>
         {unit && <small>{t(unit)}</small>}
       </span>
       <span className="member-price">
         <small>{t("Klupska cena · −5%")}</small>
         <strong>
-          {from && `${t("Od")} `}
+          {from && locale !== "zh" && `${t("Od")} `}
           {format(clubPrice(price), maxPrice ? clubPrice(maxPrice) : undefined)}
+          {from && locale === "zh" && t("Od")}
         </strong>
         {unit && <small>{t(unit)}</small>}
       </span>

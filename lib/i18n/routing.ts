@@ -1,4 +1,4 @@
-export const locales = ["sr", "en", "ru", "de", "tr"] as const;
+export const locales = ["sr", "en", "ru", "de", "tr", "zh"] as const;
 export type Locale = (typeof locales)[number];
 export const languageNames: Record<Locale, string> = {
   sr: "Srpski",
@@ -6,6 +6,7 @@ export const languageNames: Record<Locale, string> = {
   ru: "Русский",
   de: "Deutsch",
   tr: "Türkçe",
+  zh: "中文（简体）",
 };
 export const languageTags: Record<Locale, string> = {
   sr: "sr-Latn",
@@ -13,12 +14,13 @@ export const languageTags: Record<Locale, string> = {
   ru: "ru",
   de: "de",
   tr: "tr",
+  zh: "zh-Hans",
 };
 export function isLocale(value: string): value is Locale {
   return locales.includes(value as Locale);
 }
 export function splitLocale(path: string): { locale: Locale; path: string } {
-  const match = path.match(/^\/(sr|en|ru|de|tr)(?=\/|\?|#|$)/);
+  const match = path.match(/^\/(sr|en|ru|de|tr|zh)(?=\/|\?|#|$)/);
   return {
     locale: match ? (match[1] as Locale) : "sr",
     path: match ? path.slice(match[0].length) || "/" : path,

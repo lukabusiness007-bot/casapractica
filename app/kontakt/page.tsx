@@ -7,6 +7,7 @@ import { packageServiceId } from "@/lib/catalog";
 import { RequestForm } from "@/components/request-form";
 import Link from "@/components/localized-link";
 import { ViewEvent } from "@/components/analytics-consent";
+import { PremiumServiceNote } from "@/components/premium-service-note";
 export default async function Contact() {
   const copy = seoCopy(await getLocale());
   const service = (await getServices()).find(
@@ -22,6 +23,7 @@ export default async function Contact() {
       <div className="consultation-grid">
         <section className="prose">
           <BusinessContact placeholder />
+          <PremiumServiceNote />
           <h2>{copy.serviceAreaTitle}</h2>
           <p>{copy.serviceArea}</p>
           <Link href="/paketi#redovni-planovi" className="text-link">

@@ -1,4 +1,5 @@
 import { seoCopy } from "@/lib/seo-copy";
+import { PremiumServiceNote } from "@/components/premium-service-note";
 import { notFound } from "next/navigation";
 import { getServices, growthReady } from "@/lib/data";
 import { findSubscription } from "@/lib/subscriptions";
@@ -70,6 +71,7 @@ export default async function Consultation({
       </div>
       <div className="consultation-grid">
         <section className="concierge-copy">
+          <PremiumServiceNote />
           <h2>{t("Vi kažete šta treba. Mi predlažemo rešenje.")}</h2>
           <p>
             {t(

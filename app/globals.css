@@ -13,6 +13,12 @@
   --line: #e5e5dc;
   --font-body: "Home Sans", Arial, sans-serif;
 }
+html:lang(zh) {
+  --font-body: "Home Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+html:lang(zh) h1, html:lang(zh) h2, html:lang(zh) h3 {
+  letter-spacing: normal;
+}
 * {
   box-sizing: border-box;
 }
@@ -3248,6 +3254,7 @@ p {
 .pest-related { max-width: 850px; margin-block: 48px; }
 .pest-related ul { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 0; list-style: none; }
 .pest-related li > a { text-decoration: underline; text-underline-offset: 4px; }
+.premium-service-note { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 58ch; }
 .club-dialog { border: 0; border-radius: 24px; background: var(--cream); color: var(--ink); padding: 34px; width: min(500px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow: auto; margin: auto; box-shadow: 0 24px 100px #0003; }
 .club-dialog::backdrop { background: #181d1966; backdrop-filter: blur(4px); }
 .club-dialog-close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; background: transparent; cursor: pointer; }

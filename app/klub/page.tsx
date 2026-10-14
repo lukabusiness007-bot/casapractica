@@ -61,7 +61,7 @@ export default async function Club() {
           <strong>cp.</strong>
         </div>
         <span className="fine-print">
-          {t("Vaš mali svakodnevni luksuz. Članstvo je besplatno.")}
+          {t("Premijum pažnja za vaš dom. Članstvo je besplatno.")}
         </span>
       </section>
       <ClubBenefits />

@@ -22,7 +22,7 @@ export default async function Services({ searchParams }: { searchParams: Promise
           <h1>{t("Usluge za stan u Beogradu")}</h1>
           <p>
             {t(
-              "Čišćenje i održavanje doma, majstorske usluge i DDD zaštita u Beogradu. Izaberite uslugu, opišite problem i zatražite ponudu prema svom prostoru.",
+              "Premijum usluge za dom u Beogradu: čišćenje, održavanje i DDD zaštita. Izaberite uslugu uz pažljivo dogovoren obim i ponudu prema svom prostoru.",
             )}
           </p>
           <a className="text-link" href="#katalog">

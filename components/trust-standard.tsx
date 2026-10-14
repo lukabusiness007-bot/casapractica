@@ -26,6 +26,7 @@ export async function TrustStandard() {
       <div className="center-heading">
         <span className="eyebrow">{t("CASA STANDARD")}</span>
         <h2>{t("Poverenje u svakom detalju.")}</h2>
+        <p>{t("Naš premijum pristup čine pažljiv rad, jasni dogovori i poštovanje vašeg vremena.")}</p>
       </div>
       <div className="trust-grid">
         {[
