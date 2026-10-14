@@ -32,10 +32,10 @@ export default async function Services({ searchParams }: { searchParams: Promise
         </div>
         <div className="catalog-hero-image">
           <Image
-            src="/images/kitchen.jpg"
+            src="/images/services-hero-belgrade.webp"
             alt={t("Pažnja prema svakom detalju doma")}
-            width={900}
-            height={700}
+            width={1440}
+            height={960}
             sizes="(max-width: 760px) 100vw, 540px"
             preload
           />
