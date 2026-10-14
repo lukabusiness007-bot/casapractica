@@ -96,11 +96,12 @@ export default async function Home() {
       <section className="casa-hero">
         <Image
           className="casa-hero-poster"
-          width={1800}
-          height={1350}
+          width={4096}
+          height={2598}
           sizes="100vw"
-          src="/images/hero.jpg"
+          src="/images/hero-belgrade-4k.webp"
           alt=""
+          loading="eager"
           fetchPriority="high"
         />
         <div className="hero-shade" />
