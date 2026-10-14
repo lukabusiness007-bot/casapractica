@@ -112,20 +112,12 @@ export default async function Home() {
           <ArrowRight size={14} />
         </Link>
         <div className="casa-hero-copy">
-          <h1>{copy.homeHeading}</h1>
+          <h1>{t("Šta je vašem domu potrebno?")}</h1>
           <p>
             {t(
               "Premijum briga o domu, od čišćenja do pažljivo izvedenih popravki. Dogovoreni detalji i više vremena za ono što volite.",
             )}
           </p>
-        </div>
-        <div className="hero-concierge-actions">
-          <Link className="button button-light" href="/konsultacije">
-            {t("Zakažite prvu Casa posetu")}
-          </Link>
-          <Link className="hero-concierge-link" href="/paketi#redovni-planovi">
-            {t("Prepustite nam brigu o domu")} →
-          </Link>
         </div>
         <div className="casa-hero-bottom">
           <a className="hero-start" href="#kolekcija-usluga">
