@@ -2,6 +2,7 @@ import { servicePricing } from "./service-pricing";
 import { additionalServices } from "./catalog-additions";
 import { serviceImage } from "./service-images";
 import { retiredServiceSlugs } from "./service-availability";
+import { pestServices, isPestService } from "./pest-services";
 export type Service = {
   id: string;
   slug: string;
@@ -19,6 +20,12 @@ export const serviceCategories = [
     title: "Čišćenje i nega doma",
     tagline: "Pranje tepiha i čišćenje doma. Svežina u svakom kutku.",
     description: "Pranje tepiha i čišćenje doma. Svežina u svakom kutku.",
+  },
+  {
+    id: "pest-control",
+    title: "Zaštita od štetočina i dezinfekcija",
+    tagline: "Deratizacija, dezinsekcija, dezinfekcija i srodne usluge za vaš prostor.",
+    description: "Deratizacija, dezinsekcija, dezinfekcija i srodne usluge za vaš prostor.",
   },
   {
     id: "organization",
@@ -71,6 +78,7 @@ export const serviceCategories = [
 ] as const;
 export type ServiceCategory = (typeof serviceCategories)[number]["id"];
 const categoriesBySlug: Record<string, ServiceCategory> = {
+  ...Object.fromEntries(pestServices.map((service) => [service.slug, "pest-control" as const])),
   "ciscenje-doma": "everyday",
   "krecenje": "doors-windows",
   "pranje-tepiha": "everyday",
@@ -451,6 +459,7 @@ export const services: Service[] = [
     sort_order: 26,
   },
   ...additionalServices,
+  ...pestServices,
   {
     id: "ca5a0000-0000-4000-8000-000000000301",
     slug: "ciscenje-doma",
@@ -527,7 +536,7 @@ export const money = (minor: number, locale = "sr-Latn-RS") =>
   }).format(minor / 100);
 
 export function servicePriceLabel(service: Pick<Service, "slug" | "price">, locale: string, t: (value: string) => string) {
-  if (service.price === null) return t("Cena na upit");
+  if (service.price === null) return t(isPestService(service.slug) ? "Cena po proceni" : "Cena na upit");
   const unit = servicePricing[service.slug]?.unit;
   return `${t("Od")} ${money(service.price, locale)}${unit ? ` · ${t(unit)}` : ""}`;
 }

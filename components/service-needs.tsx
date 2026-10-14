@@ -4,6 +4,7 @@ import {
   PaintRoller,
   Sparkles,
   Wrench,
+  ShieldCheck,
 } from "lucide-react";
 import { getTranslator } from "@/lib/i18n/server";
 import Link from "./localized-link";
@@ -28,6 +29,12 @@ export async function ServiceNeeds() {
       text: "Više usluga u jednoj ponudi",
       href: "/kolekcije/useljenje",
       Icon: House,
+    },
+    {
+      title: "Imam problem sa štetočinama",
+      text: "DDD zaštita i dezinfekcija",
+      href: "/ddd",
+      Icon: ShieldCheck,
     },
     {
       title: "Renoviram",

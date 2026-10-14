@@ -1,3 +1,4 @@
+import { seoCopy } from "./seo-copy";
 import type { Metadata } from "next";
 import { locales, languageTags, localePath, type Locale } from "./i18n/routing";
 import { translator } from "./i18n";
@@ -74,11 +75,22 @@ export function pageMetadata(
     },
   };
 }
-export const homeTitle = "Usluge za stan u Beogradu";
-export const homeDescription =
-  "Usluge za stan u Beogradu: čišćenje doma, krečenje, iznošenje smeća i šuta, montaža TV-a i polica, popravke i servis klime.";
+export const homeTitle = seoCopy("sr").homeTitle;
+export const homeDescription = seoCopy("sr").homeDescription;
 export function publicPageMetadata(locale: Locale, path: string) {
   const t = translator(locale);
+  const copy = seoCopy(locale);
+  if (path === "/kontakt")
+    return pageMetadata(
+      locale,
+      path,
+      copy.contactTitle,
+      copy.contactDescription,
+    );
+  if (path === "/o-nama")
+    return pageMetadata(locale, path, copy.aboutTitle, copy.aboutDescription);
+  if (path === "/saveti")
+    return pageMetadata(locale, path, copy.guidesTitle, copy.guidesDescription);
   if (path === "/kolekcije")
     return pageMetadata(
       locale,
@@ -92,26 +104,19 @@ export function publicPageMetadata(locale: Locale, path: string) {
     return pageMetadata(
       locale,
       path,
-      t("Zakažite posetu"),
+      copy.consultationTitle,
       t(
         "Recite nam šta vam je važno. Naš tim predlaže usluge, dogovara detalje i priprema jednu preglednu ponudu.",
       ),
     );
   if (path === "/paketi")
-    return pageMetadata(
-      locale,
-      path,
-      t("Mesečna pomoć za vaš stan"),
-      t(
-        "Izaberite obaveze koje želite da prepustite nama. Jedna mesečna cena, dogovoreni dolasci i vaš Casa koordinator.",
-      ),
-    );
+    return pageMetadata(locale, path, copy.plansTitle, copy.plansDescription);
   if (path === "/" || path === "/usluge")
     return pageMetadata(
       locale,
       path,
-      path === "/" ? t(homeTitle) : `${t("Naše usluge")} · ${t("BEOGRAD")}`,
-      t(homeDescription),
+      path === "/" ? copy.homeTitle : copy.catalogTitle,
+      path === "/" ? copy.homeDescription : copy.catalogDescription,
     );
   if (path === "/klub")
     return pageMetadata(

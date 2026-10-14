@@ -1,4 +1,4 @@
-import { growthReady } from "@/lib/data";
+import { growthReady, attributionReady } from "@/lib/data";
 import { NextResponse } from "next/server";
 import { createHash } from "node:crypto";
 import { assertOrigin, assertReady, failure, HttpError } from "@/lib/http";
@@ -29,10 +29,17 @@ export async function POST(req: Request) {
         429,
         "Dostignut je broj zahteva. Pokušajte ponovo kasnije.",
       );
-    const { error } = await client.from("analytics_events").upsert(input.data, {
-      onConflict: "session_id,event_name,context",
-      ignoreDuplicates: true,
-    });
+    const { attribution, ...event } = input.data;
+    const { error } = await client.from("analytics_events").upsert(
+      {
+        ...event,
+        ...((await attributionReady()) && attribution ? { attribution } : {}),
+      },
+      {
+        onConflict: "session_id,event_name,context",
+        ignoreDuplicates: true,
+      },
+    );
     if (error) throw error;
     return new NextResponse(null, { status: 204 });
   } catch (error) {

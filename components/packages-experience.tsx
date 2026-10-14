@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, ArrowRight } from "lucide-react";
 import {
   casaPlans,
@@ -27,6 +27,36 @@ export function PackagesExperience({
   ready: boolean;
 }) {
   const t = useTranslation();
+  const disclosure = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const reveal = () => {
+      if (window.location.hash === "#moj-paket" && disclosure.current) {
+        disclosure.current.open = true;
+        document.getElementById("moj-paket")?.scrollIntoView();
+      }
+    };
+    const revealLink = (event: MouseEvent) => {
+      const link = (event.target as Element)?.closest?.("a[href]");
+      if (!link) return;
+      const destination = new URL(
+        link.getAttribute("href")!,
+        window.location.href,
+      );
+      if (
+        destination.pathname === window.location.pathname &&
+        destination.hash === "#moj-paket" &&
+        disclosure.current
+      )
+        disclosure.current.open = true;
+    };
+    reveal();
+    window.addEventListener("hashchange", reveal);
+    document.addEventListener("click", revealLink, true);
+    return () => {
+      window.removeEventListener("hashchange", reveal);
+      document.removeEventListener("click", revealLink, true);
+    };
+  }, []);
   const [planId, setPlanId] = useState<PlanId>("custom");
   const [items, setItems] = useState<PackageSelection["items"]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -76,7 +106,11 @@ export function PackagesExperience({
         </Link>
       </section>
       {/* Fragment navigation can make the browser open this before hydration. */}
-      <details className="package-builder-disclosure" suppressHydrationWarning>
+      <details
+        ref={disclosure}
+        className="package-builder-disclosure"
+        suppressHydrationWarning
+      >
         <summary>
           {t("Želim samostalno da izaberem usluge")}
           <span aria-hidden="true">+</span>
@@ -100,7 +134,7 @@ export function PackagesExperience({
                   value={planId}
                   onChange={(event) => choosePlan(event.target.value as PlanId)}
                 >
-                  {casaPlans.filter((entry) => ["once", "maintenance", "custom"].includes(entry.id)).map((entry) => (
+                  {casaPlans.map((entry) => (
                     <option value={entry.id} key={entry.id}>
                       {t(entry.name)}
                     </option>

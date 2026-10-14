@@ -1,7 +1,10 @@
 import { publicPageMetadata } from "@/lib/seo";
+import { businessDetails } from "@/lib/business";
+import { BusinessContact } from "@/components/business-contact";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 export default async function Terms() {
   const t = await getTranslator();
+  const business = businessDetails();
 
   return (
     <div className="container page-section">
@@ -13,6 +16,9 @@ export default async function Terms() {
             "Radna verzija za pregled. Pre početka stvarnog poslovanja potrebno je uneti poslovne podatke pružaoca, konačne uslove otkazivanja i povraćaja, reklamacije i informacije o računima.",
           )}
         </p>
+        {business.legalName && <p>{business.legalName}</p>}
+        {business.address && <p>{business.address}</p>}
+        <BusinessContact />
         <h2>{t("Zahtev i rezervacija")}</h2>
         <p>
           {t(

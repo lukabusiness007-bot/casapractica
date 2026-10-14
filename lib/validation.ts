@@ -1,7 +1,9 @@
+import { attributionSchema } from "./attribution";
 import { translator } from "./i18n";
 import type { Locale } from "./i18n/routing";
 import { z } from "zod";
-import { isRetiredServiceId, packageServiceId } from "./catalog";
+import { isRetiredServiceId, packageServiceId, services } from "./catalog";
+import { isPestService } from "./pest-services";
 import { packageSchema } from "./packages";
 import { commerceSchema } from "./growth";
 export const requestSchema = z
@@ -32,12 +34,28 @@ export const requestSchema = z
     package: packageSchema.optional(),
     commerce: commerceSchema.optional(),
     analytics_session_id: z.string().uuid().optional(),
+    attribution: attributionSchema.optional(),
   })
   .superRefine((input, context) => {
+    const primary = services.find(service => service.id === input.service_id);
+    const pestRequest = (primary && isPestService(primary.slug)) || input.commerce?.collection_id?.startsWith("zastita-");
+    if (pestRequest && !input.commerce?.pest_assessment)
+      context.addIssue({ code: "custom", path: ["commerce", "pest_assessment"], message: "Proverite izbor obima." });
     if (isRetiredServiceId(input.service_id))
-      context.addIssue({ code: "custom", path: ["service_id"], message: "Usluga nije dostupna." });
-    if (input.commerce?.subscription_id && input.service_id !== packageServiceId)
-      context.addIssue({ code: "custom", path: ["service_id"], message: "Proverite izbor plana." });
+      context.addIssue({
+        code: "custom",
+        path: ["service_id"],
+        message: "Usluga nije dostupna.",
+      });
+    if (
+      input.commerce?.subscription_id &&
+      input.service_id !== packageServiceId
+    )
+      context.addIssue({
+        code: "custom",
+        path: ["service_id"],
+        message: "Proverite izbor plana.",
+      });
     if (
       (input.service_id === packageServiceId &&
         (!input.commerce || input.commerce.intent === "service")) !==

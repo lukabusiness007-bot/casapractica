@@ -9,9 +9,11 @@ import { track } from "@/lib/analytics-client";
 export function ClubInvitation({
   member,
   signedIn,
+  ready,
 }: {
   member: boolean;
   signedIn: boolean;
+  ready: boolean;
 }) {
   const t = useTranslation();
   const dialog = useRef<HTMLDialogElement>(null);
@@ -29,7 +31,7 @@ export function ClubInvitation({
     }
   }
   useEffect(() => {
-    if (member) {
+    if (member || !ready) {
       dialog.current?.close();
       document.body.style.overflow = "";
       return;
@@ -58,9 +60,9 @@ export function ClubInvitation({
         /* Optional frequency cap. */
       }
       track("club_popup_view", "home");
-    }, 8000);
+    }, 30000);
     return () => window.clearTimeout(timer);
-  }, [member]);
+  }, [member, ready]);
   useEffect(() => {
     const element = dialog.current;
     if (!element) return;
@@ -74,7 +76,7 @@ export function ClubInvitation({
       document.body.style.overflow = "";
     };
   }, []);
-  if (member) return null;
+  if (member || !ready) return null;
   return (
     <dialog
       ref={dialog}

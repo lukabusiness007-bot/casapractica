@@ -5,6 +5,7 @@ import type { Translator } from "@/lib/i18n";
 
 export function ClubPrice({
   price,
+  quoteLabel = "Cena na upit",
   maxPrice,
   unit,
   from = false,
@@ -12,6 +13,7 @@ export function ClubPrice({
   t,
 }: {
   price: number | null;
+  quoteLabel?: string;
   maxPrice?: number;
   unit?: string;
   from?: boolean;
@@ -30,7 +32,7 @@ export function ClubPrice({
   if (price === null)
     return (
       <span className="club-price-on-request">
-        {t("Cena na upit")}
+        {t(quoteLabel)}
         <small>{t("Članovi kluba: 5% popusta na dogovorenu cenu")}</small>
       </span>
     );

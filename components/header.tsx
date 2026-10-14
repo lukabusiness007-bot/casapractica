@@ -4,11 +4,14 @@ import Link from "@/components/localized-link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { splitLocale } from "@/lib/i18n/routing";
+import { seoCopy } from "@/lib/seo-copy";
+import { useLocale } from "./locale-provider";
 import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
 import { LanguageSwitcher } from "./language-switcher";
 import { Brand } from "./brand";
 export function Header() {
   const t = useTranslation();
+  const copy = seoCopy(useLocale());
 
   const dialog = useRef<HTMLDialogElement>(null);
   const home = splitLocale(usePathname()).path === "/";
@@ -38,7 +41,8 @@ export function Header() {
               {t("Usluge")}
             </Link>
             <Link href="/paketi" className="header-benefits header-plans">
-              {t("Redovna pomoć")}
+              <span className="header-plan-desktop">{t("Redovna pomoć")}</span>
+              <span className="header-plan-mobile">{copy.mobilePlans}</span>
             </Link>
             <Link href="/konsultacije" className="header-cta">
               {t("Zakažite posetu")}
@@ -95,6 +99,18 @@ export function Header() {
             </Link>
             <Link href="/paketi">
               {t("Redovna pomoć")}
+              <ChevronRight size={16} />
+            </Link>
+            <Link href="/saveti">
+              {copy.guidesTitle}
+              <ChevronRight size={16} />
+            </Link>
+            <Link href="/o-nama">
+              {copy.aboutTitle}
+              <ChevronRight size={16} />
+            </Link>
+            <Link href="/kontakt">
+              {copy.contactTitle}
               <ChevronRight size={16} />
             </Link>
             <Link href="/#kako-funkcionise">

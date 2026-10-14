@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useTranslation } from "./locale-provider";
-import { track } from "@/lib/analytics-client";
+import {
+  track,
+  rememberLanding,
+  clearAttribution,
+} from "@/lib/analytics-client";
 export function ViewEvent({ context }: { context: string }) {
   useEffect(() => {
     const send = () => track("page_view", context);
@@ -16,6 +20,7 @@ export function AnalyticsConsent({ ready }: { ready: boolean }) {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!ready) return;
+    rememberLanding();
     try {
       setOpen(localStorage.getItem("casa-analytics") === null);
     } catch {}
@@ -23,7 +28,10 @@ export function AnalyticsConsent({ ready }: { ready: boolean }) {
   function choose(allowed: boolean) {
     try {
       localStorage.setItem("casa-analytics", allowed ? "yes" : "no");
-      if (!allowed) sessionStorage.removeItem("casa-session");
+      if (!allowed) {
+        sessionStorage.removeItem("casa-session");
+        clearAttribution();
+      }
     } catch {}
     setOpen(false);
     window.dispatchEvent(new Event("casa-analytics-choice"));

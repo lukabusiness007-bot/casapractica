@@ -1,3 +1,6 @@
+import { seoCopy } from "@/lib/seo-copy";
+import { businessDetails } from "@/lib/business";
+import { ServiceAdvice } from "@/components/service-advice";
 import Image from "next/image";
 import { pageMetadata, absoluteUrl, siteUrl } from "@/lib/seo";
 import { StructuredData } from "@/components/structured-data";
@@ -14,6 +17,8 @@ import { serviceScopes } from "@/lib/catalog-additions";
 import { packageServiceId } from "@/lib/catalog";
 import { WashingPriceList } from "@/components/washing-price-list";
 import { ClubPrice } from "@/components/club-price";
+import { isPestService, pestContent } from "@/lib/pest-services";
+import { PestServiceContent } from "@/components/pest-service-content";
 export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
@@ -25,10 +30,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = (await getServices()).find((s) => s.slug === slug);
   if (!service) notFound();
+  const locale = await getLocale();
   return pageMetadata(
-    await getLocale(),
+    locale,
     `/usluge/${slug}`,
-    `${t(service.name)} · ${t("BEOGRAD")}`,
+    pestContent[slug]
+      ? t(pestContent[slug].title)
+      : slug === "ciscenje-doma"
+      ? seoCopy(locale).cleaningTitle
+      : `${t(service.name)} · ${t("BEOGRAD")}`,
     t(service.description),
     { image: service.image },
   );
@@ -41,10 +51,13 @@ export default async function ServiceDetail({
   const t = await getTranslator();
 
   const { slug } = await params;
+  const pestRequest = isPestService(slug);
   const service = (await getServices()).find((s) => s.slug === slug);
   if (!service) notFound();
   const scope = serviceScopes[service.slug];
   const locale = await getLocale();
+  const copy = seoCopy(locale);
+  const contact = businessDetails();
   const url = absoluteUrl(`/usluge/${slug}`, locale);
   return (
     <div className="container page-section">
@@ -67,6 +80,8 @@ export default async function ServiceDetail({
                 "@id": `${siteUrl}/#organization`,
                 name: "casa practica",
                 url: siteUrl,
+                ...(contact.phone ? { telephone: contact.phone } : {}),
+                ...(contact.email ? { email: contact.email } : {}),
               },
             },
             {
@@ -101,10 +116,14 @@ export default async function ServiceDetail({
       </Link>
       <div className="detail-grid">
         <div>
-          <div className={`detail-image${service.image.startsWith("/images/services/") ? " detail-image-service" : ""}`}>
+          <div
+            className={`detail-image${service.image.startsWith("/images/services/") ? " detail-image-service" : ""}`}
+          >
             <Image
               width={900}
-              height={service.image.startsWith("/images/services/") ? 600 : 1100}
+              height={
+                service.image.startsWith("/images/services/") ? 600 : 1100
+              }
               sizes="(max-width: 760px) 100vw, 50vw"
               unoptimized={!service.image.startsWith("/images/")}
               src={service.image}
@@ -121,25 +140,64 @@ export default async function ServiceDetail({
         <div className="detail-content">
           <span className="eyebrow">{t("JEDNA OBAVEZA MANJE")}</span>
           <h1>
-            {t(service.name)}
-            <span className="service-location">{t("BEOGRAD")}</span>
+            {pestRequest ? t(pestContent[slug].title) : slug === "ciscenje-doma" ? copy.cleaningHeading : t(service.name)}
+            {!pestRequest && <span className="service-location">{t("BEOGRAD")}</span>}
           </h1>
           <p className="lead">{t(service.tagline)}</p>
           <p>{t(service.description)}</p>
           {scope && (
             <div className="detail-service-scope">
               <h2>{t("Šta obuhvata usluga")}</h2>
-              <ul>{scope.tasks.map((task) => <li key={task}><Check size={16} aria-hidden="true" /><span>{t(task)}</span></li>)}</ul>
-              {scope.specialist && <p className="detail-specialist-note">{t("Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.")}</p>}
+              <ul>
+                {scope.tasks.map((task) => (
+                  <li key={task}>
+                    <Check size={16} aria-hidden="true" />
+                    <span>{t(task)}</span>
+                  </li>
+                ))}
+              </ul>
+              {scope.specialist && (
+                <p className="detail-specialist-note">
+                  {t(
+                    "Za ove radove dogovaramo odgovarajućeg specijalistu, procenu i posebnu ponudu.",
+                  )}
+                </p>
+              )}
             </div>
           )}
-          {servicePricing[service.slug] && <p className="service-price-scope">{t("Cena za standardni obim:")} <strong>{t(servicePricing[service.slug].scope)}</strong><small>{t("Konačnu cenu, dolazak, materijal i dodatne radove potvrđujete pre realizacije.")}</small></p>}
+          {servicePricing[service.slug] && (
+            <p className="service-price-scope">
+              {t("Cena za standardni obim:")}{" "}
+              <strong>{t(servicePricing[service.slug].scope)}</strong>
+              <small>
+                {t(
+                  "Konačnu cenu, dolazak, materijal i dodatne radove potvrđujete pre realizacije.",
+                )}
+              </small>
+            </p>
+          )}
           <div className="price-line">
-            <ClubPrice price={service.price} from unit={servicePricing[service.slug]?.unit} locale={locale} t={t} />
+            <ClubPrice
+              price={service.price}
+              quoteLabel={pestRequest ? "Cena po proceni" : undefined}
+              from
+              unit={servicePricing[service.slug]?.unit}
+              locale={locale}
+              t={t}
+            />
             <span>{t("Bez plaćanja prilikom slanja zahteva")}</span>
           </div>
-          <p className="detail-club-link"><Link className="text-link" href="/klub#pristupi">{t("Učlanite se besplatno za klupsku cenu")}</Link></p>
-          {service.slug === "pranje-tepiha" && <a className="text-link washing-price-jump" href="#cenovnik">{t("Pogledajte ceo cenovnik")}<ArrowLeft size={15} aria-hidden="true" /></a>}
+          <p className="detail-club-link">
+            <Link className="text-link" href="/klub#pristupi">
+              {t("Učlanite se besplatno za klupsku cenu")}
+            </Link>
+          </p>
+          {service.slug === "pranje-tepiha" && (
+            <a className="text-link washing-price-jump" href="#cenovnik">
+              {t("Pogledajte ceo cenovnik")}
+              <ArrowLeft size={15} aria-hidden="true" />
+            </a>
+          )}
           {service.id === packageServiceId ? (
             <Link className="button button-dark" href="/paketi#moj-paket">
               {t("Sastavite svoj paket")}
@@ -159,8 +217,13 @@ export default async function ServiceDetail({
           </div>
         </div>
       </div>
+      {pestRequest ? <PestServiceContent slug={service.slug} available={await getServices()} /> : <ServiceAdvice slug={service.slug} />}
       {service.slug === "pranje-tepiha" && <WashingPriceList />}
-      {service.id !== packageServiceId && <a className="mobile-request-cta button button-dark" href="#zahtev">{t("Pošaljite zahtev")}</a>}
+      {service.id !== packageServiceId && (
+        <a className="mobile-request-cta button button-dark" href="#zahtev">
+          {t(pestRequest ? "Zatražite procenu" : "Pošaljite zahtev")}
+        </a>
+      )}
     </div>
   );
 }

@@ -1,9 +1,23 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { splitLocale } from "./lib/i18n/routing";
+import { retiredSubscriptions } from "./lib/subscriptions";
+import { localePath, splitLocale } from "./lib/i18n/routing";
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { locale, path } = splitLocale(pathname);
+  if (
+    path === "/konsultacije" &&
+    request.nextUrl.searchParams.get("intent") !== "plan-change" &&
+    retiredSubscriptions.some(
+      (plan) => plan.id === request.nextUrl.searchParams.get("subscription"),
+    )
+  ) {
+    const destination = request.nextUrl.clone();
+    destination.pathname = localePath("/paketi", locale);
+    destination.searchParams.delete("subscription");
+    destination.hash = "redovni-planovi";
+    return NextResponse.redirect(destination, 308);
+  }
   // Serbian keeps its established URLs; prefixed aliases redirect to one canonical URL.
   if (/^\/sr(?:\/|$)/.test(pathname)) {
     const url = request.nextUrl.clone();

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Search, Plus, X, Sparkles, HandHeart, Armchair, Droplets, Lightbulb, Wind, PanelsTopLeft, Wifi, Leaf } from "lucide-react";
+import { ArrowUpRight, Search, Plus, X, Sparkles, HandHeart, Armchair, Droplets, Lightbulb, Wind, PanelsTopLeft, Wifi, Leaf, ShieldCheck } from "lucide-react";
 import {
   isIndividualService,
   serviceCategories,
@@ -16,8 +16,9 @@ import { useLocale, useTranslation } from "./locale-provider";
 import Link from "./localized-link";
 
 import { ClubPrice } from "./club-price";
+import { isPestService, pestSearchTerms } from "@/lib/pest-services";
 
-const icons = { everyday: Sparkles, organization: HandHeart, mounting: Armchair, plumbing: Droplets, electrical: Lightbulb, maintenance: Wind, "doors-windows": PanelsTopLeft, technology: Wifi, gutters: Leaf };
+const icons = { "pest-control": ShieldCheck, everyday: Sparkles, organization: HandHeart, mounting: Armchair, plumbing: Droplets, electrical: Lightbulb, maintenance: Wind, "doors-windows": PanelsTopLeft, technology: Wifi, gutters: Leaf };
 const legacyAnchors: Record<string, string[]> = { mounting: ["furniture"], "doors-windows": ["window-treatments", "walls"] };
 const normalize = (value: string) =>
   value.toLocaleLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/đ/g, "dj");
@@ -37,12 +38,13 @@ export function ServiceCatalog({ services, initialRepair = false }: { services: 
       if (repair && (!(["mounting", "plumbing", "electrical", "maintenance", "doors-windows", "technology"].includes(serviceCategory(service))) || service.slug === "krecenje")) return false;
       if (serviceCategory(service) !== category.id) return false;
       const tasks = serviceScopes[service.slug]?.tasks ?? [];
+      const pestTerms = pestSearchTerms[service.slug] ?? [];
       const washingTerms = service.slug === "pranje-tepiha"
         ? washingPriceList.flatMap((group) => [group.title, ...group.items.flatMap((item) => [item.name, item.detail ?? ""])])
         : [];
       return !search || normalize([
         t(category.title), t(service.name), t(service.description),
-        ...tasks.map(t), ...washingTerms.map(t), service.name, ...tasks, ...washingTerms,
+        ...tasks.map(t), ...washingTerms.map(t), ...pestTerms.map(t), service.name, ...tasks, ...washingTerms, ...pestTerms,
       ].join(" ")).includes(search);
     }),
   })).filter((group) => group.services.length);
@@ -125,7 +127,8 @@ export function ServiceCatalog({ services, initialRepair = false }: { services: 
                           <p className="catalog-service-description">{t(service.tagline)}</p>
                           {scope?.specialist && <span className="catalog-specialist-label">{t("Organizacija specijaliste")}</span>}
                           <div className="catalog-service-price">
-                            <ClubPrice price={service.price} from unit={pricing?.unit} locale={locale} t={t} />
+                            <ClubPrice price={service.price}
+                          quoteLabel={isPestService(service.slug) ? "Cena po proceni" : undefined} from unit={pricing?.unit} locale={locale} t={t} />
                             {service.price !== null && pricing && <p>{t(pricing.scope)}</p>}
                         </div>
                         <details className="catalog-service-scope" open={search ? true : undefined}>

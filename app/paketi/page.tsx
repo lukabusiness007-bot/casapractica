@@ -1,3 +1,7 @@
+import { PlanContent, PlanFaq } from "@/components/plan-content";
+import { seoCopy } from "@/lib/seo-copy";
+import { TrustStandard } from "@/components/trust-standard";
+import { GuideCards } from "@/components/guide-cards";
 import { getServices, growthReady } from "@/lib/data";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 import { publicPageMetadata } from "@/lib/seo";
@@ -6,29 +10,45 @@ import { PackagesExperience } from "@/components/packages-experience";
 export const dynamic = "force-dynamic";
 export default async function Packages() {
   const t = await getTranslator();
+  const copy = seoCopy(await getLocale());
   return (
     <div className="container page-section packages-page">
       <ViewEvent context="plans" />
       <div className="center-heading catalog-heading">
         <span className="eyebrow">{t("JEDNOKRATNA I REDOVNA POMOĆ")}</span>
-        <h1>{t("Jednokratna i redovna pomoć za vaš dom")}</h1>
-        <p>
-          {t(
-            "Izaberite čišćenje, održavanje ili majstorske poslove i učestalost dolazaka. Obim, cenu i termine dogovaramo prema vašim potrebama.",
-          )}
-        </p>
+        <h1>{copy.plansHeading}</h1>
+        <p>{copy.plansDescription}</p>
       </div>
-      <p className="fine-print subscription-confirmation">{t("Slanje zahteva ne aktivira pretplatu ni automatsku naplatu. Obim, dostupnost, početak i mesečno plaćanje potvrđujemo zajedno.")}</p>
+      <PlanContent />
+      <p className="fine-print subscription-confirmation">
+        {t(
+          "Slanje zahteva ne aktivira pretplatu ni automatsku naplatu. Obim, dostupnost, početak i mesečno plaćanje potvrđujemo zajedno.",
+        )}
+      </p>
       <section className="premium-standard">
-        <div><h2>{t("Usluge po potrebi plaćaju se posebno.")}</h2><p>{t("Montaža TV-a, servis klime, popravke i materijal imaju zasebnu ponudu koju potvrđujete pre rada.")}</p></div>
+        <div>
+          <h2>{t("Usluge po potrebi plaćaju se posebno.")}</h2>
+          <p>
+            {t(
+              "Montaža TV-a, servis klime, popravke i materijal imaju zasebnu ponudu koju potvrđujete pre rada.",
+            )}
+          </p>
+        </div>
       </section>
+      <TrustStandard />
       <PackagesExperience
         services={await getServices()}
         ready={await growthReady()}
       />
+      <PlanFaq />
+      <GuideCards />
       <details className="package-terms">
         <summary>{t("Jedna adresa. Jednostavna promena ritma.")}</summary>
-        <p>{t("Plan važi za dogovorenu adresu. Učestalost dolazaka, pomeranje termina, pauzu i otkazivanje potvrđujete sa timom pre realizacije.")}</p>
+        <p>
+          {t(
+            "Plan važi za dogovorenu adresu. Učestalost dolazaka, pomeranje termina, pauzu i otkazivanje potvrđujete sa timom pre realizacije.",
+          )}
+        </p>
       </details>
       <details className="package-terms">
         <summary>{t("Kako se dogovaraju cena i plaćanje?")}</summary>

@@ -1,3 +1,5 @@
+import { businessDetails } from "@/lib/business";
+import { BusinessProvider } from "@/components/business-contact";
 import { dictionary } from "@/lib/i18n";
 import { headers } from "next/headers";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
@@ -28,14 +30,16 @@ export default async function RootLayout({
     <html lang={languageTags[locale]} data-scroll-behavior="smooth">
       <body>
         <LocaleProvider locale={locale} messages={dictionary(locale)}>
-          <SmoothScroll />
-          <a href="#main" className="skip-link">
-            {t("Pređi na sadržaj")}
-          </a>
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
-          <AnalyticsConsent ready={await growthReady()} />
+          <BusinessProvider value={businessDetails()}>
+            <SmoothScroll />
+            <a href="#main" className="skip-link">
+              {t("Pređi na sadržaj")}
+            </a>
+            <Header />
+            <main id="main">{children}</main>
+            <Footer />
+            <AnalyticsConsent ready={await growthReady()} />
+          </BusinessProvider>
         </LocaleProvider>
       </body>
     </html>

@@ -1,5 +1,7 @@
 // HTTP smoke test of rendered HTML, independent of client-side JavaScript.
 import assert from "node:assert/strict";
+import { guideSlugs } from "../lib/guide-routing.ts";
+import { isPublishedService } from "../lib/service-availability.ts";
 import { services } from "../lib/catalog.ts";
 import { collections } from "../lib/growth.ts";
 const base = process.env.TEST_SITE_URL || "http://localhost:3100";
@@ -7,12 +9,19 @@ const locales = ["sr", "en", "ru", "de", "tr"];
 const publicPaths = [
   "/",
   "/usluge",
+  "/ddd",
   "/klub",
   "/paketi",
   "/konsultacije",
   "/kolekcije",
+  "/kontakt",
+  "/o-nama",
+  "/saveti",
+  ...guideSlugs.map((slug) => `/saveti/${slug}`),
   ...collections.map((item) => `/kolekcije/${item.id}`),
-  ...services.filter((service) => service.active).map((service) => `/usluge/${service.slug}`),
+  ...services
+    .filter(isPublishedService)
+    .map((service) => `/usluge/${service.slug}`),
 ];
 const paths = [
   ...publicPaths,
@@ -79,7 +88,28 @@ assert.equal(redirect.status, 308);
 assert.equal(
   new URL(redirect.headers.get("location"), base).pathname,
   "/usluge",
+  "/ddd",
 );
+for (const locale of locales) {
+  for (const subscription of ["ritam", "garderoba", "family", "na-cuvanju"]) {
+    const prefix = locale === "sr" ? "" : `/${locale}`;
+    const response = await fetch(
+      `${base}${prefix}/konsultacije?subscription=${subscription}&utm_source=google`,
+      { redirect: "manual" },
+    );
+    assert.equal(response.status, 308, `${locale}: retired ${subscription}`);
+    const target = new URL(response.headers.get("location"), base);
+    assert.equal(target.pathname, `${prefix}/paketi`);
+    assert.equal(target.hash, "#redovni-planovi");
+    assert.equal(target.searchParams.get("subscription"), null);
+    assert.equal(target.searchParams.get("utm_source"), "google");
+  }
+  for (const tier of ["signature", "private"]) {
+    const prefix = locale === "sr" ? "" : `/${locale}`;
+    const response = await fetch(`${base}${prefix}/konsultacije?tier=${tier}`);
+    assert.equal(response.status, 200);
+  }
+}
 assert.match(await (await fetch(base + "/robots.txt")).text(), /Sitemap:/);
 const og = await fetch(base + "/opengraph-image");
 assert.equal(og.status, 200);

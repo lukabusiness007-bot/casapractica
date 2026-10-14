@@ -1,9 +1,13 @@
+import { getLocale } from "@/lib/i18n/server";
+import { seoCopy } from "@/lib/seo-copy";
+import { BusinessContact } from "./business-contact";
 import { getTranslator } from "@/lib/i18n/server";
 import Link from "@/components/localized-link";
 import { ArrowRight } from "lucide-react";
 import { serviceCategories } from "@/lib/catalog";
 export async function Footer() {
   const t = await getTranslator();
+  const copy = seoCopy(await getLocale());
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -24,7 +28,7 @@ export async function Footer() {
           <div>
             <span className="eyebrow">{t("Naše usluge")}</span>
             {serviceCategories.map((category) => (
-              <Link href={`/usluge#${category.id}`} key={category.id}>
+              <Link href={category.id === "pest-control" ? "/ddd" : `/usluge#${category.id}`} key={category.id}>
                 {t(category.title)}
               </Link>
             ))}
@@ -34,6 +38,10 @@ export async function Footer() {
           </div>
           <div>
             <span className="eyebrow">{t("KORISNE INFORMACIJE")}</span>
+            <Link href="/o-nama">{copy.aboutTitle}</Link>
+            <Link href="/kontakt">{copy.contactTitle}</Link>
+            <Link href="/saveti">{copy.guidesTitle}</Link>
+            <BusinessContact />
             <Link href="/klub">{t("Naš klub")}</Link>
             <Link href="/paketi#moj-paket">{t("Sastavite svoj paket")}</Link>
             <Link href="/#kako-funkcionise">{t("Kako funkcioniše")}</Link>

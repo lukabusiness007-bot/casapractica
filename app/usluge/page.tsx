@@ -22,7 +22,7 @@ export default async function Services({ searchParams }: { searchParams: Promise
           <h1>{t("Usluge za stan u Beogradu")}</h1>
           <p>
             {t(
-              "Sve što vašem stanu treba: sitne popravke, montaža, nega i organizacija prostora. Izaberite zadatke za jednu posetu ili redovnu pomoć.",
+              "Čišćenje i održavanje doma, majstorske usluge i DDD zaštita u Beogradu. Izaberite uslugu, opišite problem i zatražite ponudu prema svom prostoru.",
             )}
           </p>
           <a className="text-link" href="#katalog">
@@ -43,6 +43,10 @@ export default async function Services({ searchParams }: { searchParams: Promise
         </div>
       </div>
       <ServiceCatalog services={services} initialRepair={(await searchParams).potreba === "popravke"} />
+      <section className="premium-standard">
+        <div><h2>{t("DDD zaštita i dezinfekcija")}</h2><p>{t("Deratizacija, dezinsekcija, dezinfekcija i srodne usluge za vaš prostor.")}</p></div>
+        <Link className="button button-dark" href="/ddd">{t("Istražite DDD usluge")} →</Link>
+      </section>
       <section className="premium-standard">
         <div>
           <h2>{t("Više zadataka. Jedan Casa plan.")}</h2>

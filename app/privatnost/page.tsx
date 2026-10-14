@@ -1,7 +1,10 @@
 import { publicPageMetadata } from "@/lib/seo";
+import { seoCopy } from "@/lib/seo-copy";
+import { BusinessContact } from "@/components/business-contact";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 export default async function Privacy() {
   const t = await getTranslator();
+  const copy = seoCopy(await getLocale());
 
   return (
     <div className="container page-section">
@@ -48,6 +51,8 @@ export default async function Privacy() {
             "Platforma koristi kolačiće potrebne za prijavljivanje. Analitika sajta uključuje se samo kada je dozvolite. Izbor se čuva u browseru, a nasumičan ID sesije traje u toj sesiji. Događaji ne sadrže ime, telefon, email ili adresu. Nema oglasnih piksela.",
           )}
         </p>
+        <p>{copy.trackingPrivacy}</p>
+        <BusinessContact />
         <h2>{t("Pristup podacima")}</h2>
         <p>
           {t(

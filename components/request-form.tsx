@@ -1,4 +1,6 @@
 "use client";
+import { BusinessContact } from "./business-contact";
+import { analyticsAttribution } from "@/lib/analytics-client";
 import { useLocale, useTranslation } from "@/components/locale-provider";
 import Link from "./localized-link";
 import { useEffect, useRef, useState } from "react";
@@ -12,6 +14,9 @@ import { servicePricing } from "@/lib/service-pricing";
 import { WashingEstimate } from "./washing-estimate";
 import type { WashingSelection, WashingExtra } from "@/lib/club";
 import { WashingExtras } from "./washing-extras";
+import { isPestService } from "@/lib/pest-services";
+import { pestAssessmentFromForm } from "@/lib/pest-assessment";
+import { PestAssessmentFields } from "./pest-assessment-fields";
 export function RequestForm({
   service,
   ready,
@@ -31,6 +36,7 @@ export function RequestForm({
 }) {
   const t = useTranslation();
   const locale = useLocale();
+  const pestRequest = isPestService(service.slug) || !!commerce.collection_id?.startsWith("zastita-");
   const leadStarted = useRef(false);
   const [washing, setWashing] = useState<WashingSelection>();
   const [washingExtras, setWashingExtras] = useState<WashingExtra[]>([]);
@@ -83,6 +89,7 @@ export function RequestForm({
           ...(packageSelection ? { package: packageSelection } : {}),
           commerce: {
             ...commerce,
+            ...(pestRequest ? { pest_assessment: pestAssessmentFromForm(formData) } : {}),
             ...(washing ? { washing } : {}),
             ...(washingExtras.length ? { washing_extras: washingExtras } : {}),
             ...(["ciscenje-doma", "krecenje"].includes(service.slug)
@@ -96,6 +103,7 @@ export function RequestForm({
             follow_up_opt_in: formData.has("follow_up"),
           },
           analytics_session_id: analyticsSession(),
+          attribution: analyticsAttribution(),
         }),
       });
       const body = await response.json();
@@ -172,6 +180,7 @@ export function RequestForm({
       className="form request-form"
       id={formId}
     >
+      {!ready && <BusinessContact placeholder />}
       {!ready && (
         <p className="notice">
           {t(
@@ -180,6 +189,7 @@ export function RequestForm({
         </p>
       )}
       <fieldset disabled={busy} className="request-fields">
+        {pestRequest && <PestAssessmentFields key={`${service.slug}:${commerce.collection_id || ""}`} slug={service.slug} collectionId={commerce.collection_id} />}
         {service.slug === "pranje-tepiha" && (
           <WashingEstimate id={formId} onChange={setWashing} />
         )}
@@ -267,17 +277,19 @@ export function RequestForm({
           />
         </label>
         <label>
-          {t("Šta želite da preuzmemo?")}
+          {t(pestRequest ? "Opis problema i pristup prostoru" : "Šta želite da preuzmemo?")}
           <textarea
             name="note"
             rows={3}
             maxLength={2000}
-            placeholder={t("Zadaci, količine, sprat, lift i vaše želje…")}
+            placeholder={pestRequest ? undefined : t("Zadaci, količine, sprat, lift i vaše želje…")}
             aria-describedby={`${formId}-building-details`}
           />
           <small id={`${formId}-building-details`}>
             {t(
-              "Navedite sprat, dostupnost lifta i pravila zgrade za bučne radove. Termin i pristup dogovaramo pre dolaska.",
+              pestRequest
+                ? "Navedite zahvaćene prostorije, položaj gnezda ili površine, pristup i dostupnost uputstva prethodnog izvođača."
+                : "Navedite sprat, dostupnost lifta i pravila zgrade za bučne radove. Termin i pristup dogovaramo pre dolaska.",
             )}
           </small>
         </label>
@@ -414,7 +426,7 @@ export function RequestForm({
         </p>
       )}
       <button className="button button-dark full" disabled={busy || !ready}>
-        {busy ? t("Čuvamo zahtev…") : t("Pošaljite zahtev")}
+        {busy ? t("Čuvamo zahtev…") : t(pestRequest ? "Zatražite procenu" : "Pošaljite zahtev")}
         <ArrowUpRight size={17} />
       </button>
       <span className="fine-print center">

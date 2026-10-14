@@ -1,3 +1,4 @@
+import { guideSlugs } from "@/lib/guide-routing";
 import { collections } from "@/lib/growth";
 import type { MetadataRoute } from "next";
 import { getServices } from "@/lib/data";
@@ -9,10 +10,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const paths = [
     "/",
     "/usluge",
+    "/ddd",
     "/klub",
     "/paketi",
     "/konsultacije",
     "/kolekcije",
+    "/kontakt",
+    "/o-nama",
+    "/saveti",
+    ...guideSlugs.map((slug) => `/saveti/${slug}`),
     ...collections.map((item) => `/kolekcije/${item.id}`),
     ...services.map((service) => `/usluge/${service.slug}`),
   ];

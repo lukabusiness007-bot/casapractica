@@ -1,3 +1,4 @@
+import { sourceReport } from "@/lib/attribution";
 import { clubReady } from "@/lib/club-server";
 import { normalizePhone } from "@/lib/club";
 import { db } from "@/lib/supabase";
@@ -44,7 +45,15 @@ export async function GrowthDashboard() {
       since,
     ),
   ]);
-  const business = club ? await allRows("business_events", "event_name,request_id,user_id,created_at", "event_key", since) : [];
+  const business = club
+    ? await allRows(
+        "business_events",
+        "event_name,request_id,user_id,created_at",
+        "event_key",
+        since,
+      )
+    : [];
+  const sources = sourceReport(requests);
   const metrics = customerMetrics(
     requests as unknown as SalesRequest[],
     quotes as unknown as SalesQuote[],
@@ -84,6 +93,44 @@ export async function GrowthDashboard() {
   return (
     <>
       <section className="panel">
+        <h2>Izvori upita i redovni planovi</h2>
+        <p className="fine-print">
+          Samo zahtevi uz pristanak na analitiku i sa dostupnim podacima o
+          izvoru. Dogovoren termin nije potvrda mesečnog ugovora ili uplate.
+        </p>
+        {sources.length ? (
+          <div className="source-table-scroll">
+            <table className="source-table">
+              <thead>
+                <tr>
+                  <th>Izvor / kanal</th>
+                  <th>Upiti</th>
+                  <th>Redovna pomoć</th>
+                  <th>Redovni upiti sa terminom ili završenim radom</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sources.map((row) => (
+                  <tr key={`${row.source}/${row.medium}`}>
+                    <td>
+                      {row.source} / {row.medium}
+                    </td>
+                    <td>{row.leads}</td>
+                    <td>{row.regular}</td>
+                    <td>{row.confirmed}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>
+            Podaci će se pojaviti nakon migracije 010 i prvih upita uz
+            pristanak. Stariji upiti se ne pripisuju izvoru retroaktivno.
+          </p>
+        )}
+      </section>
+      <section className="panel">
         <h2>Prihod i ponovna kupovina</h2>
         <p className="fine-print">
           Ostvareni podaci od početka. Prihod je umanjen za povraćaje. Kontakti
@@ -95,7 +142,10 @@ export async function GrowthDashboard() {
             ["Neto prihod", money(metrics.revenue)],
             ["Plaćene porudžbine", metrics.orders],
             ["Plaćeni i izvršeni poslovi", metrics.fulfilled.length],
-            ["Plaćeni poslovi sa potvrđenim dopunama", metrics.addonOrders.length],
+            [
+              "Plaćeni poslovi sa potvrđenim dopunama",
+              metrics.addonOrders.length,
+            ],
             [
               "Prosečna porudžbina",
               metrics.averageOrder == null
@@ -180,7 +230,36 @@ export async function GrowthDashboard() {
           . Izbor dopune nije potvrda njene realizacije.
         </p>
       </section>
-      {club && <section className="panel"><h2>Poslovni događaji — poslednjih 30 dana</h2><p className="fine-print">Serverski događaji uključuju sve evidentirane poslove. Brojevi su aktivnosti u periodu, ne konverzija jedne kohorte. Potvrda ponude znači da je klijent pokrenuo plaćanje. Pretplatnički churn se ne računa dok nema aktivnih pretplata.</p><div className="metrics-grid">{[["lead_submitted", "Sačuvani zahtevi"], ["quote_sent", "Pripremljene ponude"], ["quote_accepted", "Ponude potvrđene za naplatu"], ["paid", "Uplate"], ["completed", "Završene posete"], ["club_joined", "Učlanjenja u Club"], ["repeat_requested", "Ponovljeni zahtevi"], ["credit_redeemed", "Iskorišćeni krediti"]].map(([event, label]) => <article key={event}><small>{label}</small><strong>{business.filter((item) => item.event_name === event).length}</strong></article>)}</div></section>}
+      {club && (
+        <section className="panel">
+          <h2>Poslovni događaji — poslednjih 30 dana</h2>
+          <p className="fine-print">
+            Serverski događaji uključuju sve evidentirane poslove. Brojevi su
+            aktivnosti u periodu, ne konverzija jedne kohorte. Potvrda ponude
+            znači da je klijent pokrenuo plaćanje. Pretplatnički churn se ne
+            računa dok nema aktivnih pretplata.
+          </p>
+          <div className="metrics-grid">
+            {[
+              ["lead_submitted", "Sačuvani zahtevi"],
+              ["quote_sent", "Pripremljene ponude"],
+              ["quote_accepted", "Ponude potvrđene za naplatu"],
+              ["paid", "Uplate"],
+              ["completed", "Završene posete"],
+              ["club_joined", "Učlanjenja u Club"],
+              ["repeat_requested", "Ponovljeni zahtevi"],
+              ["credit_redeemed", "Iskorišćeni krediti"],
+            ].map(([event, label]) => (
+              <article key={event}>
+                <small>{label}</small>
+                <strong>
+                  {business.filter((item) => item.event_name === event).length}
+                </strong>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
       <section className="panel">
         <h2>Naredni kontakti ({due.length})</h2>
         <p>

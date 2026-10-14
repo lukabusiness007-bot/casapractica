@@ -22,7 +22,7 @@ test("retired offers stay unbookable even when a connected database has not been
 });
 
 test("new cleaning and painting offers, collections and waste-removal copy agree", () => {
-  assert.equal(services.filter(isPublishedService).filter(isIndividualService).length, 40);
+  assert.equal(services.filter(isPublishedService).filter(isIndividualService).length, 49);
   for (const slug of ["ciscenje-doma", "krecenje"]) {
     const service = services.find((item) => item.slug === slug)!;
     assert.equal(isPublishedService(service), true);

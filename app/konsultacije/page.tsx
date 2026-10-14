@@ -1,3 +1,4 @@
+import { seoCopy } from "@/lib/seo-copy";
 import { notFound } from "next/navigation";
 import { getServices, growthReady } from "@/lib/data";
 import { findSubscription } from "@/lib/subscriptions";
@@ -21,9 +22,13 @@ export default async function Consultation({
 }) {
   const t = await getTranslator();
   const query = await searchParams;
-  const subscription = findSubscription(query.subscription, query.intent === "plan-change");
+  const subscription = findSubscription(
+    query.subscription,
+    query.intent === "plan-change",
+  );
   if (query.subscription && !subscription) notFound();
   const locale = await getLocale();
+  const copy = seoCopy(locale);
   const tier =
     query.tier === "signature" || query.tier === "private"
       ? query.tier
@@ -52,10 +57,10 @@ export default async function Consultation({
             : subscription
               ? t(subscription.name)
               : tier === "once"
-              ? t("Šta vam treba u stanu?")
-              : tier === "signature"
-                ? t("Dva dolaska mesečno.")
-                : t("Jedna poseta svake nedelje.")}
+                ? copy.consultationHeading
+                : tier === "signature"
+                  ? t("Dva dolaska mesečno.")
+                  : t("Jedna poseta svake nedelje.")}
         </h1>
         <p>
           {t(
@@ -71,7 +76,20 @@ export default async function Consultation({
               "Možete nam prepustiti izbor usluga ili poslati svoju listu. Za vas, vaše domaćinstvo ili osobu koju zastupate.",
             )}
           </p>
-          {subscription && <div className="subscription-selection"><strong>{money(subscription.price, locale)} · {t("mesečno")}</strong><p>{t(subscription.description)}</p><ul>{subscription.includes.map((item) => <li key={item}>{t(item)}</li>)}</ul><p className="fine-print">{t(subscription.excludes)}</p></div>}
+          {subscription && (
+            <div className="subscription-selection">
+              <strong>
+                {money(subscription.price, locale)} · {t("mesečno")}
+              </strong>
+              <p>{t(subscription.description)}</p>
+              <ul>
+                {subscription.includes.map((item) => (
+                  <li key={item}>{t(item)}</li>
+                ))}
+              </ul>
+              <p className="fine-print">{t(subscription.excludes)}</p>
+            </div>
+          )}
           <ul>
             <li>
               {t("Tačna adresa i tehnički detalji dogovaraju se naknadno.")}
@@ -92,7 +110,12 @@ export default async function Consultation({
               ready={await growthReady()}
               commerce={{
                 intent,
-                ...(subscription ? { subscription_id: subscription.id, contact_preference: "whatsapp" as const } : { tier }),
+                ...(subscription
+                  ? {
+                      subscription_id: subscription.id,
+                      contact_preference: "whatsapp" as const,
+                    }
+                  : { tier }),
                 ...(/^[a-f0-9]{12}$/.test(query.ref || "")
                   ? { referral_code: query.ref }
                   : {}),

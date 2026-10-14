@@ -1,6 +1,10 @@
+import { seoCopy } from "@/lib/seo-copy";
+import { businessDetails } from "@/lib/business";
+import { growthReady } from "@/lib/data";
+import { GuideCards } from "@/components/guide-cards";
 import Image from "next/image";
 import { StructuredData } from "@/components/structured-data";
-import { siteUrl, absoluteUrl, homeDescription } from "@/lib/seo";
+import { siteUrl, absoluteUrl } from "@/lib/seo";
 import { languageTags } from "@/lib/i18n/routing";
 import { publicPageMetadata } from "@/lib/seo";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
@@ -17,7 +21,11 @@ import {
 import { ServiceWheel } from "@/components/service-wheel";
 import { TrustStandard } from "@/components/trust-standard";
 import { ViewEvent } from "@/components/analytics-consent";
-import { isIndividualService, serviceCategories, serviceCategory } from "@/lib/catalog";
+import {
+  isIndividualService,
+  serviceCategories,
+  serviceCategory,
+} from "@/lib/catalog";
 import { ClubPrice } from "@/components/club-price";
 import { ClubInvitation } from "@/components/club-invitation";
 import { ClubBenefits } from "@/components/club-benefits";
@@ -44,10 +52,12 @@ export default async function Home() {
     individualServices.filter((service) => service.slug === slug),
   );
   const locale = await getLocale();
+  const copy = seoCopy(locale);
+  const contact = businessDetails();
   return (
     <>
       <ViewEvent context="home" />
-      <ClubInvitation {...club} />
+      <ClubInvitation {...club} ready={await growthReady()} />
       <StructuredData
         data={{
           "@context": "https://schema.org",
@@ -59,6 +69,9 @@ export default async function Home() {
               url: siteUrl,
               logo: `${siteUrl}/icon.svg`,
               areaServed: { "@type": "City", name: "Belgrade" },
+              ...(contact.phone ? { telephone: contact.phone } : {}),
+              ...(contact.email ? { email: contact.email } : {}),
+              ...(contact.legalName ? { legalName: contact.legalName } : {}),
             },
             {
               "@type": "WebSite",
@@ -72,8 +85,8 @@ export default async function Home() {
               "@type": "WebPage",
               "@id": absoluteUrl("/", locale),
               url: absoluteUrl("/", locale),
-              name: t("Usluge za stan u Beogradu"),
-              description: t(homeDescription),
+              name: copy.homeHeading,
+              description: copy.homeDescription,
               inLanguage: languageTags[locale],
               isPartOf: { "@id": `${siteUrl}/#website` },
             },
@@ -98,7 +111,7 @@ export default async function Home() {
           <ArrowRight size={14} />
         </Link>
         <div className="casa-hero-copy">
-          <h1>{t("Šta je potrebno vašem stanu?")}</h1>
+          <h1>{copy.homeHeading}</h1>
           <p>
             {t(
               "Čišćenje, krečenje, montaža i popravke za vaš stan. Od slavine koja kaplje do svežih zidova — više vremena za vas.",
@@ -109,10 +122,7 @@ export default async function Home() {
           <Link className="button button-light" href="/konsultacije">
             {t("Zakažite prvu Casa posetu")}
           </Link>
-          <Link
-            className="hero-concierge-link"
-            href="/konsultacije?subscription=ritam"
-          >
+          <Link className="hero-concierge-link" href="/paketi#redovni-planovi">
             {t("Prepustite nam brigu o domu")} →
           </Link>
         </div>
@@ -201,12 +211,24 @@ export default async function Home() {
               )}
             </p>
           </div>
-          <nav className="home-category-links" aria-label={t("Kategorije usluga")}>
-            {serviceCategories.filter((category) => category.id !== "gutters" && individualServices.some((service) => serviceCategory(service) === category.id)).map((category) => (
-              <Link key={category.id} href={`/usluge#${category.id}`}>
-                {t(category.title)}<ArrowRight size={14} aria-hidden="true" />
-              </Link>
-            ))}
+          <nav
+            className="home-category-links"
+            aria-label={t("Kategorije usluga")}
+          >
+            {serviceCategories
+              .filter(
+                (category) =>
+                  category.id !== "gutters" &&
+                  individualServices.some(
+                    (service) => serviceCategory(service) === category.id,
+                  ),
+              )
+              .map((category) => (
+                <Link key={category.id} href={category.id === "pest-control" ? "/ddd" : `/usluge#${category.id}`}>
+                  {t(category.title)}
+                  <ArrowRight size={14} aria-hidden="true" />
+                </Link>
+              ))}
           </nav>
           <div className="home-services-grid">
             {(featured.length ? featured : individualServices.slice(0, 6)).map(
@@ -229,7 +251,15 @@ export default async function Home() {
                   </div>
                   <div className="home-service-copy">
                     <h3>{t(service.name)}</h3>
-                    <div className="home-price"><ClubPrice price={service.price} from unit={servicePricing[service.slug]?.unit} locale={locale} t={t} /></div>
+                    <div className="home-price">
+                      <ClubPrice
+                        price={service.price}
+                        from
+                        unit={servicePricing[service.slug]?.unit}
+                        locale={locale}
+                        t={t}
+                      />
+                    </div>
                     <span>
                       {t("Detalji i zahtev")}
                       <ArrowRight size={18} />
@@ -274,8 +304,20 @@ export default async function Home() {
           </article>
         </section>
         <ClubBenefits />
-        <section className="home-collections container"><div className="casa-section-heading"><span className="eyebrow">{t("VIŠE POSLOVA, JEDAN DOGOVOR")}</span><h2>{t("Sastavite posetu prema svom domu.")}</h2><p>{t("Izaberite povezane usluge. Svaku stavku i eventualnu uštedu na dolasku potvrđujemo u ponudi.")}</p></div><CollectionCards /></section>
+        <section className="home-collections container">
+          <div className="casa-section-heading">
+            <span className="eyebrow">{t("VIŠE POSLOVA, JEDAN DOGOVOR")}</span>
+            <h2>{t("Sastavite posetu prema svom domu.")}</h2>
+            <p>
+              {t(
+                "Izaberite povezane usluge. Svaku stavku i eventualnu uštedu na dolasku potvrđujemo u ponudi.",
+              )}
+            </p>
+          </div>
+          <CollectionCards />
+        </section>
         <TrustStandard />
+        <GuideCards />
         <Faq />
         <section className="home-final-cta container">
           <h2>{t("Jedna poruka. Jedna obaveza manje.")}</h2>
